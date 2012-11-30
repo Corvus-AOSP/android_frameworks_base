@@ -306,6 +306,9 @@
 
     <protected-broadcast android:name="com.android.systemui.doze.pulse" />
 
+    <!-- Custom permissions -->
+    <uses-permission android:name="android.permission.PREVENT_POWER_KEY" />
+
     <application
         android:name=".SystemUIApplication"
         android:persistent="true"
