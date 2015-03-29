@@ -926,7 +926,7 @@ public class ScreenshotController {
         // when we use normal ringer mode
         if (playSound && Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.SCREENSHOT_SHUTTER_SOUND, 1, UserHandle.USER_CURRENT) == 1) {
-            mCameraSound.play(MediaActionSound.SHUTTER_CLICK);
+            playShutterSound();
         }
     }
 
