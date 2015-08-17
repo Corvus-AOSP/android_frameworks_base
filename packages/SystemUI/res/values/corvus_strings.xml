@@ -237,4 +237,6 @@
     <string name="gaming_mode_panel_brightness_title">Disable automatic brightness</string>
     <string name="gaming_mode_panel_media_title">Set Media Volume</string>
 
+    <!-- Volume Panel -->
+    <string name="quick_settings_volume_panel_label">Volume panel</string>
 </resources>

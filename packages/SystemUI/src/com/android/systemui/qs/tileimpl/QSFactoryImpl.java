@@ -59,6 +59,7 @@ import com.android.systemui.qs.tiles.SyncTile;
 import com.android.systemui.qs.tiles.UiModeNightTile;
 import com.android.systemui.qs.tiles.UsbTetherTile;
 import com.android.systemui.qs.tiles.UserTile;
+import com.android.systemui.qs.tiles.VolumeTile;
 import com.android.systemui.qs.tiles.WifiTile;
 import com.android.systemui.qs.tiles.WorkModeTile;
 import com.android.systemui.util.leak.GarbageMonitor;
@@ -110,6 +111,7 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<AODTile> mAODTileProvider;
     private final Provider<ThemeTile> mThemeTileProvider;
     private final Provider<GamingModeTile> mGamingModeTileProvider;
+    private final Provider<VolumeTile> mVolumeTileProvider;
 
     private final Lazy<QSHost> mQsHostLazy;
 
@@ -150,8 +152,8 @@ public class QSFactoryImpl implements QSFactory {
             Provider<SyncTile> syncTileProvider,
             Provider<AODTile> aodTileProvider,
             Provider<ThemeTile> themeTileProvider,
-            Provider<GamingModeTile> gamingModeTileProvider) {
-
+            Provider<GamingModeTile> gamingModeTileProvider,
+            Provider<VolumeTile> volumeTileProvider) {
         mQsHostLazy = qsHostLazy;
         mWifiTileProvider = wifiTileProvider;
         mBluetoothTileProvider = bluetoothTileProvider;
@@ -189,6 +191,7 @@ public class QSFactoryImpl implements QSFactory {
         mAODTileProvider = aodTileProvider;
         mThemeTileProvider = themeTileProvider;
         mGamingModeTileProvider = gamingModeTileProvider;
+        mVolumeTileProvider = volumeTileProvider;
     }
 
     public QSTile createTile(String tileSpec) {
@@ -272,6 +275,8 @@ public class QSFactoryImpl implements QSFactory {
                 return mThemeTileProvider.get();
            case "gaming":
                 return mGamingModeTileProvider.get();
+            case "volume_panel":
+                return mVolumeTileProvider.get();
         }
 
         // Custom tiles
