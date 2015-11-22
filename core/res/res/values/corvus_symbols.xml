@@ -16,4 +16,7 @@
     <!-- In-display Fingerprint -->
     <java-symbol type="bool" name="config_supportsInDisplayFingerprint" />
 
+    <!-- Rotation sensor -->
+    <java-symbol type="bool" name="config_useSystemClockforRotationSensor" />
+
 </resources>
