@@ -348,9 +348,9 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener, Dumpab
     private final Executor mBackgroundExecutor;
     private SensorPrivacyManager mSensorPrivacyManager;
     private int mFaceAuthUserId;
-
-    private boolean mFingerprintWakeAndUnlock;
     
+    private boolean mFingerprintWakeAndUnlock;
+
     /**
      * Short delay before restarting fingerprint authentication after a successful try. This should
      * be slightly longer than the time between onFingerprintAuthenticated and
@@ -2356,7 +2356,18 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener, Dumpab
         final int user = getCurrentUser();
         final boolean userDoesNotHaveTrust = !getUserHasTrust(user);
         final boolean shouldListenForFingerprintAssistant = shouldListenForFingerprintAssistant();
-        final boolean shouldListenKeyguardState =
+        final boolean shouldListenKeyguardState;
+        if (!mFingerprintWakeAndUnlock) {
+            shouldListenKeyguardState =
+                (mKeyguardIsVisible
+                        || mBouncer
+                        || shouldListenForFingerprintAssistant
+                        || (mKeyguardOccluded && mIsDreaming))
+                        && mDeviceInteractive && !mGoingToSleep && !mKeyguardGoingAway
+                        || (mKeyguardOccluded && userDoesNotHaveTrust
+                            && (mOccludingAppRequestingFp || isUdfps));
+        } else {
+            shouldListenKeyguardState =
                 mKeyguardIsVisible
                         || !mDeviceInteractive
                         || (mBouncer && !mKeyguardGoingAway)
@@ -2365,6 +2376,7 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener, Dumpab
                         || (mKeyguardOccluded && mIsDreaming)
                         || (mKeyguardOccluded && userDoesNotHaveTrust
                             && (mOccludingAppRequestingFp || isUdfps));
+        }
 
         // Only listen if this KeyguardUpdateMonitor belongs to the primary user. There is an
         // instance of KeyguardUpdateMonitor for each user but KeyguardUpdateMonitor is user-aware.
