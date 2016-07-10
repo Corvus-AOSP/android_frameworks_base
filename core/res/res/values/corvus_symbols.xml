@@ -101,4 +101,7 @@
 
     <!-- Wheter device supports an gaming mode profiles -->
     <java-symbol type="bool" name="config_gamingmode_performance" />
+
+    <!-- Whether device has dash charging support -->
+    <java-symbol type="bool" name="config_hasDashCharger" />
 </resources>
