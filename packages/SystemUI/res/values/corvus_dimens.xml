@@ -31,4 +31,8 @@
 
     <!-- QQS Brightness slider -->
     <dimen name="quick_qs_brightness_margin_top">24dp</dimen>
+
+    <!-- Burn-in protection -->
+    <dimen name="burnin_protection_horizontal_shift">3dp</dimen>
+    <dimen name="burnin_protection_vertical_shift">1dp</dimen>
 </resources>
