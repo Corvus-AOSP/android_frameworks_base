@@ -13676,6 +13676,9 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
         /** @hide */
         @UnsupportedAppUsage
         public static final int ZEN_MODE_ALARMS = 3;
+        /** @hide */
+        @UnsupportedAppUsage
+        public static final int ZEN_MODE_OFF_ONLY = 4;
 
         /** @hide */ public static String zenModeToString(int mode) {
             if (mode == ZEN_MODE_IMPORTANT_INTERRUPTIONS) return "ZEN_MODE_IMPORTANT_INTERRUPTIONS";
