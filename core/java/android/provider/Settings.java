@@ -5379,6 +5379,11 @@ public final class Settings {
         public static final String SHOW_FOURG_ICON = "show_fourg_icon";
 
         /**
+         * @hide
+         */
+        public static final String ROAMING_INDICATOR_ICON = "roaming_indicator_icon";
+
+        /**
          * Whether to wake the display when plugging or unplugging the charger
          *
          * @hide
