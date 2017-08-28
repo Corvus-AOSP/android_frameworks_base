@@ -15,6 +15,11 @@
      limitations under the License.
 -->
 <resources>
-    <!-- Whether to cleanup fingerprints upon connection to the daemon and when user switches -->
-    <java-symbol type="bool" name="config_cleanupUnusedFingerprints" />
+
+    <string-array translatable="false" name="config_rebootActionsList">
+        <item>restart</item>
+        <item>reboot_recovery</item>
+        <item>reboot_bootloader</item>
+     </string-array>
+
 </resources>
