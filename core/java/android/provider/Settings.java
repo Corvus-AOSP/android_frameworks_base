@@ -5355,6 +5355,16 @@ public final class Settings {
          * @hide
          */
         public static final String LOCK_POWER_MENU_DISABLED = "lockscreen_power_menu_disabled";
+        
+        /**
+          * Volume keys control cursor in text fields (default is 0)
+          * 0 - Disabled
+          * 1 - Volume up/down moves cursor left/right
+          * 2 - Volume up/down moves cursor right/left
+          * @hide
+          */
+        @Readable
+        public static final String VOLUME_KEY_CURSOR_CONTROL = "volume_key_cursor_control";
 
         /**
          * IMPORTANT: If you add a new public settings you also have to add it to
