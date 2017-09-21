@@ -161,4 +161,9 @@ interface IStatusBarService
      */
     void toggleCameraFlash();
     void toggleCameraFlashState(boolean enable);
+
+    void toggleRecentApps();
+    void toggleSplitScreen();
+    void preloadRecentApps();
+    void cancelPreloadRecentApps();
 }
