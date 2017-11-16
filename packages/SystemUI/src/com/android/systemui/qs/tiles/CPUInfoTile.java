@@ -140,11 +140,7 @@ public class CPUInfoTile extends QSTileImpl<BooleanState> {
 
     @Override
     public int getMetricsCategory() {
-<<<<<<< HEAD
         return MetricsEvent.CORVUS;
-=======
-        return MetricsEvent.EXTENSIONS;
->>>>>>> 772b223c4cf2... SystemUI: Add CPUInfo toggle tile
     }
 
     @Override
