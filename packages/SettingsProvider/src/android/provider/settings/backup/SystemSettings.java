@@ -106,5 +106,6 @@ public class SystemSettings {
 	Settings.System.QS_STATUS_ICON_BACKGROUND,
         Settings.System.QS_HEADER_DATE_LOCATION,
         Settings.System.OMNI_CUSTOM_FP_ICON,
+        Settings.System.PROXIMITY_ON_WAKE,
     };
 }

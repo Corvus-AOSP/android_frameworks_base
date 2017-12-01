@@ -6074,8 +6074,13 @@ public final class Settings {
          */
         public static final String CUSTOM_STATUSBAR_PADDING_END  = "custom_statusbar_padding_end";
 
-	/**
-         * Keys we no longer back up under the current schema, but want to continue to
+       /**
+        * Check the proximity sensor during wakeup
+        * @hide
+        */
+       public static final String PROXIMITY_ON_WAKE = "proximity_on_wake";
+
+        /**
          * process when restoring historical backup datasets.
          *
          * All settings in {@link LEGACY_RESTORE_SETTINGS} array *must* have a non-null validator,
@@ -6252,6 +6257,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(CUSTOM_STATUSBAR_PADDING_START);
             PRIVATE_SETTINGS.add(CUSTOM_STATUSBAR_PADDING_END);
             PRIVATE_SETTINGS.add(OMNI_CUSTOM_FP_ICON);
+            PRIVATE_SETTINGS.add(PROXIMITY_ON_WAKE);
         }
 
         /**
