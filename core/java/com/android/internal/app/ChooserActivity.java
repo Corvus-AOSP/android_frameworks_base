@@ -628,9 +628,7 @@ public class ChooserActivity extends ResolverActivity implements
                 if (!(targetsParcelable[i] instanceof Intent)) {
                     Log.w(TAG, "EXTRA_ALTERNATE_INTENTS array entry #" + i + " is not an Intent: "
                             + targetsParcelable[i]);
-                    finish();
-                    super.onCreate(null);
-                    return;
+                    continue;
                 }
                 final Intent additionalTarget = (Intent) targetsParcelable[i];
                 if (i == 0 && target == null) {
@@ -671,9 +669,7 @@ public class ChooserActivity extends ResolverActivity implements
             for (int i = 0; i < count; i++) {
                 if (!(pa[i] instanceof Intent)) {
                     Log.w(TAG, "Initial intent #" + i + " not an Intent: " + pa[i]);
-                    finish();
-                    super.onCreate(null);
-                    return;
+                    continue;
                 }
                 final Intent in = (Intent) pa[i];
                 modifyTargetIntent(in);
