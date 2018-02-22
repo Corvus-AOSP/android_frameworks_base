@@ -49,6 +49,7 @@ import com.android.systemui.qs.tiles.NfcTile;
 import com.android.systemui.qs.tiles.NightDisplayTile;
 import com.android.systemui.qs.tiles.RebootTile;
 import com.android.systemui.qs.tiles.RotationLockTile;
+import com.android.systemui.qs.tiles.ThemeTile;
 import com.android.systemui.qs.tiles.ScreenRecordTile;
 import com.android.systemui.qs.tiles.SoundSearchTile;
 import com.android.systemui.qs.tiles.SoundTile;
@@ -104,7 +105,7 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<CompassTile> mCompassTileProvider;
     private final Provider<SyncTile> mSyncTileProvider;
     private final Provider<AODTile> mAODTileProvider;
-
+    private final Provider<ThemeTile> mThemeTileProvider;
 
     private final Lazy<QSHost> mQsHostLazy;
 
@@ -142,7 +143,8 @@ public class QSFactoryImpl implements QSFactory {
             Provider<SoundTile> soundTileProvider,
             Provider<CompassTile> compassTileProvider,
             Provider<SyncTile> syncTileProvider,
-            Provider<AODTile> aodTileProvider) { 
+            Provider<AODTile> aodTileProvider,
+            Provider<ThemeTile> themeTileProvider) {
         mQsHostLazy = qsHostLazy;
         mWifiTileProvider = wifiTileProvider;
         mBluetoothTileProvider = bluetoothTileProvider;
@@ -177,7 +179,7 @@ public class QSFactoryImpl implements QSFactory {
         mCompassTileProvider = compassTileProvider;
         mSyncTileProvider = syncTileProvider;
         mAODTileProvider = aodTileProvider;
-
+        mThemeTileProvider = themeTileProvider;
     }
 
     public QSTile createTile(String tileSpec) {
@@ -255,6 +257,8 @@ public class QSFactoryImpl implements QSFactory {
                 return mSyncTileProvider.get();
             case "aod":
                 return mAODTileProvider.get();
+            case "theme":
+                return mThemeTileProvider.get();
         }
 
         // Custom tiles
