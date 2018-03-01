@@ -187,14 +187,10 @@ public final class Choreographer {
     private long mFrameIntervalNanos;
     private boolean mDebugPrintNextFrameTimeDelta;
     private int mFPSDivisor = 1;
-    private boolean mIsVsyncScheduled = false;
-    private long mLastTouchOptTimeNanos = 0;
-    private boolean mIsDoFrameProcessing = false;
     private int mTouchMoveNum = -1;
     private int mMotionEventType = -1;
     private boolean mConsumedMove = false;
     private boolean mConsumedDown = false;
-
     /**
      * Contains information about the current frame for jank-tracking,
      * mainly timings of key events along with a bit of metadata about
