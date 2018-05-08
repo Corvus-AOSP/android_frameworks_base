@@ -5814,6 +5814,12 @@ public final class Settings {
         public static final String DOZE_BRIGHTNESS_FORCE = "doze_brightness_force";
 
         /**
+         * Whether to show or hide the running services icon
+         * @hide
+         */
+        public static final String QS_RUNNING_SERVICES_TOGGLE = "qs_running_services_toggle";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
