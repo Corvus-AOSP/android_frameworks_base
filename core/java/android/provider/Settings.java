@@ -4844,6 +4844,15 @@ public final class Settings {
          */
         public static final String MULTI_AUDIO_FOCUS_ENABLED = "multi_audio_focus_enabled";
 
+	/**
+         * Whether user can swap the order of the Alert Slider.
+         * * Whether user can invert the order of the Alert Slider.
+         * 0: Default
+         * 1: Inverted
+         * @hide
+         */
+        public static final String ALERT_SLIDER_ORDER = "alert_slider_order";
+
         /**
          *  Enable statusbar double tap gesture on to put device to sleep
          * @hide

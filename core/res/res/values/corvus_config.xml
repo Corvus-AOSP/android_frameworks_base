@@ -171,4 +171,6 @@
     <!-- Whether device has turbo power charging support -->
     <bool name="config_hasTurboPowerCharger">false</bool>
 
+    <!-- Whether device has an alert slider. -->
+    <bool name="config_hasAlertSlider">false</bool>
 </resources>
