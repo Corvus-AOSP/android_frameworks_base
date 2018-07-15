@@ -98,10 +98,9 @@
         android:title="@string/status_bar_alarm"
         android:icon="@drawable/ic_statusbar_alarm" />
 
-    <com.android.systemui.tuner.ClockPreference
-        android:title="@string/tuner_time"
+    <com.android.systemui.tuner.StatusBarSwitch
         android:icon="@drawable/ic_statusbar_clock"
-        android:summary="%s"
-        android:entries="@array/clock_options" />
+        android:key="clock"
+        android:title="@string/clock" />
 
 </PreferenceScreen>

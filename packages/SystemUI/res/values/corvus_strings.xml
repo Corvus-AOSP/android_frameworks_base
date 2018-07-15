@@ -67,6 +67,8 @@
     <string name="lockscreen_shortcuts">Lockscreen shortcuts</string>
     <string name="lockscreen_default">Default</string>
     <string name="lockscreen_hidden">None</string>
+    <string name="status_bar_call_strength">Call strength</string>
+    <string name="clock">Clock</string>
 
     <!-- Sound QS Tile -->
     <string name="quick_settings_sound_label">Sound</string>
@@ -133,6 +135,4 @@
     <string name="dlg_cancel">@android:string/cancel</string>
     <string name="guts_force_close_app">Close App</string>
 
-    <!-- Sb Call Strength icon -->
-    <string name="status_bar_call_strength">Call strength</string>
 </resources>
