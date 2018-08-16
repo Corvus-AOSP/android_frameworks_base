@@ -5578,6 +5578,13 @@ public final class Settings {
          public static final String NETWORK_TRAFFIC_VIEW_LOCATION = "network_traffic_view_location";
 
         /**
+         * Whether to show the battery info on the lockscreen while charging
+         * @hide
+         */
+        @Readable
+        public static final String LOCKSCREEN_BATTERY_INFO = "lockscreen_battery_info";
+
+        /**
          * Setting to enable/disable gaming mode
          * @hide
          */
@@ -5794,6 +5801,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(BATTERY_LEVEL_COLORS);
             PRIVATE_SETTINGS.add(NETWORK_TRAFFIC_VIEW_LOCATION);
             PRIVATE_SETTINGS.add(VOLUME_PANEL_ON_LEFT);
+            PRIVATE_SETTINGS.add(LOCKSCREEN_BATTERY_INFO);
         }
 
         /**
