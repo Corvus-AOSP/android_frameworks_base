@@ -5082,7 +5082,13 @@ public final class Settings {
         public static final String NOTIFICATION_SOUND_VIB_SCREEN_ON = "notification_sound_vib_screen_on";
 
         /**
+         * Number of qs columns on quickbar
          * @hide
+         */
+        public static final String QS_QUICKBAR_COLUMNS = "qs_quickbar_columns";
+
+         /**
+          * @hide
          */
         public static final String GLOBAL_ACTIONS_LIST = "global_actions_list";
 
