@@ -155,6 +155,8 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 
+import com.android.internal.util.custom.NavbarUtils;
+
 /**
  * The power manager service is responsible for coordinating power management
  * functions on the device.
@@ -1078,6 +1080,7 @@ public final class PowerManagerService extends SystemService
     private Sensor mProximitySensor;
     private SensorEventListener mProximityListener;
     private android.os.PowerManager.WakeLock mProximityWakeLock;
+    private boolean mNavbarEnabled;
 
     public PowerManagerService(Context context) {
         this(context, new Injector());
@@ -1436,6 +1439,9 @@ public final class PowerManagerService extends SystemService
         resolver.registerContentObserver(Settings.System.getUriFor(
                 Settings.System.BUTTON_BACKLIGHT_ONLY_WHEN_PRESSED),
                 false, mSettingsObserver, UserHandle.USER_ALL);
+        resolver.registerContentObserver(Settings.System.getUriFor(
+                Settings.System.NAVIGATION_BAR_SHOW),
+                false, mSettingsObserver, UserHandle.USER_ALL);
 
         IVrManager vrManager = IVrManager.Stub.asInterface(getBinderService(Context.VR_SERVICE));
         if (vrManager != null) {
@@ -1609,6 +1615,8 @@ public final class PowerManagerService extends SystemService
         mButtonLightOnKeypressOnly = Settings.System.getIntForUser(resolver,
                 Settings.System.BUTTON_BACKLIGHT_ONLY_WHEN_PRESSED,
                 0, UserHandle.USER_CURRENT) == 1;
+
+        mNavbarEnabled = NavbarUtils.isEnabled(mContext);
 
         mDirty |= DIRTY_SETTINGS;
     }
@@ -3000,15 +3008,17 @@ public final class PowerManagerService extends SystemService
                         if (wakefulness == WAKEFULNESS_AWAKE) {
                             if (mButtonsLight != null) {
                                 float buttonBrightness = BRIGHTNESS_OFF_FLOAT;
-                                if (isValidBrightness(
-                                        mButtonBrightnessOverrideFromWindowManager)) {
-                                    if (mButtonBrightnessOverrideFromWindowManager >
-                                            PowerManager.BRIGHTNESS_MIN) {
-                                        buttonBrightness =
-                                                mButtonBrightnessOverrideFromWindowManager;
+                                if (!mNavbarEnabled) {
+                                    if (isValidBrightness(
+                                            mButtonBrightnessOverrideFromWindowManager)) {
+                                        if (mButtonBrightnessOverrideFromWindowManager >
+                                                PowerManager.BRIGHTNESS_MIN) {
+                                            buttonBrightness =
+                                                    mButtonBrightnessOverrideFromWindowManager;
+                                        }
+                                    } else if (isValidButtonBrightness(mButtonBrightness)) {
+                                        buttonBrightness = mButtonBrightness;
                                     }
-                                } else if (isValidButtonBrightness(mButtonBrightness)) {
-                                    buttonBrightness = mButtonBrightness;
                                 }
 
                                 if (!mButtonLightOnKeypressOnly) {
