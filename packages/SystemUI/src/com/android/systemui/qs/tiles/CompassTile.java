@@ -33,6 +33,7 @@ import androidx.annotation.Nullable;
 
 import com.android.internal.logging.MetricsLogger;
 import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
+import com.android.internal.util.corvus.CorvusUtils;
 import com.android.systemui.broadcast.BroadcastDispatcher;
 import com.android.systemui.dagger.qualifiers.Background;
 import com.android.systemui.dagger.qualifiers.Main;
@@ -177,7 +178,12 @@ public class CompassTile extends QSTileImpl<BooleanState> implements SensorEvent
 
     @Override
     public int getMetricsCategory() {
-        return MetricsEvent.AWAKEN;
+        return MetricsEvent.CORVUS;
+    }
+
+    @Override
+    public boolean isAvailable() {
+        return CorvusUtils.deviceHasCompass(mContext);
     }
 
     @Override
