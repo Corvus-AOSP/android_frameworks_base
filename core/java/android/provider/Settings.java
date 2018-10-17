@@ -5794,6 +5794,15 @@ public final class Settings {
          */
         public static final String DOZE_BRIGHTNESS_FORCE = "doze_brightness_force";
 
+       /**
+         * 0 - Default
+         * 1 - Round with ring
+         * 2 - Two-toned round with ring
+         * 3 - Squircle with ring
+         * @hide
+         */
+        public static final String QS_TILE_STYLE = "qs_tile_style";
+
         /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
@@ -5956,6 +5965,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(ANIM_TILE_STYLE);
             PRIVATE_SETTINGS.add(ANIM_TILE_DURATION);
             PRIVATE_SETTINGS.add(BACK_GESTURE_HAPTIC);
+            PRIVATE_SETTINGS.add(QS_TILE_STYLE);
         }
 
         /**

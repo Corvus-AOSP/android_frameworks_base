@@ -109,4 +109,11 @@ public class ThemesUtils {
             "com.gnonymous.gvisualmod.urm_m", // 2
             "com.gnonymous.gvisualmod.urm_l", // 3
     };
+
+    public static final String[] QS_TILE_THEMES = {
+            "com.android.systemui.qstile.default",
+            "com.android.systemui.qstile.circletrim",
+            "com.android.systemui.qstile.dualtonecircletrim",
+            "com.android.systemui.qstile.squircletrim",
+    };
 }
