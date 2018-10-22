@@ -5747,6 +5747,12 @@ public final class Settings {
         public static final String BATTERY_LEVEL_COLORS = "battery_level_colors";
 
         /**
+         * Whether to show VoLTE icon or not
+         * @hide
+         */
+        public static final String SHOW_VOLTE_ICON = "show_volte_icon";
+        
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
