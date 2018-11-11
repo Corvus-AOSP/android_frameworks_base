@@ -40,6 +40,7 @@ public class StatusBarIconHolder {
     public static final int TYPE_WIFI = 1;
     public static final int TYPE_MOBILE = 2;
     public static final int TYPE_BLUETOOTH = 3;
+    public static final int TYPE_NETWORK_TRAFFIC = 42;
 
     /**
      * TODO (b/249790733): address this once the new pipeline is in place
@@ -162,6 +163,12 @@ public class StatusBarIconHolder {
         holder.mIcon = new StatusBarIcon(UserHandle.SYSTEM, context.getPackageName(),
                 Icon.createWithResource(context, resId), 0, 0, contentDescription);
         holder.mTag = state.subId;
+        return holder;
+    }
+
+    public static StatusBarIconHolder fromNetworkTraffic() {
+        StatusBarIconHolder holder = new StatusBarIconHolder();
+        holder.mType = TYPE_NETWORK_TRAFFIC;
         return holder;
     }
 
