@@ -142,6 +142,7 @@
     <string name="statusbar_items_title">Statusbar icons</string>
     <string name="lockscreen_default">Default</string>
     <string name="lockscreen_hidden">None</string>
+    <string name="systemui_tuner_navbar_title">Stock navbar</string>
 
     <!-- Name of the VPN status bar icon. -->
     <string name="status_bar_vpn">VPN</string>
