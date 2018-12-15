@@ -70,6 +70,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Slog;
 import android.util.Xml;
+import android.widget.Toast;
 
 /** @hide */
 public class FontService extends IFontService.Stub {
@@ -262,6 +263,11 @@ public class FontService extends IFontService.Stub {
     private void processFontPackage(String packageName) {
         List<FontInfo> infoList = new ArrayList<FontInfo>();
         Context appContext = getAppContext(packageName);
+        if(appContext == null) {
+            removeFontPackage(packageName);
+            Slog.e(TAG, "Removed " + packageName + " from Font list");
+            return;
+        }
         AssetManager am = appContext.getAssets();
         List<String> fontZips = getFontsFromPackage(packageName);
         File packageFontPreviewDir = new File(SYSTEM_THEME_PREVIEW_CACHE_DIR, packageName);
@@ -292,6 +298,12 @@ public class FontService extends IFontService.Stub {
             // get fonts.xml from zip
             File fontXmlFile = new File(currentFontPreviewDir, FONTS_XML);
             unzipFile(fontZipFile, fontXmlFile, FONTS_XML);
+            // TODO: find a appropiate method to use a fallback xml and avoid this
+            if (!fontXmlFile.exists()) {
+                 Toast.makeText(mContext,mContext.getResources()
+                    .getString(com.android.internal.R.string.fontservice_incompatible_font),Toast.LENGTH_LONG).show();
+                 return;
+            }
 
             // parse fonts.xml for name of preview typeface
             String fontFileName = getPreviewFontNameFromXml(fontXmlFile,
