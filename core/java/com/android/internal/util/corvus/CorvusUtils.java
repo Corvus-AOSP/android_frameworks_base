@@ -48,6 +48,7 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.util.DisplayMetrics;
 import com.android.internal.R;
 
 import java.util.List;
@@ -273,5 +274,24 @@ public class CorvusUtils {
 
     public static boolean isPackageInstalled(Context context, String pkg) {
         return isPackageInstalled(context, pkg, true);
+    }
+
+	    // Check if device has a notch
+    public static boolean hasNotch(Context context) {
+        int result = 0;
+        int resid;
+        int resourceId = context.getResources().getIdentifier(
+                "status_bar_height", "dimen", "android");
+        resid = context.getResources().getIdentifier("config_fillMainBuiltInDisplayCutout",
+                "bool", "android");
+        if (resid > 0) {
+            return context.getResources().getBoolean(resid);
+        }
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+        float px = 24 * (metrics.densityDpi / 160f);
+        return result > Math.round(px);
     }
 }
