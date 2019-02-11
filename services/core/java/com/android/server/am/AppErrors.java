@@ -46,6 +46,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.os.Process;
 import android.os.SystemClock;
+import android.os.SystemProperties;
 import android.os.UserHandle;
 import android.provider.Settings;
 import android.util.ArrayMap;
@@ -643,7 +644,11 @@ class AppErrors {
             }
 
             // Add paste content for Memochō option
+            String devfp = SystemProperties.get("ro.vendor.build.fingerprint", "");
+            String corvusVers = SystemProperties.get("ro.corvus.version", "");
             data.paste = "time: " + timeMillis + "\n" +
+                    "device fp:" + devfp + "\n" +
+                    "corvus ver:" + corvusVers + "\n" +
                     "msg: " + longMsg + "\n" +
                     "stacktrace: " + stackTrace;
 
