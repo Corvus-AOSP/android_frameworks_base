@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2015-2019 AOSiP
+     Copyright (C) 2019 ArrowOS
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
      You may obtain a copy of the License at
@@ -11,20 +11,13 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<resources>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="5dp"	
+    android:height="17.0dp"
+    android:viewportWidth="7.1"
+    android:viewportHeight="24.0">
 
-   <!-- Volume Panel -->
-    <dimen name="volume_dialog_panel_land_margin">68dp</dimen>
-
-
-   <!-- Largest size an avatar might need to be drawn in the power menu user picker -->
-    <dimen name="global_actions_avatar_size">24dp</dimen>
-
-   <!-- Network traffic monitor -->
-    <dimen name="net_traffic_multi_text_size">13dp</dimen>
-    <dimen name="net_traffic_txt_img_padding">1dp</dimen>
-
-    <!-- Sets a custom extra padding for the QS icons and statusbar date -->
-    <dimen name="qs_items_padding">8dp</dimen>
-
-</resources>
+    <path
+        android:fillColor="#ffffff"
+        android:pathData="M3.6000004,10.8l3.5,0.0 -3.5,-7.3 0.0,0.0 0.0,0.0 0.0,0.0 0.0,0.0 -3.6,7.3z"/>
+</vector>
