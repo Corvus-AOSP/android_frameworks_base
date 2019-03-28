@@ -146,4 +146,7 @@
 
     <!-- Default value for Ambient Pulse light color -->
     <integer name="config_ambientNotificationDefaultColor">0xFF1A73E8</integer>
+
+    <!-- Smart charging battery percentage -->
+    <integer name="config_smartChargingBatteryLevel">80</integer>
 </resources>

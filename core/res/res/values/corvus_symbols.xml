@@ -135,4 +135,6 @@
   <java-symbol type="color" name="theme_generic_semi_transparent_color" />
   <java-symbol type="color" name="du_themes_qs_inactive_color" />
 
+  <!-- Smart charging battery percentage -->
+  <java-symbol type="integer" name="config_smartChargingBatteryLevel" />
 </resources>
