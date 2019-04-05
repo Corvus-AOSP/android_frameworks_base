@@ -152,10 +152,16 @@ interface IStatusBarService
      * Starts the default assistant app.
      */
     void startAssist(in Bundle args);
-     
+
     /**
      * Camera flash toggle
      */
     void toggleCameraFlash();
     void toggleCameraFlashState(boolean enable);
+
+    /**     
+     * Used to show or hide in display fingerprint view.
+     */
+    void showInDisplayFingerprintView();
+    void hideInDisplayFingerprintView();
 }

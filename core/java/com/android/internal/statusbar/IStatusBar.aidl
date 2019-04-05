@@ -229,8 +229,14 @@ oneway interface IStatusBar
     void suppressAmbientDisplay(boolean suppress);
 
     /**
-     * Camera flash toggle
+     * Camera Flash Toggle
      */
     void toggleCameraFlash();
     void toggleCameraFlashState(boolean enable);
+
+    /**
+     *  Used to show or hide in display fingerprint view.
+     */
+    void showInDisplayFingerprintView();
+    void hideInDisplayFingerprintView();
 }
