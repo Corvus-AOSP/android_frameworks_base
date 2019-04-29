@@ -247,5 +247,6 @@ public class SystemSettingsValidators {
                         return true;
                     }
                 });
+	VALIDATORS.put(System.FORCE_FULLSCREEN_CUTOUT_APPS, ANY_STRING_VALIDATOR);
     }
 }

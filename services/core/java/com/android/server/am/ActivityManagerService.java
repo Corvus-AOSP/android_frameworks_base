@@ -414,6 +414,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiFunction;
 
+import com.android.internal.util.corvus.CutoutFullscreenController;
+
 public class ActivityManagerService extends IActivityManager.Stub
         implements Watchdog.Monitor, BatteryStatsImpl.BatteryCallback {
 
@@ -1684,6 +1686,8 @@ public class ActivityManagerService extends IActivityManager.Stub
     private static String sTheRealBuildSerial = Build.UNKNOWN;
 
     private ParcelFileDescriptor[] mLifeMonitorFds;
+
+    private CutoutFullscreenController mCutoutFullscreenController;
 
     static final HostingRecord sNullHostingRecord = new HostingRecord(null);
 
@@ -7980,6 +7984,9 @@ public class ActivityManagerService extends IActivityManager.Stub
 
         // Gaming mode provider
         mGamingModeController = new GamingModeController(mContext);
+
+        // Force full screen for devices with cutout
+        mCutoutFullscreenController = new CutoutFullscreenController(mContext);
     }
 
     void startPersistentApps(int matchFlags) {
@@ -20523,6 +20530,13 @@ public class ActivityManagerService extends IActivityManager.Stub
             return mOomAdjuster.mCachedAppOptimizer.enableFreezer(enable);
         } else {
             throw new SecurityException("Caller uid " + callerUid + " cannot set freezer state ");
+        }
+    }
+
+    @Override
+    public boolean shouldForceCutoutFullscreen(String packageName) {
+        synchronized (this) {
+            return mCutoutFullscreenController.shouldForceCutoutFullscreen(packageName);
         }
     }
 }
