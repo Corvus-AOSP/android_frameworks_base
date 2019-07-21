@@ -168,6 +168,9 @@ public class UdfpsController implements DozeReceiver, UdfpsHbmProvider {
     private final int mUdfpsVendorCode;
     private Set<Callback> mCallbacks = new HashSet<>();
 
+    private boolean mCutoutMasked;
+    private int mStatusbarHeight;
+
     @VisibleForTesting
     public static final AudioAttributes VIBRATION_SONIFICATION_ATTRIBUTES =
             new AudioAttributes.Builder()
@@ -742,6 +745,8 @@ public class UdfpsController implements DozeReceiver, UdfpsHbmProvider {
         final int paddingX = animation != null ? animation.getPaddingX() : 0;
         final int paddingY = animation != null ? animation.getPaddingY() : 0;
 
+        final int cutoutMaskedExtra = mCutoutMasked ? mStatusbarHeight : 0;
+
         mCoreLayoutParams.flags = Utils.FINGERPRINT_OVERLAY_LAYOUT_PARAM_FLAGS
                 | WindowManager.LayoutParams.FLAG_SPLIT_TOUCH;
         if (animation != null && animation.listenForTouchesOutsideView()) {
@@ -752,6 +757,7 @@ public class UdfpsController implements DozeReceiver, UdfpsHbmProvider {
         final SensorLocationInternal location = mSensorProps.getLocation();
         mCoreLayoutParams.x = location.sensorLocationX - location.sensorRadius - paddingX;
         mCoreLayoutParams.y = location.sensorLocationY - location.sensorRadius - paddingY;
+        mCoreLayoutParams.y -= cutoutMaskedExtra;
         mCoreLayoutParams.height = 2 * location.sensorRadius + 2 * paddingX;
         mCoreLayoutParams.width = 2 * location.sensorRadius + 2 * paddingY;
 
@@ -772,6 +778,7 @@ public class UdfpsController implements DozeReceiver, UdfpsHbmProvider {
                         - paddingX;
                 mCoreLayoutParams.y = p.y - location.sensorLocationX - location.sensorRadius
                         - paddingY;
+                mCoreLayoutParams.y -= cutoutMaskedExtra;
                 break;
 
             case Surface.ROTATION_270:
@@ -785,6 +792,7 @@ public class UdfpsController implements DozeReceiver, UdfpsHbmProvider {
                         - paddingX;
                 mCoreLayoutParams.y = location.sensorLocationX - location.sensorRadius
                         - paddingY;
+                mCoreLayoutParams.y -= cutoutMaskedExtra;
                 break;
 
             default:
@@ -841,6 +849,7 @@ public class UdfpsController implements DozeReceiver, UdfpsHbmProvider {
                     mView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
                 }
 
+                updateCutoutFlags();
                 mWindowManager.addView(mView, computeLayoutParams(animation));
                 mAccessibilityManager.addTouchExplorationStateChangeListener(
                         mTouchExplorationStateChangeListener);
@@ -1115,5 +1124,15 @@ public class UdfpsController implements DozeReceiver, UdfpsHbmProvider {
          * Called onFingerDown events.
          */
         void onFingerDown();
+    }
+
+    private void updateCutoutFlags() {
+        mStatusbarHeight = mContext.getResources().getDimensionPixelSize(
+                R.dimen.status_bar_height);
+        boolean cutoutMasked = mContext.getResources().getBoolean(
+                com.android.internal.R.bool.config_maskMainBuiltInDisplayCutout);
+        if (mCutoutMasked != cutoutMasked){
+            mCutoutMasked = cutoutMasked;
+        }
     }
 }
