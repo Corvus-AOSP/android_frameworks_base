@@ -5536,7 +5536,14 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
          */
         public static final String ANIM_TILE_INTERPOLATOR = "anim_tile_interpolator";
 
-       /**
+        /**
+         * Whether to show heads up only for dialer and sms apps
+         * @hide
+         */
+        public static final String LESS_BORING_HEADS_UP = "less_boring_heads_up";
+
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
