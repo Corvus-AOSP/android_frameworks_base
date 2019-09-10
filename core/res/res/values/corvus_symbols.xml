@@ -106,4 +106,7 @@
   <!-- NightLight FOD -->
   <java-symbol type="bool" name="disable_fod_night_light"/>
 
+  <!-- Post reset runnable for all clients -->
+  <java-symbol type="bool" name="config_fingerprintPostResetRunnableForAllClients" />
+
 </resources>
