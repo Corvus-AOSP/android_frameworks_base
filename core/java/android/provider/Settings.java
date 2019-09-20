@@ -5595,6 +5595,13 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
         public static final String STATUSBAR_BATTERY_BAR_STYLE = "statusbar_battery_bar_style";
 
         /**
+         * Whether to inverse keys in navigation bar
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_INVERSE = "navigation_bar_inverse";
+
+        /**
+         * Whether to show media player in QS
          * @hide
          */
         public static final String STATUSBAR_BATTERY_BAR_ANIMATE = "statusbar_battery_bar_animate";
