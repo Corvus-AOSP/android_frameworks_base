@@ -184,7 +184,6 @@ public class NavigationBarInflaterView extends FrameLayout
         }
     }
 
-    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         updateLayoutInversion();
@@ -301,7 +300,11 @@ public class NavigationBarInflaterView extends FrameLayout
     }
 
     private void updateLayoutInversion() {
-        if (mInverseLayout) {
+        boolean inverse = Settings.System.getIntForUser(
+                mContext.getContentResolver(),
+                Settings.System.NAVIGATION_BAR_INVERSE, 0,
+                UserHandle.USER_CURRENT) == 1;
+        if (inverse) {
             Configuration config = mContext.getResources().getConfiguration();
             if (config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
                 setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
@@ -540,6 +543,9 @@ public class NavigationBarInflaterView extends FrameLayout
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_ARROW_KEYS),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NAVIGATION_BAR_INVERSE),
+                    false, this, UserHandle.USER_ALL);
         }
 
         void stop() {
@@ -551,6 +557,9 @@ public class NavigationBarInflaterView extends FrameLayout
             if (uri.equals(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_ARROW_KEYS))) {
                 onLikelyDefaultLayoutChange();
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.NAVIGATION_BAR_INVERSE))) {
+                updateLayoutInversion();
             }
         }
     }
