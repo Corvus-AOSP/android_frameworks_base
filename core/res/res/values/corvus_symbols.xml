@@ -176,4 +176,7 @@
 
     <!-- Screen recorder framerate limit -->
     <java-symbol type="integer" name="config_screenRecorderMaxFramerate" />
+
+    <!-- Pulse brightness -->
+    <java-symbol type="integer" name="config_screenBrightnessPulse" />
 </resources>
