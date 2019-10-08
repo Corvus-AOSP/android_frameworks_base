@@ -116,5 +116,6 @@ public class SystemSettings {
         Settings.System.TORCH_LONG_PRESS_POWER_TIMEOUT,
         Settings.System.NAVIGATION_BAR_ARROW_KEYS,
         Settings.System.NAVIGATION_BAR_INVERSE,
+        Settings.System.NAVBAR_LAYOUT_VIEWS,
     };
 }
