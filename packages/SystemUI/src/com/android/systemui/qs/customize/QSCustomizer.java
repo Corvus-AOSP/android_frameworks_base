@@ -96,6 +96,8 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
     private int mY;
     private boolean mOpening;
     private boolean mIsShowingNavBackdrop;
+    private boolean mHeaderImageEnabled;
+
     private UiEventLogger mUiEventLogger = new UiEventLoggerImpl();
 
     private GridLayoutManager mLayout;
@@ -556,5 +558,10 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
         menuItemTwo.setChecked(rows == 2);
         MenuItem menuItemThree = mToolbar.getMenu().findItem(R.id.menu_item_rows_three);
         menuItemThree.setChecked(rows == 3);
+
+    private void updateSettings() {
+        mHeaderImageEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.STATUS_BAR_CUSTOM_HEADER, 0,
+                UserHandle.USER_CURRENT) == 1;
     }
 }

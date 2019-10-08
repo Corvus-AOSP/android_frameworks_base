@@ -54,4 +54,10 @@
     <color name="edge_light_green">#3aa853</color>
     <color name="edge_light_red">#ea4234</color>
     <color name="edge_light_yellow">#fbbc06</color>
+
+    <!-- Custom header -->
+    <dimen name="qs_header_image_side_margin">4dp</dimen>
+    <dimen name="qs_header_image_top_margin">4dp</dimen>
+    <dimen name="qs_header_image_bottom_margin">4dp</dimen>
+
 </resources>
