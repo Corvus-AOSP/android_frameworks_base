@@ -24,7 +24,8 @@
     android:clipToPadding="false"
     android:orientation="horizontal"
     android:clickable="true"
-    android:paddingTop="@dimen/status_bar_padding_top" >
+    android:paddingTop="@dimen/status_bar_padding_top"
+    android:background="@android:color/transparent" >
 
     <android.widget.Space
         android:id="@+id/space"
