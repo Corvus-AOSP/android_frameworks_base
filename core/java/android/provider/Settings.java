@@ -5447,6 +5447,34 @@ public final class Settings {
         public static final String CHARGING_ANIMATION = "charging_animation";
 
         /**
+         * Whether to enable PULSE Edge lights
+         * @hide
+         */
+        @Readable
+        public static final String PULSE_AMBIENT_LIGHT = "pulse_ambient_light";
+
+        /**
+         * Whether to enable Ambient Edge lights
+         * @hide
+         */
+        @Readable
+        public static final String AMBIENT_NOTIFICATION_LIGHT_ENABLED = "ambient_notification_light_enabled";
+
+        /**
+         * Whether to enable Ambient Edge lights
+         * @hide
+         */
+        @Readable
+        public static final String AMBIENT_NOTIFICATION_LIGHT = "ambient_notification_light";
+
+        /**
+         * Whether Ambient Edge lights are activated
+         * @hide
+         */
+        @Readable
+        public static final String AMBIENT_NOTIFICATION_LIGHT_ACTIVATED = "ambient_notification_light_activated";
+
+        /**
          * Battery style
          * @hide
          */
