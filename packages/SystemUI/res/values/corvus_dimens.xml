@@ -33,4 +33,6 @@
     <dimen name="keyguard_charging_indication_height">98dp</dimen>
     <dimen name="keyguard_charging_indication_width">70dp</dimen>
 
+   <!-- Width of the battery icon in the status bar when set to circle style. -->
+   <dimen name="status_bar_battery_icon_circle_width">14.5dp</dimen>
 </resources>
