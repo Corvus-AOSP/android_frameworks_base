@@ -162,5 +162,8 @@
     <string name="dlg_ok">@android:string/ok</string>
     <string name="dlg_cancel">@android:string/cancel</string>
     <string name="guts_force_close_app">Close App</string>
+
+    <!-- Pocket Lock -->
+    <string name="pocket_lock_message_long_press">Press and hold power button to unlock</string>
 </resources>
 
