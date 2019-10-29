@@ -4901,10 +4901,19 @@ public final class Settings {
          */
         public static final String DATA_DISABLED_ICON = "data_disabled_icon";
 
-        /**
+         /**
+         * Whether allowing pocket service to register sensors and dispatch informations.
+         *   0 = disabled
+         *   1 = enabled
+         * @author Carlo Savignano
          * @hide
          */
-        public static final String ROAMING_INDICATOR_ICON = "roaming_indicator_icon";
+        public static final String POCKET_JUDGE = "pocket_judge";
+
+        /**
+         * @hide
+         */     
+               public static final String ROAMING_INDICATOR_ICON = "roaming_indicator_icon";
 
         /**
          * Force full screen for devices with cutout
@@ -5081,6 +5090,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(LOCKSCREEN_BATTERY_INFO);
             PRIVATE_SETTINGS.add(COLOR_BUCKET_OVERLAY);
             PRIVATE_SETTINGS.add(LOCKSCREEN_MEDIA_ART);
+            PRIVATE_SETTINGS.add(POCKET_JUDGE);
         }
 
         /**
