@@ -5375,6 +5375,15 @@ public final class Settings {
 
         /** @hide */
         public static final String BACK_GESTURE_HAPTIC = "back_gesture_haptic";
+  
+        /**
+         * Whether allowing pocket service to register sensors and dispatch informations.
+         *   0 = disabled
+         *   1 = enabled
+         * @author Carlo Savignano
+         * @hide
+         */
+        public static final String POCKET_JUDGE = "pocket_judge";
 
         /**
          * IMPORTANT: If you add a new public settings you also have to add it to
@@ -5525,6 +5534,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(DOUBLE_TAP_SLEEP_LOCKSCREEN);
             PRIVATE_SETTINGS.add(DOUBLE_TAP_SLEEP_GESTURE);
             PRIVATE_SETTINGS.add(BACK_GESTURE_HAPTIC);
+            PRIVATE_SETTINGS.add(POCKET_JUDGE);
         }
 
         /**
