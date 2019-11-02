@@ -5081,6 +5081,14 @@ public final class Settings {
          */
         public static final String NETWORK_TRAFFIC_VIEW_LOCATION = "network_traffic_view_location";
 
+        
+        /**
+         * Whether to show ambient or lockscreen if AoD is disabled
+         * and we do a wake gesture like lift to wake or double tap
+         *
+         * @hide
+         */
+        public static final String AMBIENT_WAKE_GESTURES = "ambient_wake_gestures";
 
          /**
          * media artwork wallpaper blur level on lockscreen
