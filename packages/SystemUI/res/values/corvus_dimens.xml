@@ -53,4 +53,7 @@
     <color name="edge_light_green">#3aa853</color>
     <color name="edge_light_red">#ea4234</color>
     <color name="edge_light_yellow">#fbbc06</color>
+
+    <!-- Qs visibility -->
+    <dimen name="qs_tile_height_wo_label">64dp</dimen>
 </resources>

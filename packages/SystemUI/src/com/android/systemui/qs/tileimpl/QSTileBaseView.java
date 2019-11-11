@@ -413,4 +413,5 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
             }
         }
     }
+
 }
