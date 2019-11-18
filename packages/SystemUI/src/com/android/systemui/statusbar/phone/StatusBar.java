@@ -4026,6 +4026,9 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_PANEL_BG_USE_NEW_TINT),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.LOCKSCREEN_MEDIA_BLUR),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -4035,12 +4038,16 @@ public class StatusBar extends SystemUI implements DemoMode,
                 setOldMobileType();
             } else if (uri.equals(Settings.System.getUriFor(Settings.System.QS_PANEL_BG_USE_NEW_TINT))) {
                 mQSPanel.getHost().reloadAllTiles();
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.LOCKSCREEN_MEDIA_BLUR))) {
+                setLockScreenMediaBlurLevel();
           }
        update();
         }
 
         public void update() {
             setOldMobileType();
+            setLockScreenMediaBlurLevel();
         }
     }
 
@@ -4049,6 +4056,12 @@ public class StatusBar extends SystemUI implements DemoMode,
                 Settings.System.USE_OLD_MOBILETYPE, 0,
                 UserHandle.USER_CURRENT) != 0;
         TelephonyIcons.updateIcons(USE_OLD_MOBILETYPE);
+    }
+
+    private void setLockScreenMediaBlurLevel() {
+        if (mMediaManager != null) {
+            mMediaManager.setLockScreenMediaBlurLevel();
+        }
     }
 
     public int getWakefulnessState() {
