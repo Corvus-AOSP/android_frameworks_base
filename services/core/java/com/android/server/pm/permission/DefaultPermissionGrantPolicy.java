@@ -979,6 +979,11 @@ public final class DefaultPermissionGrantPolicy {
 
         // ThemePicker
         grantSystemFixedPermissionsToSystemPackage(pm,"com.android.wallpaper", userId, STORAGE_PERMISSIONS);
+
+        // Wellbeing
+        grantSystemFixedPermissionsToSystemPackage(pm,
+                getDefaultProviderAuthorityPackage("com.google.android.apps.wellbeing", userId),
+                userId, SUSPEND_APP_PERMISSIONS);
     }
 
     private String getDefaultSystemHandlerActivityPackageForCategory(PackageManagerWrapper pm,
