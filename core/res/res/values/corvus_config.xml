@@ -26,7 +26,7 @@
     <integer name="config_udfps_hbm_type">1</integer>
 
     <!-- Whether or not we should show vendor mismatch message -->
-    <bool name="config_show_vendor_mismatch_message">true</bool>
+    <bool name="config_show_vendor_mismatch_message">false</bool>
 
     <!-- The list of components which should be automatically disabled for a sp>
          Note: this MUST not be used to randomly disable components, ask for ap-->
