@@ -114,5 +114,6 @@ public class SystemSettings {
         Settings.System.GAMING_MODE_MEDIA,
         Settings.System.TORCH_LONG_PRESS_POWER_GESTURE,
         Settings.System.TORCH_LONG_PRESS_POWER_TIMEOUT,
+        Settings.System.NAVIGATION_BAR_ARROW_KEYS,
     };
 }
