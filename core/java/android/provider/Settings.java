@@ -5593,6 +5593,13 @@ public final class Settings {
 
         /**
          * @hide
+         * Whether to show arrow keys in navigation bar
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_ARROW_KEYS = "navigation_bar_arrow_keys";
+
+        /**
+         * @hide
          */
         public static final String STATUSBAR_BATTERY_BAR_BLEND_COLORS_REVERSE =
                 "statusbar_battery_bar_blend_color_reverse";
