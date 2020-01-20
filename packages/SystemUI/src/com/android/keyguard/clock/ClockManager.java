@@ -153,6 +153,7 @@ public final class ClockManager {
         addBuiltinClock(() -> new DefaultBoldClockController(res, layoutInflater, colorExtractor));
         addBuiltinClock(() -> new SamsungClockController(res, layoutInflater, colorExtractor));
         addBuiltinClock(() -> new SamsungBoldClockController(res, layoutInflater, colorExtractor));
+        addBuiltinClock(() -> new SpideyClockController(res, layoutInflater, colorExtractor));
         addBuiltinClock(() -> new TypeClockController(res, layoutInflater, colorExtractor));
         addBuiltinClock(() -> new BinaryClockController(res, layoutInflater, colorExtractor));
 

@@ -2884,4 +2884,6 @@
     <string name="media_output_dialog_connect_failed">Couldn\'t connect. Try again.</string>
     <!-- Title for pairing item [CHAR LIMIT=60] -->
     <string name="media_output_dialog_pairing_new">Pair new device</string>
+    <!-- Spidey Analog clock -->
+    <string name="clock_title_spidey" translatable="false">Spidey</string>
 </resources>
