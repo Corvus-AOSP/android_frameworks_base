@@ -7440,5 +7440,8 @@ message MetricsEvent {
 
     // CORVUS Metrics
     CORVUS = 2772;
+
+    // Panel for Bluetooth
+    PANEL_BLUETOOTH = 4001;
   }
 }
