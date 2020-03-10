@@ -346,6 +346,7 @@ public abstract class BiometricServiceBase extends SystemService
         private List<? extends BiometricAuthenticator.Identifier> mEnrolledList;
         // List of templates to remove from the HAL
         private List<BiometricAuthenticator.Identifier> mUnknownHALTemplates = new ArrayList<>();
+        final boolean mNocleanup = android.os.SystemProperties.getBoolean("persist.sys.phh.fingerprint.nocleanup", false);
 
         InternalEnumerateClient(Context context,
                 DaemonWrapper daemon, long halDeviceId, IBinder token,
@@ -391,8 +392,10 @@ public abstract class BiometricServiceBase extends SystemService
                 Slog.e(getTag(), "doTemplateCleanup(): Removing dangling template from framework: "
                         + identifier.getBiometricId() + " "
                         + identifier.getName());
-                mUtils.removeBiometricForUser(getContext(),
-                        getTargetUserId(), identifier.getBiometricId());
+                if(!mNocleanup) {
+                    mUtils.removeBiometricForUser(getContext(),
+                            getTargetUserId(), identifier.getBiometricId());
+                }
                 FrameworkStatsLog.write(FrameworkStatsLog.BIOMETRIC_SYSTEM_HEALTH_ISSUE_DETECTED,
                         statsModality(),
                         BiometricsProtoEnums.ISSUE_UNKNOWN_TEMPLATE_ENROLLED_FRAMEWORK);
