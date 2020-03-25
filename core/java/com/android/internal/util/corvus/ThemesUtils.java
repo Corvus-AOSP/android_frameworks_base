@@ -79,6 +79,11 @@ public class ThemesUtils {
             "com.android.theme.navbar.oneplus",
             "com.android.theme.navbar.oneui",
             "com.android.theme.navbar.tecno",
+	    "com.android.theme.navbar.android",
+	    "com.android.theme.navbar.moto",
+            "com.android.theme.navbar.nexus",
+            "com.android.theme.navbar.old",
+	    "com.android.theme.navbar.sammy",
     };
 
     public static final String[] QS_HEADER_THEMES = {
