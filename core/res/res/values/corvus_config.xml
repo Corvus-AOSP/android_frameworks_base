@@ -158,4 +158,8 @@
     <string name="animation_grow_shrink_right">Grow in (Right)</string>
     <string name="animation_random">Random</string>
     <string name="action_null">Blank</string>
+
+    <!-- Enable face auth only when swiping security view -->
+    <bool name="config_faceAuthOnlyOnSecurityView">false</bool>
+
 </resources>
