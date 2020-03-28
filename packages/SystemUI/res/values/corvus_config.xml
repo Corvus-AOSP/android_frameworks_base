@@ -34,4 +34,7 @@
 
     <bool name="config_display_vowifi">true</bool>
 
+    <!-- Enable face auth only when swiping security view -->
+    <bool name="config_faceAuthOnlyOnSecurityView">false</bool>
+
 </resources>
