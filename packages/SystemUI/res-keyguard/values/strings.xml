@@ -452,4 +452,5 @@ number">%d</xliff:g> remaining attempts before SIM becomes permanently unusable.
     <string name="clock_title_type">Type</string>
     <!-- Binary clock -->
     <string name="clock_title_binary">Binary</string>
+    <string name="date_long_title_today">Today is %s</string>
 </resources>
