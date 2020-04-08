@@ -69,6 +69,11 @@ public class ThemesUtils {
             "com.android.theme.darkgrey.systemui",
     };
 
+    public static final String[] MATERIAL_OCEAN = {
+            "com.android.theme.materialocean.system",
+            "com.android.theme.materialocean.systemui",
+    };
+
     public static final String[] STATUSBAR_ICONS = {
             "com.android.theme.icon_pack.filled.android",
             "com.android.theme.icon_pack.rounded.android",
