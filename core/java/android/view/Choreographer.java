@@ -193,6 +193,7 @@ public final class Choreographer {
     private boolean mConsumedDown = false;
     private boolean mIsVsyncScheduled = false;
     private long mLastTouchOptTimeNanos = 0;
+    private boolean mIsDoFrameProcessing = false;
     /**
      * Contains information about the current frame for jank-tracking,
      * mainly timings of key events along with a bit of metadata about
@@ -652,16 +653,18 @@ public final class Choreographer {
                     long curr = System.nanoTime();
                     boolean skipFlag = curr - mLastTouchOptTimeNanos < mFrameIntervalNanos;
                     Trace.traceBegin(Trace.TRACE_TAG_VIEW, "scheduleFrameLocked-mMotionEventType:"
-                                     + mMotionEventType + " mTouchMoveNum:" + mTouchMoveNum
-                                     + " mConsumedDown:" + mConsumedDown + " mConsumedMove:"
-                                     + mConsumedMove + " skip:" + skipFlag
+                                     + mMotionEventType + " mTouchMoveNum:"+ mTouchMoveNum 
+                                     + " mConsumedDown:" + mConsumedDown
+                                     + " mConsumedMove:" + mConsumedMove
+                                     + " mIsDoFrameProcessing:" + mIsDoFrameProcessing
+                                     + " skip:" + skipFlag 
                                      + " diff:" + (curr - mLastTouchOptTimeNanos));
                     Trace.traceEnd(Trace.TRACE_TAG_VIEW);
                     synchronized(this) {
                         switch(mMotionEventType) {
                             case MOTION_EVENT_ACTION_DOWN:
                                 mConsumedMove = false;
-                                if (!mConsumedDown && !skipFlag) {
+                                if (!mConsumedDown && !skipFlag && !mIsDoFrameProcessing) {
                                     Message msg = mHandler.obtainMessage(MSG_DO_FRAME);
                                     msg.setAsynchronous(true);
                                     mHandler.sendMessageAtFrontOfQueue(msg);
@@ -673,7 +676,7 @@ public final class Choreographer {
                             case MOTION_EVENT_ACTION_MOVE:
                                 mConsumedDown = false;
                                 //if ((mTouchMoveNum == 1) && !mConsumedMove && !skipFlag) {
-                                if (!mConsumedMove && !skipFlag) {
+                                if (!mConsumedMove && !skipFlag && !mIsDoFrameProcessing) {
                                     Message msg = mHandler.obtainMessage(MSG_DO_FRAME);
                                     msg.setAsynchronous(true);
                                     mHandler.sendMessageAtFrontOfQueue(msg);
