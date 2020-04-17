@@ -15,6 +15,8 @@
  */
 package com.android.keyguard.clock;
 
+import static com.android.systemui.statusbar.phone.KeyguardClockPositionAlgorithm.CLOCK_USE_DEFAULT_Y;
+
 import android.app.WallpaperManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
