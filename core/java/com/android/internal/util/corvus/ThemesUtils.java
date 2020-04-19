@@ -89,6 +89,7 @@ public class ThemesUtils {
             "com.android.theme.font.cagliostrosource",
             "com.android.theme.font.circularstd",
             "com.android.theme.font.comicsanssource",
+            "com.android.theme.font.comfortaa",
             "com.android.theme.font.coolstorysource",
             "com.android.theme.font.firasans",
             "com.android.theme.font.googlesans",
