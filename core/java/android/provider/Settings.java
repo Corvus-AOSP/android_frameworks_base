@@ -5554,7 +5554,7 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
         public static final String ADAPTIVE_PLAYBACK_ENABLED = "adaptive_playback_enabled";
 
         /**
-         * Adaptive playback's timeout in ms
+         * Adaptive playback's timeout in seconds
          * @hide
          */
         public static final String ADAPTIVE_PLAYBACK_TIMEOUT = "adaptive_playback_timeout";
