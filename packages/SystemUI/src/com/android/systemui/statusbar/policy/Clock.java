@@ -115,6 +115,7 @@ public class Clock extends TextView implements DemoMode, CommandQueue.Callbacks,
     public static final int STYLE_DATE_RIGHT = 1;
 
     private int mClockFontStyle = FONT_NORMAL;
+
     public static final int FONT_NORMAL = 0;
     public static final int FONT_ITALIC = 1;
     public static final int FONT_BOLD = 2;
@@ -156,6 +157,7 @@ public class Clock extends TextView implements DemoMode, CommandQueue.Callbacks,
     protected int mClockDatePosition;
     private int mClockColor = 0xffffffff;
     private int mClockSize = 14;
+    private int mClockSizeQsHeader = 14;
     private int mAmPmStyle;
     private final boolean mShowDark;
     protected boolean mQsHeader;
@@ -214,12 +216,15 @@ public class Clock extends TextView implements DemoMode, CommandQueue.Callbacks,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUSBAR_CLOCK_DATE_POSITION),
                     false, this, UserHandle.USER_ALL);
+	        resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_HEADER_CLOCK_SIZE),
+                    false, this, UserHandle.USER_ALL);
             updateSettings();
         }
 
         @Override
         public void onChange(boolean selfChange) {
-            updateSettings();
+        updateSettings();
 	    updateClockColor();
 	    updateClockSize();
 	    updateClockFontStyle();
@@ -760,7 +765,14 @@ public class Clock extends TextView implements DemoMode, CommandQueue.Callbacks,
         mClockSize = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.STATUS_BAR_CLOCK_SIZE, DEFAULT_CLOCK_SIZE,
                 UserHandle.USER_CURRENT);
+	mClockSizeQsHeader = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.QS_HEADER_CLOCK_SIZE, DEFAULT_CLOCK_SIZE,
+        UserHandle.USER_CURRENT);
+	if(mQsHeader) {
+            setTextSize(mClockSizeQsHeader);
+        } else {
             setTextSize(mClockSize);
+	}
             updateClock();
     }
 
