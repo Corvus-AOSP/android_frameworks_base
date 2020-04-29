@@ -40,7 +40,26 @@
     <!-- Screen off delay -->
     <integer name="config_screen_off_delay">0</integer>
 
-    <!-- Screen off delay -->
-    <integer name="config_screen_off_delay">1000</integer>
+    <!-- The list of components which should be automatically disabled. -->
+    <string-array name="config_disabledComponents" translatable="false">
+    </string-array>
+
+    <!-- The list of components which should be forced to be enabled. -->
+    <string-array name="config_forceEnabledComponents" translatable="false">
+    </string-array>
+
+    <!-- OnePlus uses a proprietary vibrator hal to utilize the new powerful motor since the
+         OnePlus 7 Pro. This HAL expects a different format for the data instead of the usual (ms)
+         timing(the duration which the vibrator is expected to vibrate for). -->
+    <bool name="config_hasOnePlusHapticMotor">false</bool>
+
+    <!-- Whether device has dash charging support -->
+    <bool name="config_hasDashCharger">false</bool>
+
+    <!-- Whether device has warp charging support -->
+    <bool name="config_hasWarpCharger">false</bool>
+
+    <!-- Whether device has VOOC charging support -->
+    <bool name="config_hasVoocCharger">false</bool>
 
 </resources>
