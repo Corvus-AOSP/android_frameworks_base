@@ -37,4 +37,7 @@
     <!-- Whether device has a big physical display cutout -->
     <bool name="config_bigPhysicalDisplayCutout">false</bool>
 
+    <!-- Screen off delay -->
+    <integer name="config_screen_off_delay">0</integer>
+
 </resources>
