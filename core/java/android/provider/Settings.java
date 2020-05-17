@@ -5548,6 +5548,12 @@ public final class Settings {
         public static final String AMBIENT_LIGHT_LAYOUT = "ambient_light_layout";
 
         /**
+         * Width of Ambient edge light in px
+         * @hide
+         */
+        public static final String PULSE_AMBIENT_LIGHT_WIDTH = "pulse_ambient_light_width";
+
+        /**
          * Battery style
          * @hide
          */
