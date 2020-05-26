@@ -738,7 +738,7 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
      * @return the height at which we will wake up when pulsing
      */
     public float getWakeUpHeight() {
-        ActivatableNotificationView firstChild = getFirstChildWithBackground();
+        ExpandableView firstChild = getFirstChildWithBackground();
         if (firstChild != null) {
             if (mKeyguardBypassController.getBypassEnabled()) {
                 return firstChild.getHeadsUpHeightWithoutHeader();
@@ -961,7 +961,7 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
         // TODO(kprevas): this may not be necessary any more since we don't display the shelf in AOD
         boolean anySectionHasVisibleChild = false;
         for (NotificationSection section : mSections) {
-            if (section.getFirstVisibleChild() != null) {
+            if (section.needsBackground()) {
                 anySectionHasVisibleChild = true;
                 break;
             }
@@ -1004,7 +1004,7 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
         int currentRight = right;
         boolean first = true;
         for (NotificationSection section : mSections) {
-            if (section.getFirstVisibleChild() == null) {
+            if (!section.needsBackground()) {
                 continue;
             }
             int sectionTop = section.getCurrentBounds().top + animationYOffset;
@@ -2764,40 +2764,40 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
     }
 
     @ShadeViewRefactor(RefactorComponent.COORDINATOR)
-    private ActivatableNotificationView getLastChildWithBackground() {
+    private ExpandableView getLastChildWithBackground() {
         int childCount = getChildCount();
         for (int i = childCount - 1; i >= 0; i--) {
-            View child = getChildAt(i);
-            if (child.getVisibility() != View.GONE && child instanceof ActivatableNotificationView
+            ExpandableView child = (ExpandableView) getChildAt(i);
+            if (child.getVisibility() != View.GONE && !(child instanceof StackScrollerDecorView)
                     && child != mShelf) {
-                return (ActivatableNotificationView) child;
+                return child;
             }
         }
         return null;
     }
 
     @ShadeViewRefactor(RefactorComponent.COORDINATOR)
-    private ActivatableNotificationView getFirstChildWithBackground() {
+    private ExpandableView getFirstChildWithBackground() {
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
-            View child = getChildAt(i);
-            if (child.getVisibility() != View.GONE && child instanceof ActivatableNotificationView
+            ExpandableView child = (ExpandableView) getChildAt(i);
+            if (child.getVisibility() != View.GONE && !(child instanceof StackScrollerDecorView)
                     && child != mShelf) {
-                return (ActivatableNotificationView) child;
+                return child;
             }
         }
         return null;
     }
 
     //TODO: We shouldn't have to generate this list every time
-    private List<ActivatableNotificationView> getChildrenWithBackground() {
-        ArrayList<ActivatableNotificationView> children = new ArrayList<>();
+    private List<ExpandableView> getChildrenWithBackground() {
+        ArrayList<ExpandableView> children = new ArrayList<>();
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
-            View child = getChildAt(i);
-            if (child.getVisibility() != View.GONE && child instanceof ActivatableNotificationView
+            ExpandableView child = (ExpandableView) getChildAt(i);
+            if (child.getVisibility() != View.GONE && !(child instanceof StackScrollerDecorView)
                     && child != mShelf) {
-                children.add((ActivatableNotificationView) child);
+                children.add(child);
             }
         }
 
@@ -3368,13 +3368,13 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
     private void updateFirstAndLastBackgroundViews() {
         NotificationSection firstSection = getFirstVisibleSection();
         NotificationSection lastSection = getLastVisibleSection();
-        ActivatableNotificationView previousFirstChild =
+        ExpandableView previousFirstChild =
                 firstSection == null ? null : firstSection.getFirstVisibleChild();
-        ActivatableNotificationView previousLastChild =
+        ExpandableView previousLastChild =
                 lastSection == null ? null : lastSection.getLastVisibleChild();
 
-        ActivatableNotificationView firstChild = getFirstChildWithBackground();
-        ActivatableNotificationView lastChild = getLastChildWithBackground();
+        ExpandableView firstChild = getFirstChildWithBackground();
+        ExpandableView lastChild = getLastChildWithBackground();
         boolean sectionViewsChanged = mSectionsManager.updateFirstAndLastViewsForAllSections(
                 mSections, getChildrenWithBackground());
 
@@ -4672,7 +4672,7 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
                 ? (ExpandableNotificationRow) view
                 : null;
         NotificationSection firstSection = getFirstVisibleSection();
-        ActivatableNotificationView firstVisibleChild =
+        ExpandableView firstVisibleChild =
                 firstSection == null ? null : firstSection.getFirstVisibleChild();
         if (row != null) {
             if (row == firstVisibleChild
@@ -4708,7 +4708,7 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
                 }
                 int layoutEnd = mMaxLayoutHeight + (int) mStackTranslation;
                 NotificationSection lastSection = getLastVisibleSection();
-                ActivatableNotificationView lastVisibleChild =
+                ExpandableView lastVisibleChild =
                         lastSection == null ? null : lastSection.getLastVisibleChild();
                 if (row != lastVisibleChild && mShelf.getVisibility() != GONE) {
                     layoutEnd -= mShelf.getIntrinsicHeight() + mPaddingBetweenElements;

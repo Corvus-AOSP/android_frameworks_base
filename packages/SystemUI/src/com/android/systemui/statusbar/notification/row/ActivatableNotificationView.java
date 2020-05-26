@@ -126,8 +126,6 @@ public abstract class ActivatableNotificationView extends ExpandableOutlineView 
     private float mAppearAnimationFraction = -1.0f;
     private float mAppearAnimationTranslation;
     private int mNormalColor;
-    private boolean mLastInSection;
-    private boolean mFirstInSection;
     private boolean mIsBelowSpeedBump;
 
     private float mNormalBackgroundVisibilityAmount;
@@ -463,27 +461,21 @@ public abstract class ActivatableNotificationView extends ExpandableOutlineView 
         mBackgroundDimmed.setDistanceToTopRoundness(distanceToTopRoundness);
     }
 
-    public boolean isLastInSection() {
-        return mLastInSection;
-    }
-
-    public boolean isFirstInSection() {
-        return mFirstInSection;
-    }
-
     /** Sets whether this view is the last notification in a section. */
+    @Override
     public void setLastInSection(boolean lastInSection) {
         if (lastInSection != mLastInSection) {
-            mLastInSection = lastInSection;
+            super.setLastInSection(lastInSection);
             mBackgroundNormal.setLastInSection(lastInSection);
             mBackgroundDimmed.setLastInSection(lastInSection);
         }
     }
 
     /** Sets whether this view is the first notification in a section. */
+    @Override
     public void setFirstInSection(boolean firstInSection) {
         if (firstInSection != mFirstInSection) {
-            mFirstInSection = firstInSection;
+            super.setFirstInSection(firstInSection);
             mBackgroundNormal.setFirstInSection(firstInSection);
             mBackgroundDimmed.setFirstInSection(firstInSection);
         }
@@ -996,6 +988,7 @@ public abstract class ActivatableNotificationView extends ExpandableOutlineView 
         return false;
     }
 
+    @Override
     public int getHeadsUpHeightWithoutHeader() {
         return getHeight();
     }
