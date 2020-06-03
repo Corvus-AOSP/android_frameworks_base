@@ -177,6 +177,7 @@
     <string name="system_theme_style_bakedgreen">Baked Green</string>
     <string name="system_theme_style_darkgrey">Dark grey</string>
     <string name="system_theme_style_materialocean">Material ocean</string>
+    <string name="system_theme_style_corvusclear">Corvus clear</string>
     <string name="quick_settings_theme_tile_title">Accent</string>
     <string name="quick_settings_theme_tile_accent_detail_title">Select accent</string>
     <string name="quick_settings_theme_tile_style_detail_title">Select theme</string>

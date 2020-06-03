@@ -123,6 +123,8 @@ public class ThemeTile extends QSTileImpl<BooleanState> {
                 R.string.system_theme_style_darkgrey, "dark_grey"));
         sStyleItems.add(new ThemeTileItem(UiModeManager.MODE_NIGHT_YES, -1,
                 R.string.system_theme_style_materialocean, "material_ocean"));
+        sStyleItems.add(new ThemeTileItem(UiModeManager.MODE_NIGHT_YES, -1,
+                R.string.system_theme_style_corvusclear, "corvus_clear"));
     }
 
     private enum Mode {
@@ -349,6 +351,15 @@ public class ThemeTile extends QSTileImpl<BooleanState> {
                     try {
                         mOverlayManager.setEnabled(material_ocean,
                                 themeItem.uri.equals("material_ocean"), USER_SYSTEM);
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                }
+                for (int i = 0; i < ThemesUtils.CORVUS_CLEAR.length; i++) {
+                    String corvus_clear = ThemesUtils.CORVUS_CLEAR[i];
+                    try {
+                        mOverlayManager.setEnabled(corvus_clear,
+                                themeItem.uri.equals("corvus_clear"), USER_SYSTEM);
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }

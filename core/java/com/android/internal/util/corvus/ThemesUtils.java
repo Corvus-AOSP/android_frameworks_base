@@ -90,6 +90,11 @@ public class ThemesUtils {
             "com.android.theme.bakedgreen.systemui",
     };
 
+    public static final String[] CORVUS_CLEAR = {
+            "com.android.theme.corvusclear.system",
+            "com.android.theme.corvusclear.systemui",
+    };
+
     public static final String[] FONTS = {
             "com.android.theme.font.notoserifsource",
             "com.android.theme.font.aclonicasource",
