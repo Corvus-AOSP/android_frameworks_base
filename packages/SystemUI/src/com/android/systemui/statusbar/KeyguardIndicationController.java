@@ -540,6 +540,41 @@ public class KeyguardIndicationController implements StateListener,
                 mChargingIndicationView.getLayoutParams().width = mContext.getResources().getDimensionPixelSize(
                             R.dimen.keyguard_charging_indication_height);
                 break;
+            case 9: // Split loader
+                mChargingIndicationView.setFileName("Chris_Gannon_split_loader.json");
+                mChargingIndicationView.getLayoutParams().height = mContext.getResources().getDimensionPixelSize(
+                            R.dimen.keyguard_charging_indication_height);
+                mChargingIndicationView.getLayoutParams().width = mContext.getResources().getDimensionPixelSize(
+                            R.dimen.keyguard_charging_indication_height);
+                break;
+            case 10: // Yellow
+                mChargingIndicationView.setFileName("john_olm_yellow_animation.json");
+                mChargingIndicationView.getLayoutParams().height = mContext.getResources().getDimensionPixelSize(
+                            R.dimen.keyguard_charging_indication_height);
+                mChargingIndicationView.getLayoutParams().width = mContext.getResources().getDimensionPixelSize(
+                            R.dimen.keyguard_charging_indication_height);
+                break;
+            case 11: // Virus
+                mChargingIndicationView.setFileName("lottiefiles_virus.json");
+                mChargingIndicationView.getLayoutParams().height = mContext.getResources().getDimensionPixelSize(
+                            R.dimen.keyguard_charging_indication_height);
+                mChargingIndicationView.getLayoutParams().width = mContext.getResources().getDimensionPixelSize(
+                            R.dimen.keyguard_charging_indication_height);
+                break;
+            case 12: // Precaution 2
+                mChargingIndicationView.setFileName("lottiefiles_precaution1.json");
+                mChargingIndicationView.getLayoutParams().height = mContext.getResources().getDimensionPixelSize(
+                            R.dimen.keyguard_charging_indication_height);
+                mChargingIndicationView.getLayoutParams().width = mContext.getResources().getDimensionPixelSize(
+                            R.dimen.keyguard_charging_indication_height);
+                break;
+            case 13: // Precaution 1
+                mChargingIndicationView.setFileName("lottiefiles_precaution2.json");
+                mChargingIndicationView.getLayoutParams().height = mContext.getResources().getDimensionPixelSize(
+                            R.dimen.keyguard_charging_indication_height);
+                mChargingIndicationView.getLayoutParams().width = mContext.getResources().getDimensionPixelSize(
+                            R.dimen.keyguard_charging_indication_height);
+                break;
         }
     }
 
