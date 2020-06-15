@@ -28,6 +28,7 @@ import android.util.Range;
 import com.android.internal.annotations.VisibleForTesting;
 import com.android.internal.util.ArrayUtils;
 
+import com.android.internal.custom.app.LineageContextConstants;
 import com.android.internal.custom.hardware.HIDLHelper;
 
 import vendor.lineage.touch.V1_0.IGloveMode;
@@ -98,6 +99,7 @@ public final class LineageHardwareManager {
         FEATURE_TOUCH_HOVERING
     );
 
+    private static ILineageHardwareService sService;
     private static LineageHardwareManager sLineageHardwareManagerInstance;
 
     private Context mContext;
@@ -115,6 +117,35 @@ public final class LineageHardwareManager {
         } else {
             mContext = context;
         }
+                sService = getService();
+        if (!checkService()) {
+            Log.wtf(TAG, "Unable to get LineageHardwareService. The service either" +
+                    " crashed, was not started, or the interface has been called to early in" +
+                    " SystemServer init");
+        }
+    }
+    /**
+     * Get or create an instance of the {@link com.android.internal.custom.hardware.LineageHardwareManager}
+     * @param context
+     * @return {@link LineageHardwareManager}
+     */
+    public static LineageHardwareManager getInstance(Context context) {
+        if (sLineageHardwareManagerInstance == null) {
+            sLineageHardwareManagerInstance = new LineageHardwareManager(context);
+        }
+        return sLineageHardwareManagerInstance;
+    }
+    /** @hide */
+    public static ILineageHardwareService getService() {
+        if (sService != null) {
+            return sService;
+        }
+        IBinder b = ServiceManager.getService(LineageContextConstants.LINEAGE_HARDWARE_SERVICE);
+        if (b != null) {
+            sService = ILineageHardwareService.Stub.asInterface(b);
+            return sService;
+        }
+        return null;
     }
 
     /**
@@ -125,7 +156,7 @@ public final class LineageHardwareManager {
      * @return true if the feature is supported, false otherwise.
      */
     public boolean isSupported(int feature) {
-        return isSupportedHIDL(feature);
+        return isSupportedHIDL(feature) || isSupportedLegacy(feature);
     }
 
     private boolean isSupportedHIDL(int feature) {
@@ -133,6 +164,16 @@ public final class LineageHardwareManager {
             mHIDLMap.put(feature, getHIDLService(feature));
         }
         return mHIDLMap.get(feature) != null;
+    }
+
+    private boolean isSupportedLegacy(int feature) {
+        try {
+            if (checkService()) {
+                return feature == (sService.getSupportedFeatures() & feature);
+            }
+        } catch (RemoteException e) {
+        }
+        return false;
     }
 
     private IBase getHIDLService(int feature) {
@@ -155,15 +196,23 @@ public final class LineageHardwareManager {
     }
 
     /**
-     * Get or create an instance of the {@link com.android.internal.custom.hardware.LineageHardwareManager}
-     * @param context
-     * @return {@link LineageHardwareManager}
+     * String version for preference constraints
+     *
+     * @hide
      */
-    public static LineageHardwareManager getInstance(Context context) {
-        if (sLineageHardwareManagerInstance == null) {
-            sLineageHardwareManagerInstance = new LineageHardwareManager(context);
+    public boolean isSupported(String feature) {
+        if (!feature.startsWith("FEATURE_")) {
+            return false;
         }
-        return sLineageHardwareManagerInstance;
+        try {
+            Field f = getClass().getField(feature);
+            if (f != null) {
+                return isSupported((int) f.get(null));
+            }
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            Log.d(TAG, e.getMessage(), e);
+        }
+        return false;
     }
 
     /**
@@ -197,6 +246,8 @@ public final class LineageHardwareManager {
                         IStylusMode stylusMode = (IStylusMode) obj;
                         return stylusMode.isEnabled();
                 }
+            } else if (checkService()) {
+                return sService.get(feature);
             }
         } catch (RemoteException e) {
         }
@@ -235,6 +286,8 @@ public final class LineageHardwareManager {
                         IStylusMode stylusMode = (IStylusMode) obj;
                         return stylusMode.setEnabled(enable);
                 }
+            } else if (checkService()) {
+                return sService.set(feature, enable);
             }
         } catch (RemoteException e) {
         }
@@ -271,5 +324,16 @@ public final class LineageHardwareManager {
         } catch (RemoteException e) {
         }
         return false;
+    }
+
+    /**
+     * @return true if service is valid
+     */
+    private boolean checkService() {
+        if (sService == null) {
+            Log.w(TAG, "not connected to LineageHardwareManagerService");
+            return false;
+        }
+        return true;
     }
 }
