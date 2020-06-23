@@ -1356,9 +1356,7 @@ public class VolumeDialogImpl implements VolumeDialog,
                     mDialog.dismiss();
                     tryToRemoveCaptionsTooltip();
                     mIsAnimatingDismiss = false;
-                    mExpanded = false;
-                    cleanExpandedRows();
-                    mExpandRows.setExpanded(mExpanded);
+                    mController.notifyVisible(false);
                 }, 50));
         if (!isLandscape()) {
             animator.translationX(
@@ -1366,7 +1364,6 @@ public class VolumeDialogImpl implements VolumeDialog,
         }
         animator.start();
         checkODICaptionsTooltip(true);
-        mController.notifyVisible(false);
         synchronized (mSafetyWarningLock) {
             if (mSafetyWarning != null) {
                 if (D.BUG) Log.d(TAG, "SafetyWarning dismissed");
