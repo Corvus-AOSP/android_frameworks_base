@@ -53,6 +53,9 @@ public class ThemesUtils {
             "com.android.theme.icon.cylinder",
             "com.android.theme.icon.hexagon",
             "com.android.theme.icon.roundedhexagon",
+            "com.android.theme.icon.pebble",
+            "com.android.theme.icon.tapered_rect",
+            "com.android.theme.icon.vessel",
     };
 
     public static final String[] QS_TILE_THEMES = {
