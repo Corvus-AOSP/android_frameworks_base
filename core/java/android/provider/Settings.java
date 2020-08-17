@@ -5002,6 +5002,48 @@ public final class Settings {
         public static final String QS_SHOW_AUTO_BRIGHTNESS = "qs_show_auto_brightness";
 
         /**
+         * Whether gaming mode sets {@link Global.HEADS_UP_NOTIFICATIONS_ENABLED}
+         * @hide
+         */
+        public static final String GAMING_MODE_HEADS_UP = "gaming_mode_heads_up";
+
+        /**
+         * Whether gaming mode sets DND {@link Global.ZEN_MODE}
+         * @hide
+         */
+        public static final String GAMING_MODE_ZEN = "gaming_mode_zen";
+
+        /**
+         * Whether gaming mode sets {@link FORCE_SHOW_NAVBAR}
+         * @hide
+         */
+        public static final String GAMING_MODE_NAVBAR = "gaming_mode_navbar";
+
+        /**
+         * Whether gaming sets {@link HARDWARE_KEYS_DISABLE}
+         * @hide
+         */
+        public static final String GAMING_MODE_HW_BUTTONS = "gaming_mode_hw_buttons";
+
+        /**
+         * Whether gaming mode toggles auto brightness
+         * @hide
+         */
+        public static final String GAMING_MODE_BRIGHTNESS_ENABLED = "gaming_mode_brightness_enabled";
+
+        /**
+         * Whether gaming mode sets media volume
+         * @hide
+         */
+        public static final String GAMING_MODE_MEDIA_ENABLED = "gaming_mode_media_enabled";
+
+        /**
+         * Gaming mode media volume level in percentage
+         * @hide
+         */
+        public static final String GAMING_MODE_MEDIA = "gaming_mode_media";
+
+        /**
          * IMPORTANT: If you add a new public settings you also have to add it to
          * PUBLIC_SETTINGS below. If the new setting is hidden you have to add
          * it to PRIVATE_SETTINGS below. Also add a validator that can validate
