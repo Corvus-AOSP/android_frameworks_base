@@ -5984,6 +5984,11 @@ public final class Settings {
          */
         public static final String NOTIFICATION_BG_ALPHA = "notification_bg_alpha";
 
+        /**
+         * Show app volume rows in volume panel
+         * @hide
+         */
+        public static final String SHOW_APP_VOLUME = "show_app_volume";
 
         /**
          * Holds current enabled volume panel implementation
