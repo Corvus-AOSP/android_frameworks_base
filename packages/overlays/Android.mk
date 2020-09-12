@@ -33,6 +33,10 @@ LOCAL_REQUIRED_MODULES := \
 	FontNotoSerifSourceOverlay \
           FontArvoLatoOverlay \
           IconPackCircularAndroidOverlay \
+	FontArvoLatoOverlay \
+          FontArbutusSourceOverlay \
+	FontRubikRubikOverlay \
+	FontGoogleSansOverlay \
 	IconPackCircularLauncherOverlay \
 	IconPackCircularSettingsOverlay \
 	IconPackCircularSystemUIOverlay \
