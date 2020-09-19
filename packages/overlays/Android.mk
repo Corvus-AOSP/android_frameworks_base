@@ -28,6 +28,7 @@ LOCAL_REQUIRED_MODULES := \
 	NoCutoutOverlay \
 	AvoidAppsInCutoutOverlay \
 	FontNotoSerifSourceOverlay \
+	NavigationBarMode2ButtonOverlay \
 	NavigationBarMode3ButtonOverlay \
 	NavigationBarModeGesturalOverlay \
 	NavigationBarModeGesturalOverlayNarrowBack \
