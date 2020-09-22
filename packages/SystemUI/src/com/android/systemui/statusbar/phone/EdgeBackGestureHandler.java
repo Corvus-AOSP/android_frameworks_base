@@ -216,6 +216,7 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
     private boolean mUseMLModel;
     private float mMLModelThreshold;
     private String mPackageName;
+    private float mMLResults;
 
     private final GestureNavigationSettingsObserver mGestureNavigationSettingsObserver;
 
@@ -553,10 +554,10 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
             new long[]{(long) y},
         };
 
-        final float results = mBackGestureTfClassifierProvider.predict(featuresVector);
-        if (results == -1) return -1;
+        mMLResults = mBackGestureTfClassifierProvider.predict(featuresVector);
+        if (mMLResults == -1) return -1;
 
-        return results >= mMLModelThreshold ? 1 : 0;
+        return mMLResults >= mMLModelThreshold ? 1 : 0;
     }
 
     private boolean isWithinTouchRegion(int x, int y) {
@@ -633,7 +634,8 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
                 (int) mDownPoint.x, (int) mDownPoint.y,
                 (int) mEndPoint.x, (int) mEndPoint.y,
                 mEdgeWidthLeft + mLeftInset,
-                mDisplaySize.x - (mEdgeWidthRight + mRightInset));
+                mDisplaySize.x - (mEdgeWidthRight + mRightInset),
+                mUseMLModel ? mMLResults : -2);
     }
 
     private void onMotionEvent(MotionEvent ev) {
@@ -642,6 +644,7 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
             // Verify if this is in within the touch region and we aren't in immersive mode, and
             // either the bouncer is showing or the notification panel is hidden
             mIsOnLeftEdge = ev.getX() <= mEdgeWidthLeft + mLeftInset;
+            mMLResults = 0;
             mLogGesture = false;
             mInRejectedExclusion = false;
             mAllowGesture = !mDisabledForQuickstep && mIsBackGestureAllowed
