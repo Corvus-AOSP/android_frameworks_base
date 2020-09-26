@@ -125,6 +125,11 @@ public class AmbientDisplayConfiguration {
     }
 
     /** {@hide} */
+    public String pickupSensorType() {
+        return mContext.getResources().getString(R.string.config_dozePickupSensorType);
+    }
+
+    /** {@hide} */
     public String doubleTapSensorType() {
         return mContext.getResources().getString(R.string.config_dozeDoubleTapSensorType);
     }
