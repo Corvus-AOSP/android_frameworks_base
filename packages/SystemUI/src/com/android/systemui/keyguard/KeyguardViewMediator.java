@@ -765,7 +765,7 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
                     mInGestureNavigationMode = QuickStepContract.isGesturalMode(mode);
                 }));
         PackageManager packageManager = context.getPackageManager();
-        mHasFod = packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT);
+        mHasFod = FodUtils.hasFodSupport(mContext);
     }
 
     public void userActivity() {
