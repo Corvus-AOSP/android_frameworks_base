@@ -11121,6 +11121,7 @@ public final class Settings {
                 "launcher_taskbar_education_showing";
 
         /**
+<<<<<<< HEAD
          * Whether or not adaptive charging feature is enabled by user.
          * Type: int (0 for false, 1 for true)
          * Default: 1
@@ -11136,6 +11137,14 @@ public final class Settings {
          */
         public static final String EXTRA_AUTOMATIC_POWER_SAVE_MODE =
                 "extra_automatic_power_save_mode";
+=======
+         * Gesture navbar length mode.
+         * Supported modes: 0 for normal length, 1 for medium and 2 for long.
+         * Default 0.
+         * @hide
+         */
+        public static final String GESTURE_NAVBAR_LENGTH_MODE = "gesture_navbar_length_mode";
+>>>>>>> e062189fc5b0 (SystemUI: allow changing the length of gesture navbar [1/2])
 
         /**
          * These entries are considered common between the personal and the managed profile,
