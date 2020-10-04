@@ -296,32 +296,6 @@ public class SecureSettingsValidators {
         VALIDATORS.put(Secure.NOTIFICATION_BUBBLES, BOOLEAN_VALIDATOR);
         VALIDATORS.put(Secure.LOCATION_TIME_ZONE_DETECTION_ENABLED, BOOLEAN_VALIDATOR);
         VALIDATORS.put(Secure.VOLUME_LINK_NOTIFICATION, BOOLEAN_VALIDATOR);
-        VALIDATORS.put(Secure.DEVICE_STATE_ROTATION_LOCK, value -> {
-            if (TextUtils.isEmpty(value)) {
-                return true;
-            }
-            String[] intValues = value.split(":");
-            if (intValues.length % 2 != 0) {
-                return false;
-            }
-            InclusiveIntegerRangeValidator enumValidator =
-                    new InclusiveIntegerRangeValidator(
-                            Secure.DEVICE_STATE_ROTATION_LOCK_IGNORED,
-                            Secure.DEVICE_STATE_ROTATION_LOCK_UNLOCKED);
-            ArraySet<String> keys = new ArraySet<>();
-            for (int i = 0; i < intValues.length - 1; ) {
-                String entryKey = intValues[i++];
-                String entryValue = intValues[i++];
-                if (!NON_NEGATIVE_INTEGER_VALIDATOR.validate(entryKey)
-                        || !enumValidator.validate(entryValue)) {
-                    return false;
-                }
-                // If the same device state key was specified more than once, this is invalid
-                if (!keys.add(entryKey)) {
-                    return false;
-                }
-            }
-            return true;
-        });
+        VALIDATORS.put(Secure.GESTURE_NAVBAR_LENGTH_MODE, new InclusiveIntegerRangeValidator(0, 2));
     }
 }
