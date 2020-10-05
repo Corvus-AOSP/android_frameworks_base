@@ -5648,6 +5648,9 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
         public static final String STATUSBAR_BATTERY_BAR_BLEND_COLORS_REVERSE =
                 "statusbar_battery_bar_blend_color_reverse";
 
+        /** @hide */
+        public static final String BACK_GESTURE_HAPTIC = "back_gesture_haptic";
+
         /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
@@ -5813,7 +5816,7 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
             PRIVATE_SETTINGS.add(TORCH_LONG_PRESS_POWER_TIMEOUT);
             PRIVATE_SETTINGS.add(ANIM_TILE_STYLE);
             PRIVATE_SETTINGS.add(ANIM_TILE_DURATION);
-
+            PRIVATE_SETTINGS.add(BACK_GESTURE_HAPTIC);
         }
 
         /**
