@@ -159,4 +159,12 @@
          frameworks/base/core/java/com/android/internal/util/custom/hwkeys/DeviceKeysConstants.java.
     -->
     <integer name="config_longPressOnAssistBehavior">4</integer>
+
+    <!-- Keyboard backlight control. Possible values are:
+            0 - Not supported
+            1 - Supported, but only on/off mode
+            2 - Supported with variable brightness control
+    -->
+    <integer name="config_deviceSupportsKeyboardBrightnessControl">0</integer>
+    <dimen name="config_keyboardBrightnessSettingDefaultFloat">1.0</dimen>
 </resources>
