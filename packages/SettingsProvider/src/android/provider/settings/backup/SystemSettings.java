@@ -93,5 +93,6 @@ public class SystemSettings {
         Settings.System.LOCKSCREEN_MEDIA_METADATA,
         Settings.System.LOCKSCREEN_MEDIA_ART,
         Settings.System.THEMING_SETTINGS_DASHBOARD_ICONS,
+        Settings.System.NOTIFICATION_HEADERS,
     };
 }
