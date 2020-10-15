@@ -26,11 +26,13 @@ LOCAL_REQUIRED_MODULES := \
 	AccentColorPurpleOverlay \
 	DisplayCutoutEmulationCornerOverlay \
 	DisplayCutoutEmulationDoubleOverlay \
-        DisplayCutoutEmulationHoleOverlay \
+          DisplayCutoutEmulationHoleOverlay \
 	DisplayCutoutEmulationTallOverlay \
 	DisplayCutoutEmulationWaterfallOverlay \
+          FontArvoLatoOverlay \
 	FontNotoSerifSourceOverlay \
-	IconPackCircularAndroidOverlay \
+          FontArvoLatoOverlay \
+          IconPackCircularAndroidOverlay \
 	IconPackCircularLauncherOverlay \
 	IconPackCircularSettingsOverlay \
 	IconPackCircularSystemUIOverlay \
