@@ -206,4 +206,7 @@
     <string name="quick_settings_theme_tile_color_teal">Teal</string>
     <string name="quick_settings_theme_tile_color_yellow">Yellow</string>
 
+    <!-- QS Header data usage info -->
+    <string name="usage_data">used</string>
+
 </resources>
