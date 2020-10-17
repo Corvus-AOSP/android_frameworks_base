@@ -38,6 +38,9 @@
     <!-- Ambient Pulse Light -->
     <java-symbol type="integer" name="config_AmbientPulseLightColor" />
 
+    <!-- Ambient notification light color -->
+    <java-symbol type="integer" name="config_ambientNotificationDefaultColor" />
+
     <!-- Screen off delay -->
     <java-symbol type="integer" name="config_screen_off_delay" />
 
