@@ -97,4 +97,7 @@
   <java-symbol type="color" name="theme_generic_semi_transparent_color" />
   <java-symbol type="color" name="du_themes_qs_inactive_color" />
 
+  <!-- Whether to show a custom view for FOD -->
+  <java-symbol type="bool" name="config_needCustomFODView" />
+
 </resources>
