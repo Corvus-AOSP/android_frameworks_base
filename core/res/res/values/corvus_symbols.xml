@@ -121,6 +121,6 @@
     <!-- Switch USB controller on Asus ROG devices-->
     <java-symbol type="bool" name="config_switchUsbController" />
 
-    <!-- Ambient Pulse Light -->
-    <java-symbol type="integer" name="config_AmbientPulseLightColor" />
+    <!-- Ambient notification light color -->
+    <java-symbol type="integer" name="config_ambientNotificationDefaultColor" />
 </resources>
