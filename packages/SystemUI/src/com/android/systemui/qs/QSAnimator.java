@@ -14,6 +14,7 @@
 
 package com.android.systemui.qs;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnAttachStateChangeListener;
@@ -31,6 +32,7 @@ import com.android.systemui.qs.TouchAnimator.Listener;
 import com.android.systemui.tuner.TunerService;
 import com.android.systemui.tuner.TunerService.Tunable;
 
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -44,7 +46,7 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
 
     public static final float EXPANDED_TILE_DELAY = .86f;
 
-
+    private Context mContext;
     private final ArrayList<View> mAllViews = new ArrayList<>();
     /**
      * List of {@link View}s representing Quick Settings that are being animated from the quick QS
@@ -78,7 +80,8 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
     private QSTileHost mHost;
     private boolean mShowCollapsedOnKeyguard;
 
-    public QSAnimator(QS qs, QuickQSPanel quickPanel, QSPanel panel) {
+    public QSAnimator(QS qs, QuickQSPanel quickPanel, QSPanel panel, Context context) {
+	mContext = context;
         mQs = qs;
         mQuickQsPanel = quickPanel;
         mQsPanel = panel;
@@ -405,6 +408,11 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
         }
         if (mAllowFancy) {
             mAllPagesDelayedAnimator.setPosition(position);
+        }
+	if (position == 0f) {
+            mQuickQsPanel.getBrightnessView().setVisibility(View.VISIBLE);
+        } else {
+            mQuickQsPanel.getBrightnessView().setVisibility(View.INVISIBLE);
         }
     }
 
