@@ -144,9 +144,6 @@
     <!-- Needed for WallpaperManager.clear in ImageWallpaper.updateWallpaperLocked -->
     <uses-permission android:name="android.permission.SET_WALLPAPER"/>
 
-    <!-- Wifi Display -->
-    <uses-permission android:name="android.permission.CONFIGURE_WIFI_DISPLAY" />
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.CAMERA_OPEN_CLOSE_LISTENER" />
 
@@ -394,11 +391,12 @@
             </intent-filter>
         </activity-alias>
 
+
         <activity android:name=".tuner.StatusbarItemsActivity"
                   android:theme="@style/ExTunerSettings"
                   android:label="@string/statusbar_items_title"
                   android:process=":tuner"
-                  android:parentActivityName="com.android.settings.arrow.HardwareKeys"
+                  android:parentActivityName="com.settings.fragments.corvus.StatusBarSettings"
                   android:exported="true">
         </activity>
 

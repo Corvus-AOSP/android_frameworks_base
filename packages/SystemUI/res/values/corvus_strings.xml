@@ -143,12 +143,13 @@
     <string name="keyguard_indication_vooc_charging_time"><xliff:g id="percentage">%2$s</xliff:g> • VOOC Charging (<xliff:g id="charging_time_left" example="4 hours and 2 minutes">%1$s</xliff:g> until full)</string>
     <string name="keyguard_plugged_in_vooc_charging"><xliff:g id="percentage">%s</xliff:g> VOOC Charging</string>
 
-    <string name="statusbar_items_title">Statusbar icons</string>
-
     <!-- Name of the volte status bar icon. -->
     <string name="status_bar_volte">VoLTE</string>
 
       <!-- AOD QS tile -->
     <string name="quick_settings_aod_label">AOD</string>
+
+     <!-- Icon tuner -->
+    <string name="statusbar_items_title">Icon tuner</string>
 
 </resources>
