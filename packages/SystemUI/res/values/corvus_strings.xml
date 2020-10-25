@@ -148,4 +148,7 @@
     <!-- Name of the volte status bar icon. -->
     <string name="status_bar_volte">VoLTE</string>
 
+      <!-- AOD QS tile -->
+    <string name="quick_settings_aod_label">AOD</string>
+
 </resources>
