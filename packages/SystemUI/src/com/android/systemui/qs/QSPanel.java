@@ -288,6 +288,8 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
         brightnessIcon.setVisibility(View.VISIBLE);
         mBrightnessPlaceholder = LayoutInflater.from(mContext).inflate(
             R.layout.quick_settings_brightness_placeholder, this, false);
+        ImageView brightnessIcon = mBrightnessView.findViewById(R.id.brightness_icon);
+        brightnessIcon.setVisibility(View.VISIBLE);
         addView(mBrightnessPlaceholder);
         addView(mBrightnessView);
         mBrightnessController = new BrightnessController(getContext(),
