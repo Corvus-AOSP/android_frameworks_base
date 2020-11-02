@@ -32,6 +32,7 @@ import android.text.style.RelativeSizeSpan;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -108,6 +109,7 @@ public class NetworkTrafficSB extends TextView implements StatusIconDisplayable 
 
                 // Update view if there's anything new to show
                 if (output != getText()) {
+                    setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
                     indicatorUp = true;
                 }
                 mTrafficVisible = true;
@@ -467,6 +469,7 @@ public class NetworkTrafficSB extends TextView implements StatusIconDisplayable 
 
     public void onDensityOrFontScaleChanged() {
         setCompoundDrawablePadding(txtImgPadding);
+        setGravity(Gravity.RIGHT);
         setSpacingAndFonts();
         update();
     }
