@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.TrafficStats;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.UserHandle;
 import android.os.Message;
@@ -61,6 +62,7 @@ public class NetworkTrafficQS extends TextView {
     private String txtFont;    
     private boolean mScreenOn = true;
     private boolean mTrafficVisible = true;
+    private boolean mTrafficInHeaderView;
 
     private Handler mTrafficHandler = new Handler() {
         @Override
@@ -271,6 +273,9 @@ public class NetworkTrafficQS extends TextView {
             resolver.registerContentObserver(Settings.System
                     .getUriFor(Settings.System.NETWORK_TRAFFIC_HIDEARROW), false,
                     this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System
+                    .getUriFor(Settings.System.NETWORK_TRAFFIC_VIEW_LOCATION), false,
+                    this, UserHandle.USER_ALL);
         }
 
         /*
@@ -310,6 +315,10 @@ public class NetworkTrafficQS extends TextView {
     }
 
     private void update() {
+        final ContentResolver resolver = getContext().getContentResolver();
+        mTrafficInHeaderView = Settings.System.getIntForUser(resolver,
+                Settings.System.NETWORK_TRAFFIC_VIEW_LOCATION, 0,
+                UserHandle.USER_CURRENT) == 1;
         updateVisibility();
         if (mIsEnabled) {
             if (mAttached) {
@@ -322,8 +331,6 @@ public class NetworkTrafficQS extends TextView {
         } else {
             clearHandlerCallbacks();
         }
-        setVisibility(View.GONE);
-        mTrafficVisible = false;
     }
 
     private void setMode() {
@@ -337,12 +344,13 @@ public class NetworkTrafficQS extends TextView {
         mHideArrow = Settings.System.getIntForUser(resolver,
                 Settings.System.NETWORK_TRAFFIC_HIDEARROW, 0,
                 UserHandle.USER_CURRENT) == 1;
+        mTrafficInHeaderView = Settings.System.getIntForUser(resolver,
+                Settings.System.NETWORK_TRAFFIC_VIEW_LOCATION, 0,
+                UserHandle.USER_CURRENT) == 1;
         setGravity(Gravity.CENTER);
         setMaxLines(2);
         setSpacingAndFonts();
         updateTrafficDrawable();
-        setVisibility(View.GONE);
-        mTrafficVisible = false;
     }
 
     private void clearHandlerCallbacks() {
@@ -382,9 +390,12 @@ public class NetworkTrafficQS extends TextView {
         setLineSpacing(0.75f, 0.75f);
     }
 
-    protected void updateVisibility() {
-        setVisibility(View.VISIBLE);
-        mTrafficVisible = true;
+    private void updateVisibility() {
+        if (mIsEnabled && mTrafficInHeaderView) {
+            setVisibility(View.VISIBLE);
+        } else {
+            setVisibility(View.GONE);
+        }
     }
 
     public void onDensityOrFontScaleChanged() {
