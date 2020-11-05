@@ -198,4 +198,8 @@
 
     <!-- Whether doze feature is enabled by default in settings -->
     <java-symbol type="bool" name="config_doze_enabled_by_default" />
+
+    <!-- Hide FOD while Going to sleep from lockscreen to avoid HBM flicker
+       or FOD Circle hiding after the screen is put to sleep  -->
+    <java-symbol type="bool" name="config_hideFodCircleGoingToSleep" />
 </resources>
