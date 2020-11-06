@@ -23,6 +23,7 @@ import static android.provider.settings.validators.SettingsValidators.LENIENT_IP
 import static android.provider.settings.validators.SettingsValidators.NON_NEGATIVE_INTEGER_VALIDATOR;
 import static android.provider.settings.validators.SettingsValidators.URI_VALIDATOR;
 import static android.provider.settings.validators.SettingsValidators.VIBRATION_INTENSITY_VALIDATOR;
+import static android.provider.settings.validators.SettingsValidators.ANY_INTEGER_VALIDATOR;
 
 import android.annotation.Nullable;
 import android.compat.annotation.UnsupportedAppUsage;
@@ -224,6 +225,6 @@ public class SystemSettingsValidators {
         VALIDATORS.put(System.QS_PANEL_BG_USE_NEW_TINT, BOOLEAN_VALIDATOR);
         VALIDATORS.put(System.LOCKSCREEN_MEDIA_METADATA, BOOLEAN_VALIDATOR);  
         VALIDATORS.put(System.LOCKSCREEN_MEDIA_ART, BOOLEAN_VALIDATOR);
-
+        VALIDATORS.put(System.THEMING_SETTINGS_DASHBOARD_ICONS, ANY_INTEGER_VALIDATOR);
     }
 }
