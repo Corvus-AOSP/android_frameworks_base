@@ -40,6 +40,7 @@ import com.android.systemui.qs.tiles.DataSaverTile;
 import com.android.systemui.qs.tiles.DataSwitchTile;
 import com.android.systemui.qs.tiles.DndTile;
 import com.android.systemui.qs.tiles.FlashlightTile;
+import com.android.systemui.qs.tiles.GamingModeTile;
 import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.ImmersiveTile;
@@ -106,6 +107,7 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<SyncTile> mSyncTileProvider;
     private final Provider<AODTile> mAODTileProvider;
     private final Provider<ThemeTile> mThemeTileProvider;
+    private final Provider<GamingModeTile> mGamingModeTileProvider;
 
     private final Lazy<QSHost> mQsHostLazy;
 
@@ -144,7 +146,9 @@ public class QSFactoryImpl implements QSFactory {
             Provider<CompassTile> compassTileProvider,
             Provider<SyncTile> syncTileProvider,
             Provider<AODTile> aodTileProvider,
-            Provider<ThemeTile> themeTileProvider) {
+            Provider<ThemeTile> themeTileProvider,
+            Provider<GamingModeTile> gamingModeTileProvider) {
+
         mQsHostLazy = qsHostLazy;
         mWifiTileProvider = wifiTileProvider;
         mBluetoothTileProvider = bluetoothTileProvider;
@@ -180,6 +184,7 @@ public class QSFactoryImpl implements QSFactory {
         mSyncTileProvider = syncTileProvider;
         mAODTileProvider = aodTileProvider;
         mThemeTileProvider = themeTileProvider;
+        mGamingModeTileProvider = gamingModeTileProvider;
     }
 
     public QSTile createTile(String tileSpec) {
@@ -259,6 +264,8 @@ public class QSFactoryImpl implements QSFactory {
                 return mAODTileProvider.get();
             case "theme":
                 return mThemeTileProvider.get();
+           case "gaming":
+                return mGamingModeTileProvider.get();
         }
 
         // Custom tiles
