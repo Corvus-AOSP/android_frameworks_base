@@ -88,6 +88,8 @@
 
   <java-symbol type="bool" name="config_useDefaultBatchingForAccel" />
 
+  <java-symbol type="bool" name="config_has_Soli" />
+
   <!-- Vendor platform signatures -->
   <java-symbol type="array" name="config_vendorPlatformSignatures" />
 

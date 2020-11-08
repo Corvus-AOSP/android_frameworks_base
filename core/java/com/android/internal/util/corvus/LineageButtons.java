@@ -24,6 +24,7 @@ import android.media.AudioManager;
 import android.media.session.MediaSessionLegacyHelper;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.os.UserHandle;
 import android.provider.Settings;
 import android.util.Slog;
@@ -60,13 +61,35 @@ public final class LineageButtons {
         }
     }
 
+    private static final Object sInstanceLock = new Object();
+    private static LineageButtons sInstance;
+
+    public static LineageButtons getAttachedInstance(Context context) {
+        synchronized (sInstanceLock) {
+            if (sInstance != null) {
+                return sInstance;
+            }
+            return new LineageButtons(context);
+        }
+    }
+
     public LineageButtons(Context context) {
         mContext = context;
         mHandler = new ButtonHandler();
 
         SettingsObserver observer = new SettingsObserver(new Handler());
         observer.observe();
+
+        sInstance = this;
     }
+
+     public void skipTrack() {
+        long when = SystemClock.uptimeMillis();
+        KeyEvent newEvent = new KeyEvent(when, when,
+                KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT, 0);
+        onSkipTrackEvent(newEvent);
+    }
+
 
     public boolean handleVolumeKey(KeyEvent event, boolean isInteractive) {
         final boolean down = event.getAction() == KeyEvent.ACTION_DOWN;
@@ -157,7 +180,7 @@ public final class LineageButtons {
 
         private void update() {
             ContentResolver resolver = mContext.getContentResolver();
-            Resources res = mContext.getResources();
+            
 
             mVolBtnMusicControls = /*LineageSettings.System.getIntForUser(
                     resolver, LineageSettings.System.VOLBTN_MUSIC_CONTROLS, 1,
