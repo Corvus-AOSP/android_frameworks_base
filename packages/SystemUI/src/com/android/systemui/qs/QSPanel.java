@@ -937,7 +937,7 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
 
     public void refreshAllTiles() {
         if (mBrightnessController != null) {
-            mBrightnessController.checkRestrictionAndSetEnabled();
+            //mBrightnessController.checkRestrictionAndSetEnabled();
         }
         for (TileRecord r : mRecords) {
             r.tile.refreshState();
