@@ -71,4 +71,6 @@
     <string name="alert_slider_state_path"></string>
     <string name="alert_slider_uevent_match_path"></string>
 
+    <!-- Button to disable the crashed application -->
+    <string name="aerr_disable">Disable app</string>
 </resources>
