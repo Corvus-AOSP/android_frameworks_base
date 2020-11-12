@@ -113,4 +113,5 @@
     <color name="divider_stroke_color">#434343</color>
 
     <color name="qs_tile_background_inactive">#1f1f1f</color>
+    <color name="qs_bg_primary">#90000000</color>
 </resources>
