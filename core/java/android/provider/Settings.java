@@ -5663,6 +5663,20 @@ public final class Settings {
         public static final String VOLUME_PANEL_ON_LEFT = "volume_panel_on_left";
 
         /**
+         * reTicker Status
+         * @hide
+         */
+        @Readable
+        public static final String RETICKER_STATUS = "reticker_status";
+
+        /**
+         * reTicker Colored
+         * @hide
+         */
+        @Readable
+        public static final String RETICKER_COLORED = "reticker_colored";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
