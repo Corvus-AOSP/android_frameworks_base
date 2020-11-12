@@ -5786,7 +5786,11 @@ public final class Settings {
          */
         public static final String HEADS_UP_STOPLIST_VALUES = "heads_up_stoplist_values";
 
-         /**
+        /** reTicker **/
+        public static final String RETICKER_STATUS = "reticker_status";
+        public static final String RETICKER_COLORED = "reticker_colored";
+
+        /**
          * Which applications to disable heads up notifications for
          *
          * @hide
