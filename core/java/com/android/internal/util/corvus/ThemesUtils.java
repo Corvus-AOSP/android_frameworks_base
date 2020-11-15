@@ -91,6 +91,7 @@ public class ThemesUtils {
             "com.android.theme.font.comicsanssource",
             "com.android.theme.font.comfortaa",
             "com.android.theme.font.coolstorysource",
+            "com.android.theme.font.exotwo",
             "com.android.theme.font.firasans",
             "com.android.theme.font.googlesans",
             "com.android.theme.font.lgsmartgothicsource",
@@ -100,7 +101,9 @@ public class ThemesUtils {
             "com.android.theme.font.sfpro",
             "com.android.theme.font.slateforoneplus",
             "com.android.theme.font.sonysketchsource",
+            "com.android.theme.font.storopia",
             "com.android.theme.font.surfersource",
+            "com.android.theme.font.ubuntu",
     };
 
     public static final String[] NAVBAR_STYLES = {
