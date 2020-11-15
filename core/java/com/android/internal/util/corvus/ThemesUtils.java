@@ -117,5 +117,8 @@ public class ThemesUtils {
         "com.android.system.switch.md2", // 1
         "com.android.system.switch.oneplus", // 2
         "com.android.system.switch.telegram", // 3
+        "com.android.system.switch.narrow", // 4
+        "com.android.system.switch.contained", // 5
+        "com.android.system.switch.retro", // 6
     };
 }
