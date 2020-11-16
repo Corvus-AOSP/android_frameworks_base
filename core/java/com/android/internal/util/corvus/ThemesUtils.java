@@ -67,6 +67,14 @@ public class ThemesUtils {
             "com.android.systemui.qstile.circletrim",
             "com.android.systemui.qstile.dualtonecircletrim",
             "com.android.systemui.qstile.cookie",
+            "com.android.systemui.qstile.circleoutline",
+            "com.android.systemui.qstile.wavey",
+            "com.android.systemui.qstile.ninja",
+            "com.android.systemui.qstile.dottedcircle",
+            "com.android.systemui.qstile.attemptmountain",
+            "com.android.systemui.qstile.inktober",
+            "com.android.systemui.qstile.neonlike",
+            "com.android.systemui.qstile.triangles",
     };
 
     public static final String[] PITCH_BLACK = {
