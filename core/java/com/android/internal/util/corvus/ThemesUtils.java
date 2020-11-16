@@ -66,6 +66,7 @@ public class ThemesUtils {
             "com.android.systemui.qstile.badgetwo",
             "com.android.systemui.qstile.circletrim",
             "com.android.systemui.qstile.dualtonecircletrim",
+            "com.android.systemui.qstile.cookie",
     };
 
     public static final String[] PITCH_BLACK = {
