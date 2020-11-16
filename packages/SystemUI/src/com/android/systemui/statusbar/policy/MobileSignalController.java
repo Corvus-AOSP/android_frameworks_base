@@ -522,6 +522,10 @@ public class MobileSignalController extends SignalController<
         if (mCurrentState.imsRegistered && (mCurrentState.voiceCapable ||
                   mCurrentState.videoCapable) && mVoLTEicon) {
             switch(mVoLTEstyle) {
+				//Vo
+                case 0:
+                    resId = R.drawable.ic_volte;
+                    break;
                 // VoLTE
                 case 1:
                     resId = R.drawable.ic_volte1;
@@ -550,9 +554,10 @@ public class MobileSignalController extends SignalController<
                 case 7:
                     resId = R.drawable.ic_volte_emui;
                     break;
-                case 0:
+                // OOS 10 VoLTE icon
+		case 8:
                 default:
-                    resId = R.drawable.ic_volte;
+                    resId = R.drawable.ic_volte_oos10;
                     break;
             }
         }
