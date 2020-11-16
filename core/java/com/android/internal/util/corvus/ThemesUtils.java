@@ -54,6 +54,13 @@ public class ThemesUtils {
             "com.android.theme.icon.hexagon",
     };
 
+    public static final String[] QS_TILE_THEMES = {
+            "com.android.systemui.qstile.default",
+            "com.android.systemui.qstile.circletrim",
+            "com.android.systemui.qstile.dualtonecircletrim",
+            "com.android.systemui.qstile.squircletrim",
+    };
+
     public static final String[] PITCH_BLACK = {
             "com.android.theme.pitchblack.system",
             "com.android.theme.pitchblack.systemui",
