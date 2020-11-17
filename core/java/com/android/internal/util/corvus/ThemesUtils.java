@@ -151,6 +151,13 @@ public class ThemesUtils {
             "com.android.theme.navbar.tecno",
     };
 
+    public static final String[] QS_HEADER_THEMES = {
+            "com.android.systemui.qsheader.grey",
+            "com.android.systemui.qsheader.lightgrey",
+            "com.android.systemui.qsheader.accent", 
+            "com.android.systemui.qsheader.transparent",
+    };
+
     public static final String[] SWITCH_STYLE = {
         "com.android.system.switch.md2", // 1
         "com.android.system.switch.oneplus", // 2
