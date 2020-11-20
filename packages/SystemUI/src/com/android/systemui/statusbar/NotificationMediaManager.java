@@ -48,6 +48,7 @@ import android.widget.ImageView;
 import android.database.ContentObserver;
 import android.content.ContentResolver;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.provider.Settings;
 
 import com.android.internal.config.sysui.SystemUiDeviceConfigFlags;
@@ -134,7 +135,8 @@ public class NotificationMediaManager implements Dumpable {
     private final MediaArtworkProcessor mMediaArtworkProcessor;
     private final Set<AsyncTask<?, ?, ?>> mProcessArtworkTasks = new ArraySet<>();
     private final WallpaperManager mWallpaperManager;
-
+    
+    private final Handler mHandler;
 
     protected NotificationPresenter mPresenter;
     private MediaController mMediaController;
@@ -176,6 +178,39 @@ public class NotificationMediaManager implements Dumpable {
     }
 
     private boolean mShowCompactMediaSeekbar;
+    
+    private boolean mShowMediaMetadata;
+
+    Handler startHandlerThread() {
+        HandlerThread thread = new HandlerThread("NotificationMediaManager");
+        thread.start();
+        return thread.getThreadHandler();
+    }
+
+    private class CustomSettingsObserver extends ContentObserver {
+        CustomSettingsObserver(Handler handler) {
+            super(handler);
+        }
+
+        void observe() {
+            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.LOCKSCREEN_MEDIA_METADATA),
+                    false, this, UserHandle.USER_ALL);
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            update();
+        }
+
+        public void update() {
+            mShowMediaMetadata = Settings.System.getInt(mContext.getContentResolver(),
+                        Settings.System.LOCKSCREEN_MEDIA_METADATA, 0) == 1;
+            dispatchUpdateMediaMetaData(false /* changed */, true /* allowAnimation */);
+        }
+    }
+    private final CustomSettingsObserver mCustomSettingsObserver;
+
     private final DeviceConfig.OnPropertiesChangedListener mPropertiesChangedListener =
             new DeviceConfig.OnPropertiesChangedListener() {
         @Override
@@ -291,6 +326,10 @@ public class NotificationMediaManager implements Dumpable {
         deviceConfig.addOnPropertiesChangedListener(DeviceConfig.NAMESPACE_SYSTEMUI,
                 mContext.getMainExecutor(),
                 mPropertiesChangedListener);
+                  mHandler = startHandlerThread();
+        mCustomSettingsObserver = new CustomSettingsObserver(mHandler);
+        mCustomSettingsObserver.observe();
+        mCustomSettingsObserver.update();
          Handler mHandler = new Handler();
         SettingsObserver settingsObserver = new SettingsObserver(mHandler);
         settingsObserver.observe();
@@ -567,7 +606,8 @@ public class NotificationMediaManager implements Dumpable {
             }
             mProcessArtworkTasks.clear();
         }
-        if (artworkBitmap != null && mLockscreenArt) {
+            if (artworkBitmap != null) {
+
             mProcessArtworkTasks.add(new ProcessArtworkTask(this, metaDataChanged,
                     allowEnterAnimation).execute(artworkBitmap));
         } else {
@@ -580,7 +620,7 @@ public class NotificationMediaManager implements Dumpable {
     private void finishUpdateMediaMetaData(boolean metaDataChanged, boolean allowEnterAnimation,
             @Nullable Bitmap bmp) {
         Drawable artworkDrawable = null;
-        if (bmp != null) {
+           if (bmp != null && (mShowMediaMetadata || !ENABLE_LOCKSCREEN_WALLPAPER)) {
             artworkDrawable = new BitmapDrawable(mBackdropBack.getResources(), bmp);
         }
         boolean hasMediaArtwork = artworkDrawable != null;
