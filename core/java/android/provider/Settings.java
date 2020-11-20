@@ -5476,6 +5476,12 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
         public static final String QS_MEDIA_PLAYER = "qs_media_player";
 
         /**
+         * FOD recognizing animation
+         * @hide
+         */
+        public static final String FOD_RECOGNIZING_ANIMATION = "fod_recognizing_animation";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
