@@ -201,6 +201,7 @@ import com.android.internal.policy.PhoneWindow;
 import com.android.internal.statusbar.IStatusBarService;
 import com.android.internal.util.ArrayUtils;
 import com.android.internal.util.ScreenshotHelper;
+import com.android.internal.util.corvus.LineageButtons;
 import com.android.server.ExtconStateObserver;
 import com.android.server.ExtconUEventObserver;
 import com.android.server.GestureLauncherService;
@@ -548,6 +549,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     // What we do when the user double-taps on home
     private int mDoubleTapOnHomeBehavior;
+
+    private LineageButtons mLineageButtons;
 
     // Allowed theater mode wake actions
     private boolean mAllowTheaterModeWakeFromKey;
@@ -3985,6 +3988,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     // {@link interceptKeyBeforeDispatching()}.
                     result |= ACTION_PASS_TO_USER;
                 } else if ((result & ACTION_PASS_TO_USER) == 0) {
+
+                   if (mLineageButtons.handleVolumeKey(event, interactive)) {
+                        break;
+                    }
+
                     if (!interactive && mVolumeMusicControl && isMusicActive()) {
                         boolean notHandledMusicControl = false;
                         if (down) {
@@ -5110,6 +5118,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 mKeyguardDelegate.onBootCompleted();
             }
         }
+        
+         mLineageButtons = new LineageButtons(mContext);
 
         mAutofillManagerInternal = LocalServices.getService(AutofillManagerInternal.class);
     }
