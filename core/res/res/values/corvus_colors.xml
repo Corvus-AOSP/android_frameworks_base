@@ -21,5 +21,5 @@
 
     <!-- Themes -->
     <color name="theme_generic_semi_transparent_color">#EAFFFFFF</color>
-
+    <color name="corvus_themes_qs_inactive_color">#FFDCDCDC</color>
 </resources>
