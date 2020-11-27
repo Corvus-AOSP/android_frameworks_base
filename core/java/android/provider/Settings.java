@@ -5482,6 +5482,12 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
         public static final String QS_MEDIA_PLAYER = "qs_media_player";
 
         /**
+         * FOD icon picker
+         * @hide
+         */
+        public static final String FOD_ICON = "fod_icon";
+
+        /**
          * FOD recognizing animation
          * @hide
          */
