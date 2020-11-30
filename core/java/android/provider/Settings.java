@@ -5488,6 +5488,12 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
         public static final String FOD_ICON = "fod_icon";
 
         /**
+         * FOD pressed color
+         * @hide
+         */
+        public static final String FOD_COLOR = "fod_color";
+
+        /**
          * FOD recognizing animation
          * @hide
          */
