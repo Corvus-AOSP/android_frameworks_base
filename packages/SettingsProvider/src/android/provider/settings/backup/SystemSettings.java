@@ -94,5 +94,8 @@ public class SystemSettings {
         Settings.System.GAMING_MODE_DISABLE_NOTIFICATION_ALERT,
         Settings.System.GAMING_MODE_DISABLE_ADB,
         Settings.System.LOCKSCREEN_BATTERY_INFO,
+        Settings.System.VIBRATE_ON_CONNECT,
+        Settings.System.VIBRATE_ON_CALLWAITING,
+        Settings.System.VIBRATE_ON_DISCONNECT,
     };
 }
