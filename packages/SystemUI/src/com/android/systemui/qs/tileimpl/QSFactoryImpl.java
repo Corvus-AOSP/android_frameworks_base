@@ -49,6 +49,7 @@ import com.android.systemui.qs.tiles.MonoToggleTile;
 import com.android.systemui.qs.tiles.NfcTile;
 import com.android.systemui.qs.tiles.NightDisplayTile;
 import com.android.systemui.qs.tiles.RebootTile;
+import com.android.systemui.qs.tiles.ReadingModeTile;
 import com.android.systemui.qs.tiles.RotationLockTile;
 import com.android.systemui.qs.tiles.ThemeTile;
 import com.android.systemui.qs.tiles.ScreenRecordTile;
@@ -89,6 +90,7 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<BatterySaverTile> mBatterySaverTileProvider;
     private final Provider<DataSaverTile> mDataSaverTileProvider;
     private final Provider<NightDisplayTile> mNightDisplayTileProvider;
+    private final Provider<ReadingModeTile> mReadingModeTileProvider;
     private final Provider<NfcTile> mNfcTileProvider;
     private final Provider<GarbageMonitor.MemoryTile> mMemoryTileProvider;
     private final Provider<UiModeNightTile> mUiModeNightTileProvider;
@@ -128,6 +130,7 @@ public class QSFactoryImpl implements QSFactory {
             Provider<UserTile> userTileProvider,
             Provider<BatterySaverTile> batterySaverTileProvider,
             Provider<DataSaverTile> dataSaverTileProvider,
+            Provider<ReadingModeTile> readingModeTileProvider,
             Provider<NightDisplayTile> nightDisplayTileProvider,
             Provider<NfcTile> nfcTileProvider,
             Provider<GarbageMonitor.MemoryTile> memoryTileProvider,
@@ -165,6 +168,7 @@ public class QSFactoryImpl implements QSFactory {
         mUserTileProvider = userTileProvider;
         mBatterySaverTileProvider = batterySaverTileProvider;
         mDataSaverTileProvider = dataSaverTileProvider;
+        mReadingModeTileProvider = readingModeTileProvider;
         mNightDisplayTileProvider = nightDisplayTileProvider;
         mNfcTileProvider = nfcTileProvider;
         mMemoryTileProvider = memoryTileProvider;
@@ -228,6 +232,8 @@ public class QSFactoryImpl implements QSFactory {
                 return mBatterySaverTileProvider.get();
             case "saver":
                 return mDataSaverTileProvider.get();
+            case "reading_mode":
+                return mReadingModeTileProvider.get();
             case "night":
                 return mNightDisplayTileProvider.get();
             case "nfc":
