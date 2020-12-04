@@ -193,30 +193,31 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
         mMovableContentStartIndex = getChildCount();
         mRegularTileLayout = createRegularTileLayout();
 
-        if (mUsingMediaPlayer) {
-            mHorizontalLinearLayout = new RemeasuringLinearLayout(mContext);
-            mHorizontalLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
-            mHorizontalLinearLayout.setClipChildren(false);
-            mHorizontalLinearLayout.setClipToPadding(false);
+        mHorizontalLinearLayout = new RemeasuringLinearLayout(mContext);
+        mHorizontalLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        mHorizontalLinearLayout.setClipChildren(false);
+        mHorizontalLinearLayout.setClipToPadding(false);
 
-            mHorizontalContentContainer = new RemeasuringLinearLayout(mContext);
-            mHorizontalContentContainer.setOrientation(LinearLayout.VERTICAL);
-            mHorizontalContentContainer.setClipChildren(false);
-            mHorizontalContentContainer.setClipToPadding(false);
+        mHorizontalContentContainer = new RemeasuringLinearLayout(mContext);
+        mHorizontalContentContainer.setOrientation(LinearLayout.VERTICAL);
+        mHorizontalContentContainer.setClipChildren(false);
+        mHorizontalContentContainer.setClipToPadding(false);
 
-            mHorizontalTileLayout = createHorizontalTileLayout();
-            LayoutParams lp = new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1);
-            int marginSize = (int) mContext.getResources().getDimension(R.dimen.qqs_media_spacing);
-            lp.setMarginStart(0);
-            lp.setMarginEnd(marginSize);
-            lp.gravity = Gravity.CENTER_VERTICAL;
-            mHorizontalLinearLayout.addView(mHorizontalContentContainer, lp);
+        mHorizontalTileLayout = createHorizontalTileLayout();
+        LayoutParams lp = new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1);
+        int marginSize = (int) mContext.getResources().getDimension(R.dimen.qqs_media_spacing);
+        lp.setMarginStart(0);
+        lp.setMarginEnd(marginSize);
+        lp.gravity = Gravity.CENTER_VERTICAL;
+        mHorizontalLinearLayout.addView(mHorizontalContentContainer, lp);
 
-            lp = new LayoutParams(LayoutParams.MATCH_PARENT, 0, 1);
-            addView(mHorizontalLinearLayout, lp);
+        lp = new LayoutParams(LayoutParams.MATCH_PARENT, 0, 1);
+        addView(mHorizontalLinearLayout, lp);
 
-            initMediaHostState();
-        }
+        initMediaHostState();
+
+        mMediaVisible = mUsingMediaPlayer ? mMediaHost.getVisible() : false;
+
         addSecurityFooter();
         if (mRegularTileLayout instanceof PagedTileLayout) {
             mQsTileRevealController = new QSTileRevealController(mContext, this,
@@ -225,6 +226,8 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
         mQSLogger.logAllTilesChangeListening(mListening, getDumpableTag(), mCachedSpecs);
         updateSettings();
         updateResources();
+        mCustomSettingsObserver = new CustomSettingsObserver(mHandler);
+        mCustomSettingsObserver.update();
     }
 
     private class CustomSettingsObserver extends ContentObserver {
@@ -422,7 +425,6 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        mCustomSettingsObserver = new CustomSettingsObserver(mHandler);
         mCustomSettingsObserver.observe();
         mCustomSettingsObserver.update();
         if (mHost != null) {
@@ -467,7 +469,8 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
         boolean above = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.QS_SHOW_BRIGHTNESS_ABOVE_FOOTER, 0,
                 UserHandle.USER_CURRENT) == 1;
-        View seekView = above && !mMediaVisible ? mFooter : mDivider;
+        boolean shouldUseFooter = above && (!mMediaVisible || !mUsingMediaPlayer);
+        View seekView = shouldUseFooter ? mFooter : mDivider;
         for (int i = 0; i < getChildCount(); i++) {
             View v = getChildAt(i);
             if (v == seekView) {
@@ -528,12 +531,10 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
     }
 
     private void updateMinRows() {
-        if (getTileLayout() == null) {
-            return;
-        }
-        if (!mMediaVisible) {
-            int rows = Settings.System.getIntForUser(
-                    mContext.getContentResolver(), Settings.System.QS_LAYOUT_ROWS, 3,
+        if (getTileLayout() == null) return;
+        if (!mUsingMediaPlayer || !mMediaVisible) {
+            int rows = Settings.System.getIntForUser(mContext.getContentResolver(),
+                    Settings.System.QS_LAYOUT_ROWS, 3,
                     UserHandle.USER_CURRENT);
             boolean isPortrait = mContext.getResources().getConfiguration().orientation
                     == Configuration.ORIENTATION_PORTRAIT;
