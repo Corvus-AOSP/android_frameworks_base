@@ -63,6 +63,11 @@
 
    <!-- Whether device has VOOC charging support -->
    <java-symbol type="bool" name="config_hasVoocCharger" />
+    
+   <!-- Battery Light Customization -->
+   <java-symbol type="bool" name="config_intrusiveBatteryLed" />
+   <java-symbol type="bool" name="config_multiColorBatteryLed" />
+   <java-symbol type="bool" name="config_ledCanPulse" />
 
    <!-- Pocket Lock -->
    <java-symbol type="layout" name="pocket_lock_view_layout" />
