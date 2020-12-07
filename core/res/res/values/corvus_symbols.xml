@@ -38,12 +38,6 @@
     <!-- Screen off delay -->
     <java-symbol type="integer" name="config_screen_off_delay" />
 
-    <!-- Package Manager -->
-    <java-symbol type="array" name="config_disabledComponents" />
-
-    <!-- System update service -->
-    <java-symbol type="array" name="config_forceEnabledComponents" />
-
     <!-- Config Override -->
     <java-symbol type="array" name="custom_config_globalActionsList" />
 

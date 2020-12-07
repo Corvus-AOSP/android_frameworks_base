@@ -45,7 +45,7 @@
         android:layout_marginTop="@*android:dimen/quick_qs_offset_height"
         android:clipToPadding="false"
         android:clipChildren="false"
-        android:background="@android:color/transparent" />
+        android:background="@drawable/qs_bg_gradient" />
 
     <com.android.systemui.qs.NonInterceptingScrollView
         android:id="@+id/expanded_qs_scroll_view"
