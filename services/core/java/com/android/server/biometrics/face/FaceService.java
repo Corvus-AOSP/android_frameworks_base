@@ -145,11 +145,12 @@ public class FaceService extends BiometricServiceBase {
                 @Override
                 public final void run() {
                     Face face = new Face("", faceId, MOTO_DEVICE_ID);
+                    boolean authenticated = faceId != 0;
                     ArrayList<Byte> token_AL = new ArrayList<>(token.length);
                     for (byte b : token) {
                         token_AL.add(new Byte(b));
                     }
-                    FaceService.super.handleAuthenticated(face, token_AL);
+                    FaceService.super.handleAuthenticated(authenticated, face, token_AL);
                 }
             });
         }
@@ -208,13 +209,7 @@ public class FaceService extends BiometricServiceBase {
 
         @Override
         public void onLockoutChanged(long duration) throws RemoteException {
-            if (duration == 0) {
-                mCurrentUserLockoutMode = 0;
-            } else if (duration == Long.MAX_VALUE) {
-                mCurrentUserLockoutMode = 2;
-            } else {
-                mCurrentUserLockoutMode = 1;
-            }
+            mCurrentUserLockoutMode = AuthenticationClient.LOCKOUT_NONE;
             mHandler.post(new Runnable() {
                 @Override
                 public final void run() {
@@ -342,7 +337,6 @@ public class FaceService extends BiometricServiceBase {
     }
 
     /* End moto changes*/
-
 
     /**
      * Events for bugreports.
@@ -1189,8 +1183,9 @@ public class FaceService extends BiometricServiceBase {
         public void onAuthenticated(final long deviceId, final int faceId, final int userId,
                 ArrayList<Byte> token) {
             mHandler.post(() -> {
-                Face face = new Face("", faceId, deviceId);
-                FaceService.super.handleAuthenticated(face, token);
+                final Face face = new Face("", faceId, deviceId);
+                final boolean authenticated = faceId != 0;
+                FaceService.super.handleAuthenticated(authenticated, face, token);
             });
         }
 
@@ -1253,15 +1248,7 @@ public class FaceService extends BiometricServiceBase {
         @Override
         public void onLockoutChanged(long duration) {
             Slog.d(TAG, "onLockoutChanged: " + duration);
-
-            if (duration == 0) {
-                mCurrentUserLockoutMode = AuthenticationClient.LOCKOUT_NONE;
-            } else if (duration == -1 || duration == Long.MAX_VALUE) {
-                mCurrentUserLockoutMode = AuthenticationClient.LOCKOUT_PERMANENT;
-            } else {
-                mCurrentUserLockoutMode = AuthenticationClient.LOCKOUT_TIMED;
-            }
-
+            mCurrentUserLockoutMode = AuthenticationClient.LOCKOUT_NONE;
             mHandler.post(() -> {
                 if (duration == 0) {
                     notifyLockoutResetMonitors();
@@ -1662,7 +1649,7 @@ public class FaceService extends BiometricServiceBase {
 
     @Override
     protected int getLockoutMode() {
-        return mCurrentUserLockoutMode;
+        return AuthenticationClient.LOCKOUT_NONE;
     }
 
     /** Gets the face daemon */

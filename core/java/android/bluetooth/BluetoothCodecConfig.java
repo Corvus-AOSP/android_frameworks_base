@@ -51,24 +51,34 @@ public final class BluetoothCodecConfig implements Parcelable {
     @Retention(RetentionPolicy.SOURCE)
     public @interface SourceCodecType {}
 
+    @UnsupportedAppUsage
     public static final int SOURCE_CODEC_TYPE_SBC = 0;
 
+    @UnsupportedAppUsage
     public static final int SOURCE_CODEC_TYPE_AAC = 1;
 
+    @UnsupportedAppUsage
     public static final int SOURCE_CODEC_TYPE_APTX = 2;
 
+    @UnsupportedAppUsage
     public static final int SOURCE_CODEC_TYPE_APTX_HD = 3;
 
+    @UnsupportedAppUsage
     public static final int SOURCE_CODEC_TYPE_APTX_ADAPTIVE = 4;
 
+    @UnsupportedAppUsage
     public static final int SOURCE_CODEC_TYPE_LDAC = 5;
 
+    @UnsupportedAppUsage
     public static final int SOURCE_CODEC_TYPE_APTX_TWSP = 6;
 
+    @UnsupportedAppUsage
     public static final int SOURCE_CODEC_TYPE_MAX = 7;
+
     /* CELT is not an A2DP Codec and only used to fetch encoder
     ** format for BA usecase, moving out of a2dp codec value list
     */
+    @UnsupportedAppUsage
     public static final int SOURCE_CODEC_TYPE_CELT = 8;
 
    public static final int SOURCE_CODEC_TYPE_LC3 = 9;
@@ -85,10 +95,13 @@ public final class BluetoothCodecConfig implements Parcelable {
     @Retention(RetentionPolicy.SOURCE)
     public @interface CodecPriority {}
 
+    @UnsupportedAppUsage
     public static final int CODEC_PRIORITY_DISABLED = -1;
 
+    @UnsupportedAppUsage
     public static final int CODEC_PRIORITY_DEFAULT = 0;
 
+    @UnsupportedAppUsage
     public static final int CODEC_PRIORITY_HIGHEST = 1000 * 1000;
 
 
@@ -105,18 +118,25 @@ public final class BluetoothCodecConfig implements Parcelable {
     @Retention(RetentionPolicy.SOURCE)
     public @interface SampleRate {}
 
+    @UnsupportedAppUsage
     public static final int SAMPLE_RATE_NONE = 0;
 
+    @UnsupportedAppUsage
     public static final int SAMPLE_RATE_44100 = 0x1 << 0;
 
+    @UnsupportedAppUsage
     public static final int SAMPLE_RATE_48000 = 0x1 << 1;
 
+    @UnsupportedAppUsage
     public static final int SAMPLE_RATE_88200 = 0x1 << 2;
 
+    @UnsupportedAppUsage
     public static final int SAMPLE_RATE_96000 = 0x1 << 3;
 
+    @UnsupportedAppUsage
     public static final int SAMPLE_RATE_176400 = 0x1 << 4;
 
+    @UnsupportedAppUsage
     public static final int SAMPLE_RATE_192000 = 0x1 << 5;
 
     public static final int SAMPLE_RATE_16000 = 0x1 << 6;
@@ -138,12 +158,16 @@ public final class BluetoothCodecConfig implements Parcelable {
     @Retention(RetentionPolicy.SOURCE)
     public @interface BitsPerSample {}
 
+    @UnsupportedAppUsage
     public static final int BITS_PER_SAMPLE_NONE = 0;
 
+    @UnsupportedAppUsage
     public static final int BITS_PER_SAMPLE_16 = 0x1 << 0;
 
+    @UnsupportedAppUsage
     public static final int BITS_PER_SAMPLE_24 = 0x1 << 1;
 
+    @UnsupportedAppUsage
     public static final int BITS_PER_SAMPLE_32 = 0x1 << 2;
 
 
@@ -156,10 +180,13 @@ public final class BluetoothCodecConfig implements Parcelable {
     @Retention(RetentionPolicy.SOURCE)
     public @interface ChannelMode {}
 
+    @UnsupportedAppUsage
     public static final int CHANNEL_MODE_NONE = 0;
 
+    @UnsupportedAppUsage
     public static final int CHANNEL_MODE_MONO = 0x1 << 0;
 
+    @UnsupportedAppUsage
     public static final int CHANNEL_MODE_STEREO = 0x1 << 1;
     public static final int CHANNEL_MODE_JOINT_STEREO = 0x1 << 2;
 
@@ -173,6 +200,7 @@ public final class BluetoothCodecConfig implements Parcelable {
     private final long mCodecSpecific3;
     private final long mCodecSpecific4;
 
+    @UnsupportedAppUsage
     public BluetoothCodecConfig(@SourceCodecType int codecType, @CodecPriority int codecPriority,
             @SampleRate int sampleRate, @BitsPerSample int bitsPerSample,
             @ChannelMode int channelMode, long codecSpecific1,
@@ -189,6 +217,7 @@ public final class BluetoothCodecConfig implements Parcelable {
         mCodecSpecific4 = codecSpecific4;
     }
 
+    @UnsupportedAppUsage
     public BluetoothCodecConfig(@SourceCodecType int codecType) {
         mCodecType = codecType;
         mCodecPriority = BluetoothCodecConfig.CODEC_PRIORITY_DEFAULT;
@@ -414,6 +443,7 @@ public final class BluetoothCodecConfig implements Parcelable {
      *
      * @return the codec type
      */
+    @UnsupportedAppUsage
     public @SourceCodecType int getCodecType() {
         return mCodecType;
     }
@@ -434,6 +464,7 @@ public final class BluetoothCodecConfig implements Parcelable {
      *
      * @return the codec priority
      */
+    @UnsupportedAppUsage
     public @CodecPriority int getCodecPriority() {
         return mCodecPriority;
     }
@@ -464,6 +495,7 @@ public final class BluetoothCodecConfig implements Parcelable {
      *
      * @return the codec sample rate
      */
+    @UnsupportedAppUsage
     public @SampleRate int getSampleRate() {
         return mSampleRate;
     }
@@ -478,6 +510,7 @@ public final class BluetoothCodecConfig implements Parcelable {
      *
      * @return the codec bits per sample
      */
+    @UnsupportedAppUsage
     public @BitsPerSample int getBitsPerSample() {
         return mBitsPerSample;
     }
@@ -502,6 +535,7 @@ public final class BluetoothCodecConfig implements Parcelable {
      *
      * @return a codec specific value1.
      */
+    @UnsupportedAppUsage
     public long getCodecSpecific1() {
         return mCodecSpecific1;
     }
