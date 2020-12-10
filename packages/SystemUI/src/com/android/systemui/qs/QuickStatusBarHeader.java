@@ -225,7 +225,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
                             && properties.getKeyset()
                             .contains(SystemUiDeviceConfigFlags.PROPERTY_PERMISSIONS_HUB_ENABLED)) {
                         mPermissionsHubEnabled = properties.getBoolean(
-                                SystemUiDeviceConfigFlags.PROPERTY_PERMISSIONS_HUB_ENABLED, true);
+                                SystemUiDeviceConfigFlags.PROPERTY_PERMISSIONS_HUB_ENABLED, false);
                         StatusIconContainer iconContainer = findViewById(R.id.statusIcons);
                         iconContainer.setIgnoredSlots(getIgnoredIconSlots());
                     }
