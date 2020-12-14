@@ -9750,13 +9750,6 @@ public final class Settings {
          */
         public static final String ADVANCED_REBOOT = "advanced_reboot";
 
-
-        /**
-         * Whether to hide lock icon on lockscreen
-         * {@hide}
-         */
-        public static final String HIDE_LOCKICON = "hide_lockicon";
-
         /**
          * Enable and disable Lockscreen visualizer
          * @hide
