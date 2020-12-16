@@ -135,6 +135,9 @@
   <java-symbol type="color" name="theme_generic_semi_transparent_color" />
   <java-symbol type="color" name="du_themes_qs_inactive_color" />
 
+  <!-- Pulse brightness -->
+  <java-symbol type="integer" name="config_screenBrightnessPulse" />
+
   <!-- Smart charging -->
   <java-symbol type="integer" name="config_smartChargingBatteryLevel" />
   <java-symbol type="integer" name="config_smartChargingBatteryResumeLevel" /> 
