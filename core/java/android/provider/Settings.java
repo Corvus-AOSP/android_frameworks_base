@@ -9732,7 +9732,6 @@ public final class Settings {
         public static final int ACCESSIBILITY_MAGNIFICATION_MODE_WINDOW = 0x2;
 
         /**
-<<<<<<< HEAD
          * Boolean value whether to link ringtone and notification volume
          * @hide
          */
