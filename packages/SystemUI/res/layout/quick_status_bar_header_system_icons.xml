@@ -70,7 +70,7 @@
         android:gravity="center_vertical|end"
         android:singleLine="true"
         android:textAppearance="@style/TextAppearance.StatusBar.Clock"
-        android:paddingStart="@dimen/status_bar_left_clock_starting_padding"
+        android:paddingStart="6dp"
         android:paddingEnd="@dimen/status_bar_left_clock_starting_padding" />
 
         <com.android.systemui.statusbar.policy.NetworkTrafficQS
