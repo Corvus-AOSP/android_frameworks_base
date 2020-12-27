@@ -155,4 +155,7 @@
     <string name="animation_grow_shrink_right">Grow in (Right)</string>
     <string name="animation_random">Random</string>
     <string name="action_null">Blank</string>
+
+    <!-- Whether to show a custom view for FOD -->
+    <bool name="config_needCustomFODView">false</bool>
 </resources>
