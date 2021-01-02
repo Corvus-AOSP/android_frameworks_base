@@ -330,6 +330,7 @@ public class EdgeBackGestureHandler implements PluginListener<NavigationEdgeBack
 
     private final Consumer<Boolean> mOnIsInPipStateChangedListener =
             (isInPip) -> mIsInPip = isInPip;
+    private boolean mIsBackGestureArrowEnabled;
 
     private final UserTracker.Callback mUserChangedCallback =
             new UserTracker.Callback() {
@@ -427,6 +428,7 @@ public class EdgeBackGestureHandler implements PluginListener<NavigationEdgeBack
         mEdgeHapticEnabled = mGestureNavigationSettingsObserver.getEdgeHaptic();
         mIsBackGestureAllowed =
                 !mGestureNavigationSettingsObserver.areNavigationButtonForcedVisible();
+        mIsBackGestureArrowEnabled = mGestureNavigationSettingsObserver.getBackArrowGesture();
 
         mYDeadzoneDivider = mGestureNavigationSettingsObserver.getDeadZoneMode();
 
@@ -881,6 +883,7 @@ public class EdgeBackGestureHandler implements PluginListener<NavigationEdgeBack
                     && isWithinTouchRegion((int) ev.getX(), (int) ev.getY());
             if (mAllowGesture) {
                 mEdgeBackPlugin.setIsLeftPanel(mIsOnLeftEdge);
+                mEdgeBackPlugin.setBackArrowVisibility(mIsBackGestureArrowEnabled);
                 mEdgeBackPlugin.onMotionEvent(ev);
                 dispatchToBackAnimation(ev);
             }
