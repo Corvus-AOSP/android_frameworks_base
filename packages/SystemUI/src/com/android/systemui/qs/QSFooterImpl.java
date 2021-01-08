@@ -51,7 +51,6 @@ import com.android.internal.logging.MetricsLogger;
 import com.android.internal.logging.nano.MetricsProto;
 import com.android.keyguard.KeyguardUpdateMonitor;
 import com.android.settingslib.Utils;
-import com.android.settingslib.development.DevelopmentSettingsEnabler;
 import com.android.settingslib.drawable.UserIconDrawable;
 import com.android.systemui.Dependency;
 import com.android.systemui.R;
@@ -104,14 +103,14 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
 
     private OnClickListener mExpandClickListener;
 
-    /*private final ContentObserver mDeveloperSettingsObserver = new ContentObserver(
+    private final ContentObserver mSettingsObserver = new ContentObserver(
             new Handler(mContext.getMainLooper())) {
         @Override
         public void onChange(boolean selfChange, Uri uri) {
             super.onChange(selfChange, uri);
             setBuildText();
         }
-    };*/
+    };
 
     @Inject
     public QSFooterImpl(@Named(VIEW_CONTEXT) Context context, AttributeSet attrs,
@@ -169,18 +168,23 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
     private void setBuildText() {
 
         if (mBuildText == null) return;
-        if (DevelopmentSettingsEnabler.isDevelopmentSettingsEnabled(mContext)) {
-            mBuildText.setText(mContext.getString(
-                    com.android.internal.R.string.bugreport_status,
-                    Build.VERSION.RELEASE_OR_CODENAME,
-                    Build.ID));
+        boolean isShow = Settings.System.getIntForUser(mContext.getContentResolver(),
+                        Settings.System.QS_FOOTER_TEXT_SHOW, 0,
+                        UserHandle.USER_CURRENT) == 1;
+        String text = Settings.System.getStringForUser(mContext.getContentResolver(),
+                        Settings.System.QS_FOOTER_TEXT_STRING,
+                        UserHandle.USER_CURRENT);
+        if (isShow) {
+            mBuildText.setText(text == null || text == "" ? "#StayFlocked" : text);
             // Set as selected for marquee before its made visible, then it won't be announced when
             // it's made visible.
             mBuildText.setSelected(true);
             mShouldShowBuildText = true;
+            mBuildText.setVisibility(View.VISIBLE);
         } else {
             mShouldShowBuildText = false;
             mBuildText.setSelected(false);
+            mBuildText.setVisibility(View.GONE);
         }
     }
 
@@ -261,16 +265,19 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        /*mContext.getContentResolver().registerContentObserver(
-                Settings.Global.getUriFor(Settings.Global.DEVELOPMENT_SETTINGS_ENABLED), false,
-                mDeveloperSettingsObserver, UserHandle.USER_ALL);*/
+        mContext.getContentResolver().registerContentObserver(
+        Settings.System.getUriFor(Settings.System.QS_FOOTER_TEXT_SHOW), false,
+                mSettingsObserver, UserHandle.USER_ALL);
+        mContext.getContentResolver().registerContentObserver(
+                Settings.System.getUriFor(Settings.System.QS_FOOTER_TEXT_STRING), false,
+                mSettingsObserver, UserHandle.USER_ALL);        
     }
 
     @Override
     @VisibleForTesting
     public void onDetachedFromWindow() {
         setListening(false);
-        //mContext.getContentResolver().unregisterContentObserver(mDeveloperSettingsObserver);
+        mContext.getContentResolver().unregisterContentObserver(mSettingsObserver);
         super.onDetachedFromWindow();
     }
 

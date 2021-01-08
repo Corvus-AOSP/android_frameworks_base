@@ -103,6 +103,8 @@ public class SystemSettings {
         Settings.System.QS_SHOW_AUTO_BRIGHTNESS,
         Settings.System.QS_SHOW_BRIGHTNESS_ABOVE_FOOTER,
         Settings.System.QS_MEDIA_PLAYER,
+        Settings.System.QS_FOOTER_TEXT_SHOW,
+        Settings.System.QS_FOOTER_TEXT_STRING,
         Settings.System.GAMING_MODE_HEADS_UP,
         Settings.System.GAMING_MODE_ZEN,
         Settings.System.GAMING_MODE_NAVBAR,
