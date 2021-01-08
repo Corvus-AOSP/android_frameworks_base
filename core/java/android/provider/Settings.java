@@ -5138,6 +5138,19 @@ public final class Settings {
         public static final String OMNI_QS_TILE_TITLE_VISIBILITY = "qs_tile_title_visibility";
 
         /**
+         * Whether to show qs footer text
+         * @hide
+         */
+        public static final String QS_FOOTER_TEXT_SHOW = "qs_footer_text_show";
+
+        /**
+         * QS footer text
+         * @hide
+         */
+        public static final String QS_FOOTER_TEXT_STRING = "qs_footer_text_string";
+
+
+        /**
          * @hide
          */
         public static final String OMNI_QS_LAYOUT_ROWS = "qs_layout_rows";

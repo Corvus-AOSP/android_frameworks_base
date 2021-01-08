@@ -16,6 +16,7 @@
 
 package android.provider.settings.validators;
 
+import static android.provider.settings.validators.SettingsValidators.ANY_STRING_VALIDATOR;
 import static android.provider.settings.validators.SettingsValidators.BOOLEAN_VALIDATOR;
 import static android.provider.settings.validators.SettingsValidators.COMPONENT_NAME_VALIDATOR;
 import static android.provider.settings.validators.SettingsValidators.DATE_FORMAT_VALIDATOR;
@@ -245,5 +246,7 @@ public class SystemSettingsValidators {
         VALIDATORS.put(System.GAMING_MODE_MEDIA, new InclusiveIntegerRangeValidator(0, 100));
         VALIDATORS.put(System.TORCH_LONG_PRESS_POWER_GESTURE, BOOLEAN_VALIDATOR);
         VALIDATORS.put(System.TORCH_LONG_PRESS_POWER_TIMEOUT, NON_NEGATIVE_INTEGER_VALIDATOR);
+        VALIDATORS.put(System.QS_FOOTER_TEXT_SHOW, BOOLEAN_VALIDATOR);
+        VALIDATORS.put(System.QS_FOOTER_TEXT_STRING, ANY_STRING_VALIDATOR);
     }
 }
