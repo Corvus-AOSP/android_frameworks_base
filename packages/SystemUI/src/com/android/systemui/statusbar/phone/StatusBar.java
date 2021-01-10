@@ -2065,12 +2065,6 @@ public class StatusBar extends SystemUI implements DemoMode,
         mUserSetup = userSetup;
     }
 
-     private void setUseLessBoringHeadsUp() {
-        boolean lessBoringHeadsUp = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.LESS_BORING_HEADS_UP, 0,
-                UserHandle.USER_CURRENT) == 1;
-        mNotificationInterruptStateProvider.setUseLessBoringHeadsUp(lessBoringHeadsUp);
-    }
 
     /**
      * All changes to the status bar and notifications funnel through here and are batched.
