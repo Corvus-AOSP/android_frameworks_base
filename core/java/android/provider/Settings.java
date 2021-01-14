@@ -10097,8 +10097,17 @@ public final class Settings {
          */
         public static final String LOCKSCREEN_VISUALIZER_ENABLED = "lockscreen_visualizer_enabled";
         /**
+<<<<<<< HEAD
          * Whether to vibrate when quick settings tile is pressed.
          *
+=======
+         * Whether to show QS brightness slider on bottom
+         * @hide
+         */
+        public static final String QS_BRIGHTNESS_POSITION_BOTTOM = "qs_brightness_position_bottom";
+
+        /**
+>>>>>>> 185d5399e928... base: SystemUI: add tuner pref for qs brightness slider position (1/2)
          * @hide
          */
         public static final String QUICK_SETTINGS_TILES_VIBRATE = "quick_settings_vibrate";

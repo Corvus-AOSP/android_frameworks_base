@@ -34,6 +34,7 @@ import android.metrics.LogMaker;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.UserHandle;
 import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -92,10 +93,12 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         Dumpable {
 
     private static final String QS_SHOW_AUTO_BRIGHTNESS =
-                                Settings.Secure.QS_SHOW_AUTO_BRIGHTNESS;
+            Settings.Secure.QS_SHOW_AUTO_BRIGHTNESS;
     public static final String QS_SHOW_BRIGHTNESS_SLIDER =
-                               Settings.Secure.QS_SHOW_BRIGHTNESS_SLIDER;
+            Settings.Secure.QS_SHOW_BRIGHTNESS_SLIDER;
     public static final String QS_SHOW_HEADER = "qs_show_header";
+    public static final String QS_BRIGHTNESS_POSITION_BOTTOM =
+            Settings.Secure.QS_BRIGHTNESS_POSITION_BOTTOM;
 
     private static final String TAG = "QSPanel";
 
@@ -150,6 +153,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     private int mContentMarginEnd;
     private int mVisualTilePadding;
     private boolean mUsingHorizontalLayout;
+    private boolean mBrightnessSliderEnabled;
 
     private QSCustomizer mCustomizePanel;
     private Record mDetailRecord;
@@ -167,6 +171,8 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     private int mFooterMarginStartHorizontal;
     private Consumer<Boolean> mMediaVisibilityChangedListener;
 
+    // custom
+    private boolean mBrightnessBottom;
 
     @Inject
     public QSPanel(
@@ -361,6 +367,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         final TunerService tunerService = Dependency.get(TunerService.class);
         tunerService.addTunable(this, QS_SHOW_AUTO_BRIGHTNESS);
         tunerService.addTunable(this, QS_SHOW_BRIGHTNESS_SLIDER);
+        tunerService.addTunable(this, QS_BRIGHTNESS_POSITION_BOTTOM);
 
         if (mHost != null) {
             setTiles(mHost.getTiles());
@@ -406,7 +413,27 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
             updateViewVisibilityForTuningValue(mAutoBrightnessView, newValue);
         } else if (QS_SHOW_BRIGHTNESS_SLIDER.equals(key) && mBrightnessView != null) {
             updateViewVisibilityForTuningValue(mBrightnessView, newValue);
+        } else if (QS_BRIGHTNESS_POSITION_BOTTOM.equals(key)) {
+            if (newValue == null || Integer.parseInt(newValue) == 0) {
+                removeView(mBrightnessView);
+                addView(mBrightnessView, 0);
+                mBrightnessBottom = false;
+            } else {
+                removeView(mBrightnessView);
+                addView(mBrightnessView, getBrightnessViewPositionBottom());
+                mBrightnessBottom = true;
+            }
         }
+    }
+
+    private int getBrightnessViewPositionBottom() {
+        for (int i = 0; i < getChildCount(); i++) {
+            View v = getChildAt(i);
+            if (v == mSecurityFooter.getView()) {
+                return i;
+            }
+        }
+        return 0;
     }
 
     private void updateViewVisibilityForTuningValue(View view, @Nullable String newValue) {
@@ -1272,6 +1299,10 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         default void setExpansion(float expansion) {}
 
         int getNumVisibleTiles();
+    }
+
+    public boolean isBrightnessViewBottom() {
+        return mBrightnessBottom;
     }
 
     private void setAnimationTile(QSTileView v) {
