@@ -4527,7 +4527,7 @@ public class CarrierConfigManager {
                 "53FF:mms,supl,hipri,default,fota:1xRTT:nxtgenphone",
         });
         sDefaults.putBoolean(KEY_REQUIRE_APN_FILTERING_WITH_RADIO_CAPABILITY, false);
-        sDefaults.putBoolean(KEY_NETWORK_TEMP_NOT_METERED_SUPPORTED_BOOL, false);
+        sDefaults.putBoolean(KEY_NETWORK_TEMP_NOT_METERED_SUPPORTED_BOOL, true);
     }
 
     /**
