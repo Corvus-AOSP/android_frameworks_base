@@ -96,7 +96,7 @@ public class SystemNotificationChannels {
                 DEVELOPER,
                 context.getString(R.string.notification_channel_developer),
                 NotificationManager.IMPORTANCE_MIN);
-        developer.setBlockable(true);
+        developerImportant.setBlockable(true);
         channelsList.add(developer);
 
         final NotificationChannel developerImportant = new NotificationChannel(
