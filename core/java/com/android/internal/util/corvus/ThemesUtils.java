@@ -16,7 +16,20 @@
 
 package com.android.internal.util.corvus;
 
+import static android.os.UserHandle.USER_SYSTEM;
+
+import android.app.UiModeManager;
+import android.content.Context;
+import android.content.om.IOverlayManager;
+import android.content.om.OverlayInfo;
+import android.os.RemoteException;
+import android.os.ServiceManager;
+import android.provider.Settings;
+import android.util.Log;
+
 public class ThemesUtils {
+
+    public static final String TAG = "ThemesUtils";
 
     public static final String[] ADAPTIVE_ICON_SHAPE = {
             "com.android.theme.icon.teardrop",
@@ -125,4 +138,58 @@ public class ThemesUtils {
         "com.android.system.switch.retro", // 6
         "com.android.system.switch.stockish", // 7
     };
+
+    // QS Tile Styles
+    public static final String[] QS_TILE_THEMES = {
+            "com.android.systemui.qstile.default", // 1
+            "com.android.systemui.qstile.square", // 2
+            "com.android.systemui.qstile.squircletrim", // 3
+            "com.android.systemui.qstile.diamond", // 4
+            "com.android.systemui.qstile.star", // 5
+            "com.android.systemui.qstile.gear", // 6
+            "com.android.systemui.qstile.badge",// 7
+            "com.android.systemui.qstile.badgetwo", // 8
+            "com.android.systemui.qstile.circletrim", // 9
+            "com.android.systemui.qstile.dualtonecircletrim", // 10
+            "com.android.systemui.qstile.cookie", // 11
+            "com.android.systemui.qstile.circleoutline", // 12
+            "com.android.systemui.qstile.wavey", // 13
+            "com.android.systemui.qstile.ninja", // 14
+            "com.android.systemui.qstile.dottedcircle", // 15
+            "com.android.systemui.qstile.attemptmountain", // 16
+            "com.android.systemui.qstile.inktober", // 17
+            "com.android.systemui.qstile.neonlike", // 18
+            "com.android.systemui.qstile.triangles", // 19
+            "com.bootleggers.qstile.oos", // 20
+            "com.bootleggers.qstile.divided", // 21
+            "com.bootleggers.qstile.cosmos", // 22
+    };
+
+    // Switches qs tile style to user selected.
+    public static void updateNewTileStyle(IOverlayManager om, int userId, int qsTileStyle) {
+        if (qsTileStyle == 0) {
+            stockNewTileStyle(om, userId);
+        } else {
+            try {
+                om.setEnabled(QS_TILE_THEMES[qsTileStyle],
+                        true, userId);
+            } catch (RemoteException e) {
+                Log.w(TAG, "Can't change qs tile style", e);
+            }
+        }
+    }
+
+    // Switches qs tile style back to stock.
+    public static void stockNewTileStyle(IOverlayManager om, int userId) {
+        // skip index 0
+        for (int i = 1; i < QS_TILE_THEMES.length; i++) {
+            String qstiletheme = QS_TILE_THEMES[i];
+            try {
+                om.setEnabled(qstiletheme,
+                        false /*disable*/, userId);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

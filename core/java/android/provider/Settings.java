@@ -5310,6 +5310,11 @@ public final class Settings {
         public static final String LOCKSCREEN_MEDIA_BLUR = "lockscreen_media_blur";
 
         /**
+         * @hide
+         */
+        public static final String QS_TILE_STYLE = "qs_tile_style";
+
+        /**
          * Whether to show charging animation
          * @hide
          */
@@ -5811,6 +5816,7 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
             PRIVATE_SETTINGS.add(ANIM_TILE_STYLE);
             PRIVATE_SETTINGS.add(ANIM_TILE_DURATION);
             PRIVATE_SETTINGS.add(BACK_GESTURE_HAPTIC);
+            PRIVATE_SETTINGS.add(QS_TILE_STYLE);
         }
 
         /**
