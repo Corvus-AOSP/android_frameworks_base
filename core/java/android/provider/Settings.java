@@ -5722,6 +5722,12 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
          */
         public static final String SHOW_CLIPBOARD_TOAST = "show_clipboard_toast";
 
+	/**
+         * Defines the screen-off animation to display
+         * @hide
+         */
+        public static final String SCREEN_OFF_ANIMATION = "screen_off_animation";
+
         /**
          * Whether to show heads up only for dialer and sms apps
          * @hide
@@ -5901,7 +5907,8 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
             PUBLIC_SETTINGS.add(SOUND_EFFECTS_ENABLED);
             PUBLIC_SETTINGS.add(HAPTIC_FEEDBACK_ENABLED);
             PUBLIC_SETTINGS.add(SHOW_WEB_SUGGESTIONS);
-            PUBLIC_SETTINGS.add(VIBRATE_WHEN_RINGING);           
+            PUBLIC_SETTINGS.add(VIBRATE_WHEN_RINGING);
+            PUBLIC_SETTINGS.add(SCREEN_OFF_ANIMATION);
         }
 
         /**
@@ -5972,6 +5979,7 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
             PRIVATE_SETTINGS.add(VOLTE_ICON_STYLE);
             PRIVATE_SETTINGS.add(THEMING_SETTINGS_DASHBOARD_ICONS);
             PRIVATE_SETTINGS.add(STATUS_BAR_CLOCK);
+            PRIVATE_SETTINGS.add(SCREEN_OFF_ANIMATION);
             PRIVATE_SETTINGS.add(STATUSBAR_CLOCK_STYLE);
             PRIVATE_SETTINGS.add(STATUS_BAR_CLOCK_SECONDS);
             PRIVATE_SETTINGS.add(STATUSBAR_CLOCK_AM_PM_STYLE);
