@@ -5257,13 +5257,6 @@ public final class Settings {
         public static final String GLOBAL_ACTIONS_MAX_COLUMNS = "global_actions_max_columns";
 
         /**
-         * Whether to control brightness from status bar
-         *
-         * @hide
-         */
-        public static final String STATUS_BAR_BRIGHTNESS_CONTROL = "status_bar_brightness_control";
-
-        /**
          * Whether to show network traffic indicator in statusbar
          * @hide
          */
