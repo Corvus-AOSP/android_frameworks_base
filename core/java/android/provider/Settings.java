@@ -5375,6 +5375,11 @@ public final class Settings {
          */
         public static final String VOWIFI_ICON_STYLE = "vowifi_icon_style";
 
+        /**
+         * @hide
+         */
+        public static final String STATUS_BAR_BRIGHTNESS_CONTROL = "status_bar_brightness_control";
+
          /**
          * Show or hide clock
          * 0 - hide
