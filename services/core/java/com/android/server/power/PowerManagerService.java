@@ -50,6 +50,7 @@ import android.os.BatteryManager;
 import android.os.BatteryManagerInternal;
 import android.os.BatterySaverPolicyConfig;
 import android.os.Binder;
+import android.os.FileUtils;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.IPowerManager;
@@ -111,6 +112,7 @@ import com.android.server.power.batterysaver.BatterySaverStateMachine;
 import com.android.server.power.batterysaver.BatterySavingStats;
 
 import java.io.FileDescriptor;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -239,7 +241,6 @@ public final class PowerManagerService extends SystemService
     private static final int HALT_MODE_SHUTDOWN = 0;
     private static final int HALT_MODE_REBOOT = 1;
     private static final int HALT_MODE_REBOOT_SAFE_MODE = 2;
-
     private static final int DEFAULT_BUTTON_ON_DURATION = 5 * 1000;
 
     private final Context mContext;
@@ -599,6 +600,9 @@ public final class PowerManagerService extends SystemService
     // but the DreamService has not yet been told to start (it's an async process).
     private boolean mDozeStartInProgress;
 
+    // doze on charge
+    private boolean mDozeOnChargeEnabled;
+
     private final class ForegroundProfileObserver extends SynchronousUserSwitchObserver {
         @Override
         public void onUserSwitching(@UserIdInt int newUserId) throws RemoteException {
@@ -644,6 +648,18 @@ public final class PowerManagerService extends SystemService
             mLastUserActivityTime = now;
         }
     }
+
+    // Smart charging
+    private boolean mSmartChargingEnabled;
+    private boolean mSmartChargingResetStats;
+    private boolean mPowerInputSuspended = false;
+    private int mSmartChargingLevel;
+    private int mSmartChargingResumeLevel;
+    private int mSmartChargingLevelDefaultConfig;
+    private int mSmartChargingResumeLevelDefaultConfig;
+    private static String mPowerInputSuspendSysfsNode;
+    private static String mPowerInputSuspendValue;
+    private static String mPowerInputResumeValue;
 
     /**
      * All times are in milliseconds. These constants are kept synchronized with the system
@@ -1059,6 +1075,12 @@ public final class PowerManagerService extends SystemService
     }
 
     public void systemReady(IAppOpsService appOps) {
+        // set initial value
+        Settings.Secure.putIntForUser(mContext.getContentResolver(),
+                Settings.Secure.DOZE_ON_CHARGE_NOW, 0, UserHandle.USER_CURRENT);
+        Settings.System.putIntForUser(mContext.getContentResolver(),
+                Settings.System.AOD_NOTIFICATION_PULSE_ACTIVATED, 0, UserHandle.USER_CURRENT);
+
         synchronized (mLock) {
             mSystemReady = true;
             mAppOps = appOps;
@@ -1167,6 +1189,30 @@ public final class PowerManagerService extends SystemService
         resolver.registerContentObserver(Settings.System.getUriFor(
                 Settings.System.BUTTON_BACKLIGHT_TIMEOUT),
                 false, mSettingsObserver, UserHandle.USER_ALL);
+        resolver.registerContentObserver(Settings.Secure.getUriFor(
+                Settings.Secure.DOZE_ON_CHARGE_NOW),
+                false, mSettingsObserver, UserHandle.USER_ALL);
+        resolver.registerContentObserver(Settings.Secure.getUriFor(
+                Settings.Secure.DOZE_ON_CHARGE),
+                false, mSettingsObserver, UserHandle.USER_ALL);
+        resolver.registerContentObserver(Settings.System.getUriFor(
+                Settings.System.AOD_NOTIFICATION_PULSE_TRIGGER),
+                false, mSettingsObserver, UserHandle.USER_ALL);
+        resolver.registerContentObserver(Settings.System.getUriFor(
+                Settings.System.AOD_NOTIFICATION_PULSE),
+                false, mSettingsObserver, UserHandle.USER_ALL);
+        resolver.registerContentObserver(Settings.System.getUriFor(
+                Settings.System.SMART_CHARGING),
+                false, mSettingsObserver, UserHandle.USER_ALL);
+        resolver.registerContentObserver(Settings.System.getUriFor(
+                Settings.System.SMART_CHARGING_LEVEL),
+                false, mSettingsObserver, UserHandle.USER_ALL);
+        resolver.registerContentObserver(Settings.System.getUriFor(
+                Settings.System.SMART_CHARGING_RESUME_LEVEL),
+                false, mSettingsObserver, UserHandle.USER_ALL);
+        resolver.registerContentObserver(Settings.System.getUriFor(
+                Settings.System.SMART_CHARGING_RESET_STATS),
+                false, mSettingsObserver, UserHandle.USER_ALL);
         IVrManager vrManager = IVrManager.Stub.asInterface(getBinderService(Context.VR_SERVICE));
         if (vrManager != null) {
             try {
@@ -1240,6 +1286,19 @@ public final class PowerManagerService extends SystemService
                 com.android.internal.R.fraction.config_maximumScreenDimRatio, 1, 1);
         mSupportsDoubleTapWakeConfig = resources.getBoolean(
                 com.android.internal.R.bool.config_supportDoubleTapWake);
+        // Smart charging
+        mSmartChargingLevelDefaultConfig = resources.getInteger(
+                com.android.internal.R.integer.config_smartChargingBatteryLevel);
+        mSmartChargingResumeLevelDefaultConfig = resources.getInteger(
+                com.android.internal.R.integer.config_smartChargingBatteryResumeLevel);
+        mPowerInputSuspendSysfsNode = resources.getString(
+                com.android.internal.R.string.config_SmartChargingSysfsNode);
+        mPowerInputSuspendValue = resources.getString(
+                com.android.internal.R.string.config_SmartChargingSuspendValue);
+        mPowerInputResumeValue = resources.getString(
+                com.android.internal.R.string.config_SmartChargingResumeValue);
+        mSmartChargingResetStats = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.SMART_CHARGING_RESET_STATS, 0) == 1;
     }
 
     private void updateSettingsLocked() {
@@ -1271,6 +1330,39 @@ public final class PowerManagerService extends SystemService
         mTheaterModeEnabled = Settings.Global.getInt(mContext.getContentResolver(),
                 Settings.Global.THEATER_MODE_ON, 0) == 1;
         mAlwaysOnEnabled = mAmbientDisplayConfiguration.alwaysOnEnabled(UserHandle.USER_CURRENT);
+        mDozeOnChargeEnabled = Settings.Secure.getIntForUser(resolver,
+                Settings.Secure.DOZE_ON_CHARGE, 0, UserHandle.USER_CURRENT) != 0;
+        Settings.Secure.putIntForUser(mContext.getContentResolver(),
+                Settings.Secure.DOZE_ON_CHARGE_NOW, mDozeOnChargeEnabled && mIsPowered ? 1 : 0,
+                UserHandle.USER_CURRENT);
+        boolean mAmbientLights = Settings.System.getIntForUser(resolver,
+                Settings.System.AOD_NOTIFICATION_PULSE, 0, UserHandle.USER_CURRENT) != 0;
+        boolean aodEnabled = Settings.Secure.getIntForUser(resolver,
+                Settings.Secure.DOZE_ALWAYS_ON, 0, UserHandle.USER_CURRENT) == 1;
+        if (mAmbientLights && aodEnabled) {
+            boolean dozeOnNotification = Settings.System.getIntForUser(resolver,
+                    Settings.System.AOD_NOTIFICATION_PULSE_TRIGGER, 0, UserHandle.USER_CURRENT) != 0;
+            Settings.System.putIntForUser(resolver,
+                     Settings.System.AOD_NOTIFICATION_PULSE_ACTIVATED, dozeOnNotification ? 1 : 0,
+                     UserHandle.USER_CURRENT);
+        } else {
+             Settings.System.putIntForUser(resolver,
+                     Settings.System.AOD_NOTIFICATION_PULSE_ACTIVATED, 0,
+                     UserHandle.USER_CURRENT);
+        }
+        // depends on AOD_NOTIFICATION_PULSE_ACTIVATED - so MUST be afterwards
+        // no need to call us again
+        mAlwaysOnEnabled = mAmbientDisplayConfiguration.alwaysOnEnabled(UserHandle.USER_CURRENT);
+        mSmartChargingEnabled = Settings.System.getInt(resolver,
+                Settings.System.SMART_CHARGING, 0) == 1;
+        mSmartChargingLevel = Settings.System.getInt(resolver,
+                Settings.System.SMART_CHARGING_LEVEL,
+                mSmartChargingLevelDefaultConfig);
+        mSmartChargingResumeLevel = Settings.System.getInt(resolver,
+                Settings.System.SMART_CHARGING_RESUME_LEVEL,
+                mSmartChargingResumeLevelDefaultConfig);
+        mSmartChargingResetStats = Settings.System.getInt(resolver,
+                Settings.System.SMART_CHARGING_RESET_STATS, 0) == 1;
 
         if (mSupportsDoubleTapWakeConfig) {
             boolean doubleTapWakeEnabled = Settings.Secure.getIntForUser(resolver,
@@ -1306,6 +1398,7 @@ public final class PowerManagerService extends SystemService
     private void handleSettingsChangedLocked() {
         updateSettingsLocked();
         updatePowerStateLocked();
+        updateSmartChargingStatus();
     }
 
     private void acquireWakeLockInternal(IBinder lock, int flags, String tag, String packageName,
@@ -1772,11 +1865,17 @@ public final class PowerManagerService extends SystemService
         }
 
         if (eventTime < mLastWakeTime
-                || getWakefulnessLocked() == WAKEFULNESS_ASLEEP
-                || getWakefulnessLocked() == WAKEFULNESS_DOZING
                 || !mSystemReady
                 || !mBootCompleted) {
             return false;
+        }
+
+        // dont check current state
+        if ((flags & PowerManager.GO_TO_SLEEP_FLAG_FORCE) == 0) {
+            if (getWakefulnessLocked() == WAKEFULNESS_ASLEEP
+                    || getWakefulnessLocked() == WAKEFULNESS_DOZING) {
+                return false;
+            }
         }
 
         Trace.traceBegin(Trace.TRACE_TAG_POWER, "goToSleep");
@@ -2056,6 +2155,11 @@ public final class PowerManagerService extends SystemService
                 final boolean dockedOnWirelessCharger = mWirelessChargerDetector.update(
                         mIsPowered, mPlugType);
 
+                if (mDozeOnChargeEnabled) {
+                    Settings.Secure.putIntForUser(mContext.getContentResolver(),
+                            Settings.Secure.DOZE_ON_CHARGE_NOW, mIsPowered ? 1 : 0,
+                            UserHandle.USER_CURRENT);
+                }
                 // Treat plugging and unplugging the devices as a user activity.
                 // Users find it disconcerting when they plug or unplug the device
                 // and it shuts off right away.
@@ -2084,6 +2188,38 @@ public final class PowerManagerService extends SystemService
             }
 
             mBatterySaverStateMachine.setBatteryStatus(mIsPowered, mBatteryLevel, mBatteryLevelLow);
+            updateSmartChargingStatus();
+        }
+    }
+
+    private void updateSmartChargingStatus() {
+        if (mPowerInputSuspended && (mBatteryLevel <= mSmartChargingResumeLevel) ||
+            (mPowerInputSuspended && !mSmartChargingEnabled)) {
+            try {
+                FileUtils.stringToFile(mPowerInputSuspendSysfsNode, mPowerInputResumeValue);
+                mPowerInputSuspended = false;
+            } catch (IOException e) {
+                Slog.e(TAG, "failed to write to " + mPowerInputSuspendSysfsNode);
+            }
+            return;
+        }
+
+        if (mSmartChargingEnabled && !mPowerInputSuspended && (mBatteryLevel >= mSmartChargingLevel)) {
+            Slog.i(TAG, "Smart charging reset stats: " + mSmartChargingResetStats);
+            if (mSmartChargingResetStats) {
+                try {
+                     mBatteryStats.resetStatistics();
+                } catch (RemoteException e) {
+                         Slog.e(TAG, "failed to reset battery statistics");
+                }
+            }
+
+            try {
+                FileUtils.stringToFile(mPowerInputSuspendSysfsNode, mPowerInputSuspendValue);
+                mPowerInputSuspended = true;
+            } catch (IOException e) {
+                    Slog.e(TAG, "failed to write to " + mPowerInputSuspendSysfsNode);
+            }
         }
     }
 
@@ -2121,7 +2257,9 @@ public final class PowerManagerService extends SystemService
 
         // On Always On Display, SystemUI shows the charging indicator
         if (mAlwaysOnEnabled && getWakefulnessLocked() == WAKEFULNESS_DOZING) {
-            return false;
+            if (!mDozeOnChargeEnabled) {
+                return false;
+            }
         }
 
         // Otherwise wake up!

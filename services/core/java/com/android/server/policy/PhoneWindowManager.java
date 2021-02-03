@@ -89,6 +89,7 @@ import static com.android.server.wm.WindowManagerPolicyProto.ROTATION_MODE;
 import static com.android.server.wm.WindowManagerPolicyProto.SCREEN_ON_FULLY;
 import static com.android.server.wm.WindowManagerPolicyProto.WINDOW_MANAGER_DRAW_COMPLETE;
 
+import android.Manifest;
 import android.annotation.Nullable;
 import android.app.ActivityManager;
 import android.app.ActivityManagerInternal;
@@ -206,6 +207,8 @@ import com.android.internal.policy.IShortcutService;
 import com.android.internal.policy.KeyInterceptionInfo;
 import com.android.internal.policy.PhoneWindow;
 import com.android.internal.statusbar.IStatusBarService;
+import com.android.internal.util.corvus.CorvusUtils;
+import com.android.internal.util.corvus.Utils;
 import com.android.internal.util.ArrayUtils;
 import com.android.internal.util.ScreenshotHelper;
 import com.android.internal.util.corvus.LineageButtons;
@@ -237,6 +240,7 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import android.text.TextUtils;
 
 import dalvik.system.PathClassLoader;
 
@@ -411,6 +415,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     AlarmManager mAlarmManager;
 
+    // Double-tap-to-doze
+    private boolean mDoubleTapToWake;
+    private boolean mDoubleTapToDoze;
+    private boolean mNativeDoubleTapToDozeAvailable;
 
     // Assigned on main thread, accessed on UI thread
     volatile VrManagerInternal mVrManagerInternal;
@@ -521,6 +529,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     boolean mWakeOnBackKeyPress;
 
     private boolean mHandleVolumeKeysInWM;
+
+    // Click volume down + power for partial screenshot
+    boolean mClickPartialScreenshot;
 
     private boolean mPendingKeyguardOccluded;
     private boolean mKeyguardOccludedChanged;
@@ -874,6 +885,12 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.TORCH_LONG_PRESS_POWER_TIMEOUT), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.DOZE_TRIGGER_DOUBLETAP), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.CLICK_PARTIAL_SCREENSHOT), false, this,
                     UserHandle.USER_ALL);
             updateSettings();
         }
@@ -1546,9 +1563,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     private long getScreenshotChordLongPressDelay() {
-        long delayMs = DeviceConfig.getLong(
+        // If click to partial screenshot is enabled, restore pre Android QPR1
+        // default delay (500ms) in case SCREENSHOT_KEYCHORD_DELAY is shorter than it.
+        long delayMs = Long.max(mClickPartialScreenshot ? 500 : 0, DeviceConfig.getLong(
                 DeviceConfig.NAMESPACE_SYSTEMUI, SCREENSHOT_KEYCHORD_DELAY,
-                ViewConfiguration.get(mContext).getScreenshotChordKeyTimeout());
+                ViewConfiguration.get(mContext).getScreenshotChordKeyTimeout()));
         if (mKeyguardDelegate.isShowing()) {
             // Double the time it takes to take a screenshot from the keyguard
             return (long) (KEYGUARD_SCREENSHOT_CHORD_DELAY_MULTIPLIER * delayMs);
@@ -1926,6 +1945,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         mWakeOnBackKeyPress =
                 res.getBoolean(com.android.internal.R.bool.config_wakeOnBackKeyPress);
 
+        // Double-tap-to-doze
+        mNativeDoubleTapToDozeAvailable = !TextUtils.isEmpty(
+                mContext.getResources().getString(R.string.config_dozeDoubleTapSensorType));
+
         // Init display burn-in protection
         boolean burnInProtectionEnabled = context.getResources().getBoolean(
                 com.android.internal.R.bool.config_enableBurnInProtection);
@@ -2229,6 +2252,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     public void updateSettings() {
         ContentResolver resolver = mContext.getContentResolver();
         boolean updateRotation = false;
+
+        // Double-tap-to-doze
+        mDoubleTapToWake = Settings.Secure.getInt(resolver,
+                Settings.Secure.DOUBLE_TAP_TO_WAKE, 0) == 1;
+        mDoubleTapToDoze = Settings.System.getInt(resolver,
+                Settings.System.DOZE_TRIGGER_DOUBLETAP, 0) == 1;
+
         synchronized (mLock) {
             mEndcallBehavior = Settings.System.getIntForUser(resolver,
                     Settings.System.END_BUTTON_BEHAVIOR,
@@ -2276,6 +2306,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     Settings.System.TORCH_LONG_PRESS_POWER_GESTURE, 0, UserHandle.USER_CURRENT) == 1;
             mTorchTimeout = Settings.System.getIntForUser(resolver,
                     Settings.System.TORCH_LONG_PRESS_POWER_TIMEOUT, 0, UserHandle.USER_CURRENT);
+
+            mClickPartialScreenshot = Settings.System.getIntForUser(resolver,
+                    Settings.System.CLICK_PARTIAL_SCREENSHOT, 0,
+                    UserHandle.USER_CURRENT) == 1;
 
             // Configure wake gesture.
             boolean wakeGestureEnabledSetting = Settings.Secure.getIntForUser(resolver,
@@ -4033,6 +4067,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                         mScreenshotChordVolumeDownKeyTriggered = false;
                         cancelPendingScreenshotChordAction();
                         cancelPendingAccessibilityShortcutAction();
+
+                        if (mClickPartialScreenshot && mScreenshotChordVolumeDownKeyConsumed) {
+                            mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_SELECTED_REGION);
+                            mHandler.post(mScreenshotRunnable);
+                        }
                     }
                 } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
                     if (down) {
@@ -4239,7 +4278,15 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
             case KeyEvent.KEYCODE_WAKEUP: {
                 result &= ~ACTION_PASS_TO_USER;
-                isWakeKey = true;
+                // Double-tap-to-doze
+                if (mDoubleTapToWake && mDoubleTapToDoze && !mNativeDoubleTapToDozeAvailable) {
+                    isWakeKey = false;
+                    if (!down) {
+                        mContext.sendBroadcast(new Intent("com.android.systemui.doze.pulse"));
+                    }
+                } else {
+                    isWakeKey = true;
+                }
                 break;
             }
 
@@ -5754,6 +5801,26 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     @Override
     public boolean hasNavigationBar() {
         return mDefaultDisplayPolicy.hasNavigationBar();
+    }
+
+   @Override
+    public void sendCustomAction(Intent intent) {
+        String action = intent.getAction();
+        if (action != null) {
+            if (CorvusUtils.INTENT_SCREENSHOT.equals(action)) {
+                mContext.enforceCallingOrSelfPermission(Manifest.permission.ACCESS_SURFACE_FLINGER,
+                        TAG + "sendCustomAction permission denied");
+                mHandler.removeCallbacks(mScreenshotRunnable);
+                mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_FULLSCREEN);
+                mHandler.post(mScreenshotRunnable);
+            } else if (CorvusUtils.INTENT_REGION_SCREENSHOT.equals(action)) {
+                mContext.enforceCallingOrSelfPermission(Manifest.permission.ACCESS_SURFACE_FLINGER,
+                        TAG + "sendCustomAction permission denied");
+                mHandler.removeCallbacks(mScreenshotRunnable);
+                mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_SELECTED_REGION);
+                mHandler.post(mScreenshotRunnable);
+            }
+        }
     }
 
     @Override

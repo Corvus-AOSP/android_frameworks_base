@@ -5650,6 +5650,195 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
         public static final String BACK_GESTURE_HAPTIC = "back_gesture_haptic";
 
         /**
+         * Color temperature of the display during the day
+         */
+        public static final String DISPLAY_TEMPERATURE_DAY = "display_temperature_day";
+
+        /**
+         * Color temperature of the display at night
+         */
+        public static final String DISPLAY_TEMPERATURE_NIGHT = "display_temperature_night";
+
+        /**
+         * Display color temperature adjustment mode, one of DAY (default), NIGHT, or AUTO.
+         */
+        public static final String DISPLAY_TEMPERATURE_MODE = "display_temperature_mode";
+
+        /**
+         * Automatic outdoor mode
+         * 0 = 0ff, 1 = on
+         */
+        public static final String DISPLAY_AUTO_OUTDOOR_MODE = "display_auto_outdoor_mode";
+
+        /**
+         * Reader mode
+         * 0 = 0ff, 1 = on
+         */
+        public static final String DISPLAY_READING_MODE = "display_reading_mode";
+
+        /**
+         * Use display power saving features such as CABC or CABL
+         * 0 = 0ff, 1 = on
+         */
+        public static final String DISPLAY_CABC = "display_low_power";
+
+        /**
+         * Use color enhancement feature of display
+         * 0 = 0ff, 1 = on
+         */
+        public static final String DISPLAY_COLOR_ENHANCE = "display_color_enhance";
+
+        /**
+         * Use auto contrast optimization feature of display
+         * 0 = 0ff, 1 = on
+         */
+        public static final String DISPLAY_AUTO_CONTRAST = "display_auto_contrast";
+
+        /**
+         * Manual display color adjustments (RGB values as floats, separated by spaces)
+         */
+        public static final String DISPLAY_COLOR_ADJUSTMENT = "display_color_adjustment";
+
+        /**
+         * The current custom picture adjustment values as a delimited string
+         */
+        public static final String DISPLAY_PICTURE_ADJUSTMENT =
+                "display_picture_adjustment";
+
+        /**
+         * Did we tell about how they can stop breaking their eyes?
+         * @hide
+         */
+        public static final String LIVE_DISPLAY_HINTED = "live_display_hinted";
+
+        /**
+         * Whether to enable PULSE Edge lights
+         * @hide
+         */
+        public static final String NOTIFICATION_PULSE = "pulse_ambient_light";
+
+        /**
+         * Whether to enable Ambient Edge lights
+         * @hide
+         */
+        public static final String AOD_NOTIFICATION_PULSE = "ambient_notification_light_enabled";
+
+        /**
+         * Whether hide everything on aod when ambient lights are enabled
+         * @hide
+         */
+        public static final String AOD_NOTIFICATION_PULSE_CLEAR = "ambient_notification_light_hide_aod";
+
+        /**
+         * Whether to change aod pulse state
+         * @hide
+         */
+        public static final String AOD_NOTIFICATION_PULSE_TRIGGER = "ambient_notification_light";
+
+        /**
+         * Whether Ambient Edge lights are activated
+         * @hide
+         */
+        public static final String AOD_NOTIFICATION_PULSE_ACTIVATED = "ambient_notification_light_activated";
+
+        /**
+         * Whether to use accent color for pulse
+         * @hide
+         */
+        public static final String NOTIFICATION_PULSE_ACCENT = "ambient_notification_light_accent";
+
+        /**
+         * helper setting to contain the current pulse reason so we can check
+         * if it has been triggered from a notification or a gesture
+         * @hide
+         */
+        public static final String PULSE_TRIGGER_REASON = "pulse_trigger_reason";
+
+        /**
+         * Timeout for ambient pulse in seconds - 0 is no timeout
+         * @hide
+         */
+        public static final String AOD_NOTIFICATION_PULSE_TIMEOUT = "ambient_notification_light_timeout";
+
+        /**
+         * Pulse Ambient lights color
+         * @hide
+         */
+        public static final String NOTIFICATION_PULSE_COLOR = "ambient_notification_light_color";
+
+        /**
+         * @hide
+         */
+        public static final String NOTIFICATION_PULSE_COLOR_AUTOMATIC = "ambient_notification_light_color_automatic";
+
+        /**
+         * @hide
+         */
+        public static final String AMBIENT_LIGHT_DURATION = "ambient_light_duration";
+
+        /**
+         * @hide
+         */
+        public static final String AMBIENT_LIGHT_REPEAT_COUNT = "ambient_light_repeat_count";
+
+        /**
+         * Use doubletap as doze pulse triggers
+         * @hide
+         */
+        public static final String DOZE_TRIGGER_DOUBLETAP = "doze_trigger_doubletap";
+
+        /**
+         * Whether to launch default music player when headset plugged in
+         * @hide
+         */
+        public static final String HEADSET_CONNECT_PLAYER = "headset_connect_player";
+
+        /**
+         * @hide
+         */
+        public static final String SMART_CHARGING = "smart_charging";
+
+        /**
+         * @hide
+         */
+        public static final String SMART_CHARGING_RESET_STATS = "smart_charging_reset_stats";
+
+        /**
+         * @hide
+         */
+        public static final String SMART_CHARGING_LEVEL = "smart_charging_level";
+
+        /**
+         * @hide
+         */
+        public static final String SMART_CHARGING_RESUME_LEVEL = "smart_charging_resume_level";
+
+        /**
+         * Whether to take partial screenshot with volume down + power click.
+         * @hide
+         */
+        public static final String CLICK_PARTIAL_SCREENSHOT = "click_partial_screenshot";
+
+        /**
+         * User definable value of pulse notification screen brightness
+         *
+         * @hide
+         */
+        public static final String PULSE_BRIGHTNESS = "pulse_brightness";
+
+        /**
+         * User definable value of aod screen brightness
+         *
+         * @hide
+         */
+        public static final String DOZE_BRIGHTNESS = "doze_brightness";
+
+        /**
+         * @hide
+         */
+        public static final String DOZE_BRIGHTNESS_FORCE = "doze_brightness_force";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
@@ -5815,7 +6004,22 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
             PRIVATE_SETTINGS.add(ANIM_TILE_DURATION);
             PRIVATE_SETTINGS.add(BACK_GESTURE_HAPTIC);
             PRIVATE_SETTINGS.add(QS_TILE_STYLE);
-        }
+            PRIVATE_SETTINGS.add(DISPLAY_TEMPERATURE_DAY);
+            PRIVATE_SETTINGS.add(DISPLAY_TEMPERATURE_NIGHT);
+            PRIVATE_SETTINGS.add(DISPLAY_TEMPERATURE_MODE);
+            PRIVATE_SETTINGS.add(DISPLAY_AUTO_OUTDOOR_MODE);
+            PRIVATE_SETTINGS.add(DISPLAY_READING_MODE);
+            PRIVATE_SETTINGS.add(DISPLAY_CABC);
+            PRIVATE_SETTINGS.add(DISPLAY_COLOR_ENHANCE);
+            PRIVATE_SETTINGS.add(DISPLAY_AUTO_CONTRAST);
+            PRIVATE_SETTINGS.add(DISPLAY_COLOR_ADJUSTMENT);
+            PRIVATE_SETTINGS.add(DISPLAY_PICTURE_ADJUSTMENT);
+            PRIVATE_SETTINGS.add(LIVE_DISPLAY_HINTED);
+            PRIVATE_SETTINGS.add(PULSE_BRIGHTNESS);
+            PRIVATE_SETTINGS.add(DOZE_BRIGHTNESS);
+            PRIVATE_SETTINGS.add(DOZE_BRIGHTNESS_FORCE);
+
+}
 
         /**
          * These entries are considered common between the personal and the managed profile,
@@ -9968,6 +10172,25 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
          * @hide
          */
         public static final String STATUS_BAR_QUICK_QS_PULLDOWN = "status_bar_quick_qs_pulldown";
+
+        /**
+         * Whether to enable DOZE only when charging
+         * @hide
+         */
+        public static final String DOZE_ON_CHARGE = "doze_on_charge";
+
+        /**
+         * hidden stting of the current atate of DOZE only when charging
+         * @hide
+         */
+        public static final String DOZE_ON_CHARGE_NOW = "doze_on_charge_now";
+
+
+        /**
+         * Whether to show or hide the arrow for back gesture
+         * @hide
+         */
+        public static final String SHOW_BACK_ARROW_GESTURE = "show_back_arrow_gesture";
 
         /**
          * Keys we no longer back up under the current schema, but want to continue to

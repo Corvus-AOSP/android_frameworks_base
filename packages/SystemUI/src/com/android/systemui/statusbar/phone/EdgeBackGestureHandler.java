@@ -180,6 +180,7 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
 
     private boolean mEdgeHapticEnabled;
     private static final int HAPTIC_DURATION = 20;
+    private boolean mIsBackGestureArrowEnabled;
 
     private final Vibrator mVibrator;
 
@@ -263,6 +264,7 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
         mEdgeHapticEnabled = mGestureNavigationSettingsObserver.getEdgeHaptic();
         mIsBackGestureAllowed =
                 !mGestureNavigationSettingsObserver.areNavigationButtonForcedVisible();
+        mIsBackGestureArrowEnabled = mGestureNavigationSettingsObserver.getBackArrowGesture();
 
         mYDeadzoneDivider = mGestureNavigationSettingsObserver.getDeadZoneMode();
 
@@ -543,6 +545,7 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
                     && isWithinTouchRegion((int) ev.getX(), (int) ev.getY());
             if (mAllowGesture) {
                 mEdgeBackPlugin.setIsLeftPanel(mIsOnLeftEdge);
+                mEdgeBackPlugin.setBackArrowVisibility(mIsBackGestureArrowEnabled);
                 mEdgeBackPlugin.onMotionEvent(ev);
             }
             if (mLogGesture) {
@@ -636,7 +639,7 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
         final KeyEvent ev = new KeyEvent(when, when, action, code, 0 /* repeat */,
                 0 /* metaState */, KeyCharacterMap.VIRTUAL_KEYBOARD, 0 /* scancode */,
                 KeyEvent.FLAG_FROM_SYSTEM | KeyEvent.FLAG_VIRTUAL_HARD_KEY,
-                InputDevice.SOURCE_KEYBOARD);
+                InputDevice.SOURCE_NAVIGATION_BAR);
 
         // Bubble controller will give us a valid display id if it should get the back event
         BubbleController bubbleController = Dependency.get(BubbleController.class);

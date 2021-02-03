@@ -55,6 +55,7 @@ public class PixelPropsUtils {
             "com.google.android.ext.services",
             "com.google.android.flipendo",
             "com.google.android.gm",
+            "com.google.android.gms",
             "com.google.android.googlequicksearchbox",
             "com.google.android.gsf",
             "com.google.android.onetimeinitializer",

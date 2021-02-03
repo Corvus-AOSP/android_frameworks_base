@@ -28,6 +28,7 @@ import android.hardware.display.AmbientDisplayConfiguration;
 import android.metrics.LogMaker;
 import android.os.SystemClock;
 import android.os.UserHandle;
+import android.provider.Settings;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.Display;
@@ -446,7 +447,12 @@ public class DozeTriggers implements DozeMachine.Part {
                 || state == Display.STATE_OFF) {
             mDozeSensors.setProxListening(mWantProx);
             mDozeSensors.setListening(mWantSensors);
-            mDozeSensors.setTouchscreenSensorsListening(mWantTouchScreenSensors);
+            if (mConfig.deviceHasWeirtdDtSensor() && mWantTouchScreenSensors) {
+                mDozeSensors.setTouchscreenSensorsListening(false);
+                mDozeSensors.setTouchscreenSensorsListening(true);
+            } else {
+                mDozeSensors.setTouchscreenSensorsListening(mWantTouchScreenSensors);
+            }
         } else {
             mDozeSensors.setProxListening(false);
             mDozeSensors.setListening(mWantSensors);
@@ -516,6 +522,9 @@ public class DozeTriggers implements DozeMachine.Part {
                     mDozeHost.isPulsingBlocked());
             return;
         }
+        Settings.System.putIntForUser(mContext.getContentResolver(),
+                Settings.System.PULSE_TRIGGER_REASON, reason,
+                UserHandle.USER_CURRENT);
         mMachine.requestPulse(reason);
     }
 
