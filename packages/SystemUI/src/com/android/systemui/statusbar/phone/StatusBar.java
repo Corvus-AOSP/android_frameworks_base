@@ -2161,9 +2161,6 @@ public class StatusBar extends SystemUI implements DemoMode,
                     Settings.System.LOCKSCREEN_MEDIA_BLUR),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.QS_TILE_STYLE),
-                    false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.LOCKSCREEN_CHARGING_ANIMATION_STYLE),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -2187,10 +2184,6 @@ public class StatusBar extends SystemUI implements DemoMode,
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.LOCKSCREEN_CHARGING_ANIMATION_STYLE))) {
                 updateChargingAnimation();
-            } else if (uri.equals(Settings.System.getUriFor(Settings.System.QS_TILE_STYLE))) {
-                stockTileStyle();
-                updateTileStyle();
-                mQSPanel.getHost().reloadAllTiles();
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL))) {
                 setScreenBrightnessMode();
@@ -4227,11 +4220,6 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
         mShowNavBar = showNavBar;
     }
-
-     public void updateTileStyle() {
-         int qsTileStyle = Settings.System.getIntForUser(mContext.getContentResolver(),
-                 Settings.System.QS_TILE_STYLE, 0, mLockscreenUserManager.getCurrentUserId());
-     }
 
     public int getWakefulnessState() {
         return mWakefulnessLifecycle.getWakefulness();

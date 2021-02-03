@@ -30,28 +30,6 @@ public class ThemesUtils {
             "com.android.theme.icon.vessel",
     };
 
-    public static final String[] QS_TILE_THEMES = {
-            "com.android.systemui.qstile.default",
-            "com.android.systemui.qstile.square",
-            "com.android.systemui.qstile.squircletrim",
-            "com.android.systemui.qstile.diamond",
-            "com.android.systemui.qstile.star",
-            "com.android.systemui.qstile.gear",
-            "com.android.systemui.qstile.badge",
-            "com.android.systemui.qstile.badgetwo",
-            "com.android.systemui.qstile.circletrim",
-            "com.android.systemui.qstile.dualtonecircletrim",
-            "com.android.systemui.qstile.cookie",
-            "com.android.systemui.qstile.circleoutline",
-            "com.android.systemui.qstile.wavey",
-            "com.android.systemui.qstile.ninja",
-            "com.android.systemui.qstile.dottedcircle",
-            "com.android.systemui.qstile.attemptmountain",
-            "com.android.systemui.qstile.inktober",
-            "com.android.systemui.qstile.neonlike",
-            "com.android.systemui.qstile.triangles",
-    };
-
     public static final String[] PITCH_BLACK = {
             "com.android.theme.pitchblack.system",
             "com.android.theme.pitchblack.systemui",
