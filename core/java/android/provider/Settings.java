@@ -10096,18 +10096,16 @@ public final class Settings {
          * @hide
          */
         public static final String LOCKSCREEN_VISUALIZER_ENABLED = "lockscreen_visualizer_enabled";
-        /**
-<<<<<<< HEAD
-         * Whether to vibrate when quick settings tile is pressed.
-         *
-=======
-         * Whether to show QS brightness slider on bottom
+
+	/**
+	 * Whether to show QS brightness slider on bottom
          * @hide
          */
         public static final String QS_BRIGHTNESS_POSITION_BOTTOM = "qs_brightness_position_bottom";
 
         /**
->>>>>>> 185d5399e928... base: SystemUI: add tuner pref for qs brightness slider position (1/2)
+         * Whether to vibrate when quick settings tile is pressed.
+         *
          * @hide
          */
         public static final String QUICK_SETTINGS_TILES_VIBRATE = "quick_settings_vibrate";
@@ -10146,6 +10144,7 @@ public final class Settings {
         public static final String SHOW_BACK_ARROW_GESTURE = "show_back_arrow_gesture";
 
 	/**
+	 * Whether to show qs brightness slider in quickbar
          * @hide
          */
         public static final String QS_SHOW_AUTO_BRIGHTNESS =
@@ -10156,6 +10155,13 @@ public final class Settings {
          */
         public static final String QS_SHOW_BRIGHTNESS_SLIDER =
                 "qs_show_brightness_slider";
+
+	/**
+         * Whether to show qs brightness slider when qs is expanded
+         * @hide
+         */
+        public static final String QS_SHOW_BRIGHTNESS_SLIDER_EXPANDED =
+                "qs_show_brightness_slider_show_expanded";
 
         /**
          * Keys we no longer back up under the current schema, but want to continue to
