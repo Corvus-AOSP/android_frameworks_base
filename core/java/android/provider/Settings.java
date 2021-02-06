@@ -5835,6 +5835,16 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
 
         /**
          * @hide
+         * Toggle for clipboard access toast.
+         * @hide
+         */
+        public static final String SHOW_CLIPBOARD_TOAST = "show_clipboard_toast";
+
+        /**
+         * IMPORTANT: If you add a new public settings you also have to add it to
+         * PUBLIC_SETTINGS below. If the new setting is hidden you have to add
+         * it to PRIVATE_SETTINGS below. Also add a validator that can validate
+         * the setting value. See an example above.
          */
         public static final String DOZE_BRIGHTNESS_FORCE = "doze_brightness_force";
 
