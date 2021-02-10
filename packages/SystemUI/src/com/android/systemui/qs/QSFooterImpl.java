@@ -415,7 +415,7 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
     private void startYaspActivity() {
         Intent nIntent = new Intent(Intent.ACTION_MAIN);
         nIntent.setClassName("com.android.settings",
-            "com.android.settings.Settings$RavenLairSettingsActivity");
+            "com.android.settings.Settings$RavenLairActivity");
         mActivityStarter.startActivity(nIntent, true /* dismissShade */);
     }
 
