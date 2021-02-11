@@ -34,11 +34,14 @@
     <bool name="doze_proximity_sensor_supported">true</bool>
 
     <!-- Udfps vendor code -->
-    <integer name="config_udfps_vendor_code">0</integer>
+    <integer name="config_udfps_vendor_code">22</integer>
 
     <!-- If not zero, limits the internal screen recorder's framerate to the set value. -->
     <integer name="config_screenRecorderMaxFramerate">0</integer>
     
     <!-- FPSInfoService FPS node file path -->
     <string name="config_fpsInfoSysNode" translatable="false"></string>
+
+    <!-- Whether alertslider is on the left edge of the device -->
+    <bool name="config_alertSliderOnLeft">false</bool>
 </resources>
