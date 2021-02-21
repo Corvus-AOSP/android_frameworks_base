@@ -76,6 +76,7 @@
             <com.android.systemui.statusbar.phone.ExpandableIndicator
                 android:id="@+id/expandable_indicator"
                 style="@style/VolumeButtons"
+		android:tint="?android:attr/colorAccent"
                 android:layout_width="@dimen/volume_dialog_panel_width"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/accessibility_quick_settings_expand"
