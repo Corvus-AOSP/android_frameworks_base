@@ -46,6 +46,7 @@ import com.android.systemui.qs.QSDetailItems.Item;
 import com.android.systemui.qs.QSDetailItemsList;
 import com.android.systemui.qs.QSHost;
 import com.android.systemui.qs.tileimpl.QSTileImpl;
+import com.android.systemui.plugins.ActivityStarter;
 
 import javax.inject.Inject;
 
@@ -83,13 +84,15 @@ public class ThemeTile extends QSTileImpl<BooleanState> {
     private static IOverlayManager mOverlayManager;
     private Mode mMode;
     private static UiModeManager mUiModeManager;
+    private final ActivityStarter mActivityStarter;
 
     @Inject	
-    public ThemeTile(QSHost host) {
+    public ThemeTile(QSHost host, ActivityStarter activityStarter) {
         super(host);
         mOverlayManager = IOverlayManager.Stub.asInterface(
                 ServiceManager.getService(Context.OVERLAY_SERVICE));
         mUiModeManager = mContext.getSystemService(UiModeManager.class);
+	mActivityStarter = activityStarter;
         mMode = Mode.STYLE;
     }
 
@@ -192,7 +195,11 @@ public class ThemeTile extends QSTileImpl<BooleanState> {
 
         @Override
         public Intent getSettingsIntent() {
-            return new Intent(Settings.ACTION_DISPLAY_SETTINGS);
+	 Intent nIntent = new Intent(Intent.ACTION_MAIN);
+            nIntent.setClassName("com.corvus.themes",
+                "com.corvus.themes.MainActivity");
+            mActivityStarter.startActivity(nIntent, false);
+            return nIntent;
         }
 
         @Override
