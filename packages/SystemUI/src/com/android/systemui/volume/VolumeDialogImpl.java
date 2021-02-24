@@ -65,6 +65,7 @@ import android.os.VibrationEffect;
 import android.provider.Settings;
 import android.provider.Settings.Global;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Slog;
 import android.util.SparseBooleanArray;
@@ -193,6 +194,7 @@ public class VolumeDialogImpl implements VolumeDialog,
     private Animator mCurrAnimator;
 
     private boolean mLeftVolumeRocker;
+    private boolean mHasAlertSlider;
 
     private boolean mDarkMode;
     private boolean mVibrateOnSlider;
@@ -218,6 +220,8 @@ public class VolumeDialogImpl implements VolumeDialog,
         mHasSeenODICaptionsTooltip =
                 Prefs.getBoolean(context, Prefs.Key.HAS_SEEN_ODI_CAPTIONS_TOOLTIP, false);
         mLeftVolumeRocker = mContext.getResources().getBoolean(R.bool.config_audioPanelOnLeftSide);
+	mHasAlertSlider = mContext.getResources().getBoolean(
+                com.android.internal.R.bool.config_hasAlertSlider);
         mVibrateOnSlider = mContext.getResources().getBoolean(R.bool.config_vibrateOnIconAnimation);
         mElevation = mContext.getResources().getDimension(R.dimen.volume_dialog_elevation);
         mSpacer = mContext.getResources().getDimension(R.dimen.volume_dialog_row_spacer);
@@ -351,45 +355,17 @@ public class VolumeDialogImpl implements VolumeDialog,
         if (mRinger != null) {
             mRingerIcon = mRinger.findViewById(R.id.ringer_icon);
             mZenIcon = mRinger.findViewById(R.id.dnd_icon);
-            if(!isAudioPanelOnLeftSide()) {
-                mRinger.setForegroundGravity(Gravity.RIGHT);
-            } else {
-                mRinger.setForegroundGravity(Gravity.LEFT);
-            }
-            if(isLandscape() && isAudioPanelOnLeftSide()) {
-                MarginLayoutParams ringerLayoutParams = (MarginLayoutParams) mRinger.getLayoutParams();
-                ringerLayoutParams.setMargins(0, 0, land_margin, 0);
-                mRinger.setLayoutParams(ringerLayoutParams);
-            }
+	    Util.setVisOrGone(mRinger, !mHasAlertSlider);
         }
 
         mODICaptionsView = mDialog.findViewById(R.id.odi_captions);
         if (mODICaptionsView != null) {
             mODICaptionsIcon = mODICaptionsView.findViewById(R.id.odi_captions_icon);
-            if(isLandscape() && isAudioPanelOnLeftSide()) {
-                MarginLayoutParams captionsLayoutParams = (MarginLayoutParams) mODICaptionsView.getLayoutParams();
-                captionsLayoutParams.setMargins(0, 0, 0, 0);
-                mODICaptionsView.setLayoutParams(captionsLayoutParams);
-            }
         }
         mODICaptionsTooltipViewStub = mDialog.findViewById(R.id.odi_captions_tooltip_stub);
         if (mHasSeenODICaptionsTooltip && mODICaptionsTooltipViewStub != null) {
             mDialogView.removeView(mODICaptionsTooltipViewStub);
             mODICaptionsTooltipViewStub = null;
-        }else if (mODICaptionsTooltipViewStub != null){
-            if(!isAudioPanelOnLeftSide()) {
-                mRinger.setForegroundGravity(Gravity.BOTTOM | Gravity.RIGHT);
-            } else {
-                mRinger.setForegroundGravity(Gravity.BOTTOM | Gravity.LEFT);
-            }
-
-        }
-
-        if(isLandscape() && isAudioPanelOnLeftSide()) {
-            LinearLayout mainView = mDialog.findViewById(R.id.main);
-            MarginLayoutParams mainLayoutParams = (MarginLayoutParams) mainView.getLayoutParams();
-            mainLayoutParams.setMargins(0, land_margin, land_margin, 0);
-            mainView.setLayoutParams(mainLayoutParams);
         }
 
         mExpandRowsView = mDialog.findViewById(R.id.expandable_indicator_container);
@@ -642,7 +618,10 @@ public class VolumeDialogImpl implements VolumeDialog,
         }
         if (mExpandRows != null) {
             mMediaButton.setOnClickListener(v -> {
-                int x = (int) (isLandscape() ? isAudioPanelOnLeftSide() : (1.5 * mWidth + mSpacer));
+		int x = (int) (isLandscape() ? (isAudioPanelOnLeftSide() ? (
+                        (mWidth + mSpacer) * (mHasAlertSlider ? 1 : 2) + mWidth / 2)
+                        : (mHasAlertSlider ? mWidth * 1.5 + mSpacer : mWidth / 2))
+                        : (1.5 * mWidth + mSpacer));
                 int endRadius = (int) Math.hypot((isLandscape() ? 2.2 : 1.1) * (1.5 * mWidth +
                         mSpacer), mHeight);
                 if (mShowingMediaDevices) {
@@ -1984,7 +1963,7 @@ public class VolumeDialogImpl implements VolumeDialog,
             if (mRow.ss == null) return;
             if (D.BUG) Log.d(TAG, AudioSystem.streamToString(mRow.stream)
                     + " onProgressChanged " + progress + " fromUser=" + fromUser);
-            if ((mRow.stream == STREAM_RING || mRow.stream == STREAM_NOTIFICATION)) {
+            if ((mRow.stream == STREAM_RING || mRow.stream == STREAM_NOTIFICATION) && mHasAlertSlider) {
                 if (mRow.ss.muted) {
                     seekBar.setProgress(0);
                     return;
@@ -2000,7 +1979,7 @@ public class VolumeDialogImpl implements VolumeDialog,
             }
             final int userLevel = getImpliedLevel(seekBar, progress);
 
-            if ((mRow.stream == STREAM_RING || mRow.stream == STREAM_NOTIFICATION)) {
+            if ((mRow.stream == STREAM_RING || mRow.stream == STREAM_NOTIFICATION) && mHasAlertSlider) {
                 if (mRow.ss.level > mRow.ss.levelMin && userLevel == 0) {
                     seekBar.setProgress((mRow.ss.levelMin + 1) * 100);
                     Util.setText(mRow.header,
