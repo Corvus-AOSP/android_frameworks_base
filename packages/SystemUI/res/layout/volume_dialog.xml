@@ -182,6 +182,7 @@
             <com.android.keyguard.AlphaOptimizedImageButton
                 android:id="@+id/media_button"
                 style="@style/VolumeButtons"
+		android:tint="?android:attr/colorAccent"
                 android:layout_width="@dimen/volume_dialog_panel_width"
                 android:layout_height="@dimen/volume_dialog_button_height"
                 android:background="@drawable/ripple_drawable_20dp"
