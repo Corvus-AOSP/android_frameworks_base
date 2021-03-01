@@ -103,8 +103,12 @@ public class NotificationLightsView extends RelativeLayout {
                 UserHandle.USER_CURRENT);
         ImageView leftView = (ImageView) findViewById(R.id.notification_animation_left);
         ImageView rightView = (ImageView) findViewById(R.id.notification_animation_right);
+	ImageView topView = (ImageView) findViewById(R.id.notification_animation_top);
+	ImageView bottomView = (ImageView) findViewById(R.id.notification_animation_bottom);
         leftView.setColorFilter(color);
         rightView.setColorFilter(color);
+	topView.setColorFilter(color);
+	bottomView.setColorFilter(color);
         mLightAnimator = ValueAnimator.ofFloat(new float[]{0.0f, 2.0f});
         mLightAnimator.setDuration(duration);
         mLightAnimator.setRepeatCount(rCount == 0 ? ValueAnimator.INFINITE : rCount);
@@ -134,6 +138,8 @@ public class NotificationLightsView extends RelativeLayout {
                 float progress = ((Float) animation.getAnimatedValue()).floatValue();
                 leftView.setScaleY(progress);
                 rightView.setScaleY(progress);
+		topView.setScaleX(progress);
+		bottomView.setScaleX(progress);
                 float alpha = 1.0f;
                 if (progress <= 0.3f) {
                     alpha = progress / 0.3f;
@@ -142,6 +148,8 @@ public class NotificationLightsView extends RelativeLayout {
                 }
                 leftView.setAlpha(alpha);
                 rightView.setAlpha(alpha);
+		topView.setAlpha(alpha);
+		bottomView.setAlpha(alpha);
             }
         });
         if (DEBUG) Log.d(TAG, "start");

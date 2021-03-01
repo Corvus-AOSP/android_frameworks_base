@@ -20,12 +20,20 @@
 <com.android.systemui.evolution.NotificationLightsView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:systemui="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
     android:orientation="vertical"
     android:layout_centerVertical="true">
 
+    <ImageView
+        android:layout_alignParentTop="true"
+        android:gravity="top"
+        android:layout_gravity="top"
+        android:id="@+id/notification_animation_top"
+        android:layout_width="match_parent"
+        android:layout_height="1000px"
+        android:src="@drawable/aod_notification_light_top"/>
     <ImageView
         android:layout_alignParentRight="true"
         android:gravity="right"
@@ -42,5 +50,13 @@
         android:layout_width="150px"
         android:layout_height="match_parent"
         android:src="@drawable/aod_notification_light_left"/>
+     <ImageView
+        android:layout_alignParentBottom="true"
+        android:gravity="bottom"
+        android:layout_gravity="bottom"
+        android:id="@+id/notification_animation_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="1000px"
+        android:src="@drawable/aod_notification_light_bottom"/>
 
 </com.android.systemui.evolution.NotificationLightsView>
