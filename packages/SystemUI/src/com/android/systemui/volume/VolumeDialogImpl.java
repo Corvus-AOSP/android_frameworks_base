@@ -84,7 +84,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
-import android.view.View.OnLongClickListener;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
@@ -855,14 +854,14 @@ public class VolumeDialogImpl implements VolumeDialog,
             .start();
     }
 
-    @Override
-    public void onDeviceListUpdate(List<MediaDevice> devices) {
-        mMediaDevices.clear();
-        mMediaDevices.addAll(devices);
-        if (!mHandler.hasMessages(H.UPDATE_MEDIA_OUTPUT_VIEW)) {
-            mHandler.sendEmptyMessageDelayed(H.UPDATE_MEDIA_OUTPUT_VIEW, 30);
-        }
-    }
+  //  @Override
+  //  public void onDeviceListUpdate(List<MediaDevice> devices) {
+  //      mMediaDevices.clear();
+  //      mMediaDevices.addAll(devices);
+  //      if (!mHandler.hasMessages(H.UPDATE_MEDIA_OUTPUT_VIEW)) {
+  //          mHandler.sendEmptyMessageDelayed(H.UPDATE_MEDIA_OUTPUT_VIEW, 30);
+  //      }
+  //  }
 
     @Override
     public void onSelectedDeviceStateChanged(MediaDevice device, int state) {
@@ -889,7 +888,7 @@ public class VolumeDialogImpl implements VolumeDialog,
                     if (!row.addedToGroup) {
                         mMediaOutputView.addView(row.view);
                         row.addedToGroup = true;
-                    }
+		    }
                 } else {
                     mMediaOutputView.removeView(row.view);
                     row.addedToGroup = false;
@@ -1472,15 +1471,11 @@ public class VolumeDialogImpl implements VolumeDialog,
             final VolumeRow row = mRows.get(i);
             if (row.ss == null || !row.ss.dynamic) continue;
             if (!mDynamic.get(row.stream)) {
-                removeRow(row);
+		mRows.remove(i);
+                mDialogRowsView.removeView(row.view);
+		mConfigurableTexts.remove(row.header);
             }
         }
-    }
-
-    private void removeRow(VolumeRow volumeRow) {
-        mRows.remove(volumeRow);
-        mDialogRowsView.removeView(volumeRow.view);
-        mConfigurableTexts.remove(volumeRow.header);
     }
 
     protected void onStateChangedH(State state) {
@@ -1539,7 +1534,7 @@ public class VolumeDialogImpl implements VolumeDialog,
         VolumeRow alarm = findRow(STREAM_ALARM);
         if (notificationRow != null) {
             if (mState.linkedNotification) {
-                removeRow(notificationRow);
+                mRows.remove(notificationRow);
             } else {
                 final int alarmIndex = mDialogRowsView.indexOfChild(alarm.view);
                 final int notifIndex = mDialogRowsView.indexOfChild(notificationRow.view);
