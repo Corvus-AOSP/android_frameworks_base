@@ -268,4 +268,8 @@
     <string name="vpn_credentials_username">Username</string>
     <string name="vpn_credentials_password">Password</string>
     <string name="vpn_credentials_dialog_connect">Connect</string>
+
+    <!-- Biometric Dialog - Use Face -->
+    <string name="biometric_dialog_button_use_face">Use Face</string>
+
 </resources>
