@@ -122,6 +122,7 @@
                     style="@style/VolumeButtons"
                     android:layout_width="@dimen/volume_dialog_panel_width"
                     android:layout_height="match_parent"
+		    android:tint="?android:attr/colorAccent"
                     android:src="@drawable/ic_volume_odi_captions_disabled"
                     sysui:optedOut="false" />
             </LinearLayout>
