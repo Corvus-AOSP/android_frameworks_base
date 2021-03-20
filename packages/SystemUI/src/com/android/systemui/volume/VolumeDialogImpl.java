@@ -198,9 +198,6 @@ public class VolumeDialogImpl implements VolumeDialog,
     private boolean mDarkMode;
     private boolean mVibrateOnSlider;
 
-    private boolean mDarkMode;
-    private boolean mVibrateOnSlider;
-
     private boolean mExpanded;
     private boolean mShowingMediaDevices;
 
@@ -891,7 +888,7 @@ public class VolumeDialogImpl implements VolumeDialog,
                     if (!row.addedToGroup) {
                         mMediaOutputView.addView(row.view);
                         row.addedToGroup = true;
-                    }
+		    }
                 } else {
                     mMediaOutputView.removeView(row.view);
                     row.addedToGroup = false;
@@ -1981,6 +1978,7 @@ public class VolumeDialogImpl implements VolumeDialog,
                 }
             }
             final int userLevel = getImpliedLevel(seekBar, progress);
+
             if ((mRow.stream == STREAM_RING || mRow.stream == STREAM_NOTIFICATION) && mHasAlertSlider) {
                 if (mRow.ss.level > mRow.ss.levelMin && userLevel == 0) {
                     seekBar.setProgress((mRow.ss.levelMin + 1) * 100);

@@ -30,13 +30,10 @@ import android.graphics.Region;
 import android.hardware.display.DisplayManager;
 import android.hardware.display.DisplayManager.DisplayListener;
 import android.hardware.input.InputManager;
-import android.os.AsyncTask;
 import android.os.Looper;
 import android.os.RemoteException;
 import android.os.SystemClock;
 import android.os.SystemProperties;
-import android.os.Vibrator;
-import android.os.VibrationEffect;
 import android.provider.DeviceConfig;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -172,8 +169,6 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
     private int mEdgeWidthRight;
     // The bottom gesture area height
     private float mBottomGestureHeight;
-    // Displaysize divider to check the edge height where touch down is allowed
-    private int mYDeadzoneDivider = 0;
     // The slop to distinguish between horizontal and vertical motion
     private float mTouchSlop;
     // Duration after which we consider the event as longpress.
@@ -231,9 +226,6 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
             new NavigationEdgeBackPlugin.BackCallback() {
                 @Override
                 public void triggerBack() {
-                    if (mEdgeHapticEnabled) {
-                        vibrateTick();
-                    }
                     sendEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK);
                     sendEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BACK);
 
@@ -257,7 +249,6 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
             Runnable stateChangeCallback) {
         super(Dependency.get(BroadcastDispatcher.class));
         mContext = context;
-        mVibrator = context.getSystemService(Vibrator.class);
         mDisplayId = context.getDisplayId();
         mMainExecutor = context.getMainExecutor();
         mOverviewProxyService = overviewProxyService;
@@ -301,12 +292,8 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
                 .getResources();
         mEdgeWidthLeft = mGestureNavigationSettingsObserver.getLeftSensitivity(res);
         mEdgeWidthRight = mGestureNavigationSettingsObserver.getRightSensitivity(res);
-        mEdgeHapticEnabled = mGestureNavigationSettingsObserver.getEdgeHaptic();
         mIsBackGestureAllowed =
                 !mGestureNavigationSettingsObserver.areNavigationButtonForcedVisible();
-        mIsBackGestureArrowEnabled = mGestureNavigationSettingsObserver.getBackArrowGesture();
-
-        mYDeadzoneDivider = mGestureNavigationSettingsObserver.getDeadZoneMode();
 
         final DisplayMetrics dm = res.getDisplayMetrics();
         final float defaultGestureHeight = res.getDimension(
@@ -377,11 +364,6 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
 
     public void onNavBarTransientStateChanged(boolean isTransient) {
         mIsNavBarShownTransiently = isTransient;
-    }
-
-    private void vibrateTick() {
-            AsyncTask.execute(() ->
-                    mVibrator.vibrate(VibrationEffect.createOneShot(HAPTIC_DURATION, VibrationEffect.DEFAULT_AMPLITUDE)));
     }
 
     private void disposeInputChannel() {
@@ -527,16 +509,6 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
                 return;
             }
         }
-
-        if (mYDeadzoneDivider != 0 && y < (mDisplaySize.y / mYDeadzoneDivider)) {
-            return false;
-        }
-
-        // Denotes whether we should proceed with the gesture.
-        // Even if it is false, we may want to log it assuming
-        // it is not invalid due to exclusion.
-        boolean withinRange = x <= mEdgeWidthLeft + mLeftInset
-                || x >= (mDisplaySize.x - mEdgeWidthRight - mRightInset);
 
         mUseMLModel = false;
         if (mBackGestureTfClassifierProvider != null) {
@@ -690,7 +662,6 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
                     && isWithinTouchRegion((int) ev.getX(), (int) ev.getY());
             if (mAllowGesture) {
                 mEdgeBackPlugin.setIsLeftPanel(mIsOnLeftEdge);
-                mEdgeBackPlugin.setBackArrowVisibility(mIsBackGestureArrowEnabled);
                 mEdgeBackPlugin.onMotionEvent(ev);
             }
             if (mLogGesture) {
@@ -784,7 +755,7 @@ public class EdgeBackGestureHandler extends CurrentUserTracker implements Displa
         final KeyEvent ev = new KeyEvent(when, when, action, code, 0 /* repeat */,
                 0 /* metaState */, KeyCharacterMap.VIRTUAL_KEYBOARD, 0 /* scancode */,
                 KeyEvent.FLAG_FROM_SYSTEM | KeyEvent.FLAG_VIRTUAL_HARD_KEY,
-                InputDevice.SOURCE_NAVIGATION_BAR);
+                InputDevice.SOURCE_KEYBOARD);
 
         // Bubble controller will give us a valid display id if it should get the back event
         BubbleController bubbleController = Dependency.get(BubbleController.class);

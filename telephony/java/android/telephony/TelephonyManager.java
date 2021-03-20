@@ -3147,6 +3147,64 @@ public class TelephonyManager {
     }
 
     /**
+     * Network Class Definitions.
+     * Do not change this order, it is used for sorting during emergency calling in
+     * {@link TelephonyConnectionService#getFirstPhoneForEmergencyCall()}. Any newer technologies
+     * should be added after the current definitions.
+     */
+    /** Unknown network class. {@hide} */
+    public static final int NETWORK_CLASS_UNKNOWN = 0;
+    /** Class of broadly defined "2G" networks. {@hide} */
+    @UnsupportedAppUsage
+    public static final int NETWORK_CLASS_2_G = 1;
+    /** Class of broadly defined "3G" networks. {@hide} */
+    @UnsupportedAppUsage
+    public static final int NETWORK_CLASS_3_G = 2;
+    /** Class of broadly defined "4G" networks. {@hide} */
+    @UnsupportedAppUsage
+    public static final int NETWORK_CLASS_4_G = 3;
+    /** Class of broadly defined "5G" networks. {@hide} */
+    public static final int NETWORK_CLASS_5_G = 4;
+
+    /**
+     * Return general class of network type, such as "3G" or "4G". In cases
+     * where classification is contentious, this method is conservative.
+     *
+     * @hide
+     */
+    @UnsupportedAppUsage
+    public static int getNetworkClass(int networkType) {
+        switch (networkType) {
+            case NETWORK_TYPE_GPRS:
+            case NETWORK_TYPE_GSM:
+            case NETWORK_TYPE_EDGE:
+            case NETWORK_TYPE_CDMA:
+            case NETWORK_TYPE_1xRTT:
+            case NETWORK_TYPE_IDEN:
+                return NETWORK_CLASS_2_G;
+            case NETWORK_TYPE_UMTS:
+            case NETWORK_TYPE_EVDO_0:
+            case NETWORK_TYPE_EVDO_A:
+            case NETWORK_TYPE_HSDPA:
+            case NETWORK_TYPE_HSUPA:
+            case NETWORK_TYPE_HSPA:
+            case NETWORK_TYPE_EVDO_B:
+            case NETWORK_TYPE_EHRPD:
+            case NETWORK_TYPE_HSPAP:
+            case NETWORK_TYPE_TD_SCDMA:
+                return NETWORK_CLASS_3_G;
+            case NETWORK_TYPE_LTE:
+            case NETWORK_TYPE_IWLAN:
+            case NETWORK_TYPE_LTE_CA:
+                return NETWORK_CLASS_4_G;
+            case NETWORK_TYPE_NR:
+                return NETWORK_CLASS_5_G;
+            default:
+                return NETWORK_CLASS_UNKNOWN;
+        }
+    }
+
+    /**
      * Returns a string representation of the radio technology (network type)
      * currently in use on the device.
      * @return the name of the radio technology
@@ -7042,6 +7100,76 @@ public class TelephonyManager {
             executor.execute(() ->
                     callback.onVerificationFailed(NumberVerificationCallback.REASON_UNSPECIFIED));
         }
+    }
+
+    /**
+     * Sets a per-phone telephony property with the value specified.
+     *
+     * @hide
+     */
+    @UnsupportedAppUsage
+    public static void setTelephonyProperty(int phoneId, @NonNull String property, @Nullable String value) {
+        String propVal = "";
+        String p[] = null;
+        String prop = SystemProperties.get(property);
+
+        if (value == null) {
+            value = "";
+        }
+        value.replace(',', ' ');
+        if (prop != null) {
+            p = prop.split(",");
+        }
+
+        if (!SubscriptionManager.isValidPhoneId(phoneId)) {
+            Rlog.d(TAG, "setTelephonyProperty: invalid phoneId=" + phoneId +
+                    " property=" + property + " value: " + value + " prop=" + prop);
+            return;
+        }
+
+        for (int i = 0; i < phoneId; i++) {
+            String str = "";
+            if ((p != null) && (i < p.length)) {
+                str = p[i];
+            }
+            propVal = propVal + str + ",";
+        }
+
+        propVal = propVal + value;
+        if (p != null) {
+            for (int i = phoneId + 1; i < p.length; i++) {
+                propVal = propVal + "," + p[i];
+            }
+        }
+
+        int propValLen = propVal.length();
+        try {
+            propValLen = propVal.getBytes("utf-8").length;
+        } catch (java.io.UnsupportedEncodingException e) {
+            Rlog.d(TAG, "setTelephonyProperty: utf-8 not supported");
+        }
+        if (propValLen > SystemProperties.PROP_VALUE_MAX) {
+            Rlog.d(TAG, "setTelephonyProperty: property too long phoneId=" + phoneId +
+                    " property=" + property + " value: " + value + " propVal=" + propVal);
+            return;
+        }
+
+        SystemProperties.set(property, propVal);
+    }
+
+    /**
+     * Sets a global telephony property with the value specified.
+     *
+     * @hide
+     */
+    @UnsupportedAppUsage
+    public static void setTelephonyProperty(@NonNull String property, @Nullable String value) {
+        if (value == null) {
+            value = "";
+        }
+        Rlog.d(TAG, "setTelephonyProperty: success" + " property=" +
+                property + " value: " + value);
+        SystemProperties.set(property, value);
     }
 
     /**
