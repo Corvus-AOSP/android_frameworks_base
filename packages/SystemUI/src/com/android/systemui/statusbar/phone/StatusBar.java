@@ -804,14 +804,8 @@ public class StatusBar extends SystemUI implements
             TunerService tunerService,
             DumpManager dumpManager,
             ActivityLaunchAnimator activityLaunchAnimator,
-<<<<<<< HEAD
             WiredChargingRippleController wiredChargingRippleController,
-            BurnInProtectionController burnInProtectionController,
-            SystemSettings systemSettings) {
-=======
-            BurnInProtectionController burnInProtectionController,
-            WiredChargingRippleController wiredChargingRippleController) {
->>>>>>> f75d7e0116b4 (Revert "[SQUASH]base: Add GamingMode support [1/3]")
+            BurnInProtectionController burnInProtectionController) {
         super(context);
         mNotificationsController = notificationsController;
         mFragmentService = fragmentService;
@@ -3027,6 +3021,7 @@ public class StatusBar extends SystemUI implements
         }
         updatePanelExpansionForKeyguard();
         Trace.endSection();
+        mNotificationPanelViewController.updateNotificationTranslucency();
     }
 
     private void updatePanelExpansionForKeyguard() {
@@ -3036,6 +3031,10 @@ public class StatusBar extends SystemUI implements
         } else if (mState == StatusBarState.FULLSCREEN_USER_SWITCHER) {
             instantCollapseNotificationPanel();
         }
+    }
+
+    public PulseController getPulseController() {
+        return mPulseController;
     }
 
     private void onLaunchTransitionFadingEnded() {
