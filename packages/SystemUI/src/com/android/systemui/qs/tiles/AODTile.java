@@ -24,6 +24,7 @@ import android.service.quicksettings.Tile;
 import com.android.systemui.qs.QSHost;
 import com.android.systemui.qs.tileimpl.QSTileImpl;
 import com.android.systemui.plugins.qs.QSTile.BooleanState;
+import com.android.systemui.plugins.ActivityStarter;
 import com.android.systemui.R;
 
 import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
@@ -34,11 +35,14 @@ public class AODTile extends QSTileImpl<BooleanState> {
     private boolean mAodDisabled;
     private final Icon mIcon = ResourceIcon.get(R.drawable.ic_qs_aod);
 
+    private final ActivityStarter mActivityStarter;
+
     @Inject
-    public AODTile(QSHost host) {
+    public AODTile(QSHost host, ActivityStarter activityStarter) {
         super(host);
         mAodDisabled = Settings.Secure.getInt(mContext.getContentResolver(),
                 Settings.Secure.DOZE_ALWAYS_ON, 1) == 0;
+        mActivityStarter = activityStarter;
     }
 
     @Override
@@ -65,7 +69,7 @@ public class AODTile extends QSTileImpl<BooleanState> {
     public Intent getLongClickIntent() {
         mHost.collapsePanels();
         Intent nIntent = new Intent(Intent.ACTION_MAIN);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        nIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         nIntent.setClassName("com.custom.ambient.display",
                 "com.custom.ambient.display.DozeSettings");
             mActivityStarter.startActivity(nIntent, false);

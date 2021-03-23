@@ -47,7 +47,9 @@ public class FPSInfoTile extends QSTileImpl<BooleanState> {
 
     @Override
     public BooleanState newTileState() {
-        return new BooleanState();
+        BooleanState state = new BooleanState();
+        state.handlesLongClick = false;
+        return state;
     }
 
     @Override
@@ -59,10 +61,6 @@ public class FPSInfoTile extends QSTileImpl<BooleanState> {
     @Override
     public int getMetricsCategory() {
         return MetricsEvent.CORVUS;
-    }
-
-    @Override
-    public void handleLongClick() {
     }
 
     protected void toggleState() {
