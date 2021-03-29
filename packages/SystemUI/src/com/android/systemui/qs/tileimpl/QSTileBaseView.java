@@ -132,7 +132,7 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
         mColorActiveAlpha = adjustAlpha(mColorActive, 0.2f);
         mColorDisabled = Utils.getDisabled(context,
                 Utils.getColorAttrDefaultColor(context, android.R.attr.textColorTertiary));
-        mColorInactive = Utils.getColorAttrDefaultColor(context, android.R.attr.textColorSecondary);
+        mColorInactive = Utils.getColorAttrDefaultColor(context, android.R.attr.textColorTertiary);
 
         setPadding(0, 0, 0, 0);
         setClipChildren(false);
