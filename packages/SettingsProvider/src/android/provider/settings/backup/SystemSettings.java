@@ -88,5 +88,10 @@ public class SystemSettings {
         Settings.System.FULLSCREEN_GESTURES,
         Settings.System.QS_SHOW_BATTERY_ESTIMATE,
         Settings.System.BATTERY_LEVEL_COLORS,
+        Settings.System.GAMING_MODE_ENABLED,
+        Settings.System.GAMING_MODE_DYNAMIC_ADD,
+        Settings.System.GAMING_MODE_APP_LIST,
+        Settings.System.GAMING_MODE_DISABLE_NOTIFICATION_ALERT,
+        Settings.System.GAMING_MODE_DISABLE_ADB,
     };
 }
