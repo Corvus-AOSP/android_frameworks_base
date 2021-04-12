@@ -5745,20 +5745,6 @@ public final class Settings {
         public static final String CLICK_PARTIAL_SCREENSHOT = "click_partial_screenshot";
 
         /**
-         * User definable value of pulse notification screen brightness
-         *
-         * @hide
-         */
-        public static final String PULSE_BRIGHTNESS = "pulse_brightness";
-
-        /**
-         * User definable value of aod screen brightness
-         *
-         * @hide
-         */
-        public static final String DOZE_BRIGHTNESS = "doze_brightness";
-
-        /**
          * @hide
          * Toggle for clipboard access toast.
          * @hide
@@ -6031,11 +6017,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(DISPLAY_COLOR_ADJUSTMENT);
             PRIVATE_SETTINGS.add(DISPLAY_PICTURE_ADJUSTMENT);
             PRIVATE_SETTINGS.add(LIVE_DISPLAY_HINTED);
-            PRIVATE_SETTINGS.add(PULSE_BRIGHTNESS);
-            PRIVATE_SETTINGS.add(DOZE_BRIGHTNESS);
-            PRIVATE_SETTINGS.add(DOZE_BRIGHTNESS_FORCE);
-
-}
+        }
 
         /**
          * These entries are considered common between the personal and the managed profile,
