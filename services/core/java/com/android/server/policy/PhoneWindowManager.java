@@ -410,7 +410,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private boolean mHasFeatureLeanback;
     private boolean mHasFeatureHdmiCec;
 
-
     boolean mVolumeRockerWake;
     private boolean mVolumeMusicControlActive;
     private boolean mVolumeMusicControl;
@@ -895,13 +894,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     Settings.System.TORCH_LONG_PRESS_POWER_TIMEOUT), false, this,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.DOZE_TRIGGER_DOUBLETAP), false, this,
-                    UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.CLICK_PARTIAL_SCREENSHOT), false, this,
                     UserHandle.USER_ALL);
 	    resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.ALERT_SLIDER_ORDER), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.DOZE_TRIGGER_DOUBLETAP), false, this,
                     UserHandle.USER_ALL);
             updateSettings();
         }
@@ -1969,15 +1968,14 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         mWakeOnBackKeyPress =
                 res.getBoolean(com.android.internal.R.bool.config_wakeOnBackKeyPress);
 
-        // Double-tap-to-doze
-        mNativeDoubleTapToDozeAvailable = !TextUtils.isEmpty(
-                mContext.getResources().getString(R.string.config_dozeDoubleTapSensorType));
-
         // Init alert slider
         mHasAlertSlider = mContext.getResources().getBoolean(R.bool.config_hasAlertSlider)
                 && !TextUtils.isEmpty(mContext.getResources().getString(R.string.alert_slider_state_path))
                 && !TextUtils.isEmpty(mContext.getResources().getString(R.string.alert_slider_uevent_match_path));
 
+        // Double-tap-to-doze
+        mNativeDoubleTapToDozeAvailable = !TextUtils.isEmpty(
+                mContext.getResources().getString(R.string.config_dozeDoubleTapSensorType));
         // Init display burn-in protection
         boolean burnInProtectionEnabled = context.getResources().getBoolean(
                 com.android.internal.R.bool.config_enableBurnInProtection);

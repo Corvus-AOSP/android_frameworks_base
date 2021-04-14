@@ -57,7 +57,8 @@ public class AmbientDisplayConfiguration {
                 || wakeDisplayGestureEnabled(user)
                 || pickupGestureEnabled(user)
                 || tapGestureEnabled(user)
-                || doubleTapGestureEnabled(user);
+                || doubleTapGestureEnabled(user)
+                || isAmbientTickerEnabled(user);
     }
 
     /** {@hide} */
@@ -73,7 +74,10 @@ public class AmbientDisplayConfiguration {
 
     /** {@hide} */
     private boolean pulseOnCustomDozeEventEnabled(int user) {
-        return (Settings.System.getInt(mContext.getContentResolver(), Settings.System.DOZE_TRIGGER_DOUBLETAP, 0) != 0)
+        return (Settings.System.getInt(mContext.getContentResolver(), Settings.System.CUSTOM_AMBIENT_TILT_GESTURE, 0) != 0
+                || Settings.System.getInt(mContext.getContentResolver(), Settings.System.CUSTOM_AMBIENT_POCKETMODE_GESTURE, 0) != 0
+                || Settings.System.getInt(mContext.getContentResolver(), Settings.System.CUSTOM_AMBIENT_HANDWAVE_GESTURE, 0) != 0
+                || Settings.System.getInt(mContext.getContentResolver(), Settings.System.DOZE_TRIGGER_DOUBLETAP, 0) != 0)
                 && pulseOnNotificationAvailable();
     }
 
@@ -131,11 +135,6 @@ public class AmbientDisplayConfiguration {
     /** {@hide} */
     public long getWakeLockScreenDebounce() {
         return mContext.getResources().getInteger(R.integer.config_dozeWakeLockScreenDebounce);
-    }
-
-    /** {@hide} */
-    public String pickupSensorType() {
-        return mContext.getResources().getString(R.string.config_dozePickupSensorType);
     }
 
     /** {@hide} */
@@ -278,5 +277,11 @@ public class AmbientDisplayConfiguration {
     /** {@hide} */
     public boolean deviceHasWeirtdDtSensor() {
         return mDeviceWithWeirdDtSensor;
+    }
+
+    /** {@hide} */
+    public boolean isAmbientTickerEnabled(int user) {
+        return Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.PULSE_ON_NEW_TRACKS, 1, user) != 0;
     }
 }

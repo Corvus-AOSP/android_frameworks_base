@@ -4067,6 +4067,13 @@ public final class Settings {
          */
         public static final int SCREEN_BRIGHTNESS_MODE_AUTOMATIC = 1;
 
+	/**
+         * Indicates whether we should only show the app lock view when the device is woken up
+         * Or always.
+         * @hide
+         */
+        public static final String APP_LOCK_SHOW_ONLY_ON_WAKE = "app_lock_show_only_on_wake";
+
         /**
          * Control whether to enable adaptive sleep mode.
          * @deprecated Use {@link android.provider.Settings.Secure#ADAPTIVE_SLEEP} instead.
@@ -5250,6 +5257,30 @@ public final class Settings {
          */
         public static final String AMBIENT_WAKE_GESTURES = "ambient_wake_gestures";
 
+	/**
+         * Custom Ambient tilt gesture
+         * @hide
+         */
+        public static final String CUSTOM_AMBIENT_TILT_GESTURE = "custom_ambient_tilt_gesture";
+
+        /**
+         * Custom Ambient handwave gesture
+         * @hide
+         */
+        public static final String CUSTOM_AMBIENT_HANDWAVE_GESTURE = "custom_ambient_handwave_gesture";
+
+	/**
+         * Custom Ambient raise gesture
+         * @hide
+         */
+        public static final String CUSTOM_AMBIENT_RAISE_GESTURE = "custom_ambient_raise_gesture";
+
+        /**
+         * Custom Ambient pocketmode gesture
+         * @hide
+         */
+        public static final String CUSTOM_AMBIENT_POCKETMODE_GESTURE = "custom_ambient_pocketmode_gesture";
+
        /**
          * Lockscreen media art
          * @hide
@@ -5735,12 +5766,6 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
         public static final String AMBIENT_LIGHT_REPEAT_COUNT = "ambient_light_repeat_count";
 
         /**
-         * Use doubletap as doze pulse triggers
-         * @hide
-         */
-        public static final String DOZE_TRIGGER_DOUBLETAP = "doze_trigger_doubletap";
-
-        /**
          * Whether to launch default music player when headset plugged in
          * @hide
          */
@@ -5773,20 +5798,6 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
         public static final String CLICK_PARTIAL_SCREENSHOT = "click_partial_screenshot";
 
         /**
-         * User definable value of pulse notification screen brightness
-         *
-         * @hide
-         */
-        public static final String PULSE_BRIGHTNESS = "pulse_brightness";
-
-        /**
-         * User definable value of aod screen brightness
-         *
-         * @hide
-         */
-        public static final String DOZE_BRIGHTNESS = "doze_brightness";
-
-        /**
          * @hide
          * Toggle for clipboard access toast.
          * @hide
@@ -5799,13 +5810,11 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
          */
         public static final String LESS_BORING_HEADS_UP = "less_boring_heads_up";
 
-        /**
-         * IMPORTANT: If you add a new public settings you also have to add it to
-         * PUBLIC_SETTINGS below. If the new setting is hidden you have to add
-         * it to PRIVATE_SETTINGS below. Also add a validator that can validate
-         * the setting value. See an example above.
+        /** Whether to pulse ambient on new music tracks
+         *
+         * @hide
          */
-        public static final String DOZE_BRIGHTNESS_FORCE = "doze_brightness_force";
+        public static final String PULSE_ON_NEW_TRACKS = "pulse_on_new_tracks";
 
        /**
          * Gaming mode master switch
@@ -5882,6 +5891,28 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
          * @hide
          */
         public static final String QS_RUNNING_SERVICES_TOGGLE = "qs_running_services_toggle";
+
+         * Use doubletap as doze pulse triggers
+         * @hide
+         */
+        public static final String DOZE_TRIGGER_DOUBLETAP = "doze_trigger_doubletap";
+
+        /**
+         * User definable value of pulse notification screen brightness
+         * @hide
+         */
+        public static final String PULSE_BRIGHTNESS = "pulse_brightness";
+
+        /**
+         * User definable value of aod screen brightness
+         * @hide
+         */
+        public static final String DOZE_BRIGHTNESS = "doze_brightness";
+
+        /**
+         * @hide
+         */
+        public static final String DOZE_BRIGHTNESS_FORCE = "doze_brightness_force";
 
         /**
          * Keys we no longer back up under the current schema, but want to continue to
@@ -6060,11 +6091,7 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
             PRIVATE_SETTINGS.add(DISPLAY_COLOR_ADJUSTMENT);
             PRIVATE_SETTINGS.add(DISPLAY_PICTURE_ADJUSTMENT);
             PRIVATE_SETTINGS.add(LIVE_DISPLAY_HINTED);
-            PRIVATE_SETTINGS.add(PULSE_BRIGHTNESS);
-            PRIVATE_SETTINGS.add(DOZE_BRIGHTNESS);
-            PRIVATE_SETTINGS.add(DOZE_BRIGHTNESS_FORCE);
-
-}
+        }
 
         /**
          * These entries are considered common between the personal and the managed profile,

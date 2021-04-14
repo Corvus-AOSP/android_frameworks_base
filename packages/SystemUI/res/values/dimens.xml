@@ -746,7 +746,7 @@
     <dimen name="qs_date_time_translation">8dp</dimen>
 
     <!-- Padding before battery level text in status bar, QS, and Keyguard -->
-    <dimen name="battery_level_padding_start">1dp</dimen>
+    <dimen name="battery_level_padding_start">3dp</dimen>
 
     <!-- Padding before battery level text in status bar, QS, and Keyguard -->
     <dimen name="battery_level_padding_end">3dp</dimen>

@@ -116,25 +116,14 @@ public class DozeScreenBrightness extends BroadcastReceiver implements DozeMachi
     public void transitionTo(DozeMachine.State oldState, DozeMachine.State newState) {
         switch (newState) {
             case INITIALIZED:
+            case DOZE:
+                resetBrightnessToDefault();
+                break;
             case DOZE_AOD:
                 setBrightnessToValue(getDozeBrightnessValue());
-                setLightSensorEnabled(true);
-                // we dont have a brightness sensor so remove any font scrim
-                // set from prepareForGentleWakeUp right away
-                if (!mRegistered) {
-                    mDozeHost.setAodDimmingScrim(0f);
-                }
                 break;
             case DOZE_REQUEST_PULSE:
                 setBrightnessToValue(getPulseBrightnessValue());
-                setLightSensorEnabled(true);
-                // we dont have a brightness sensor so remove any font scrim right away
-                if (!mRegistered) {
-                    mDozeHost.setAodDimmingScrim(0f);
-                }
-                break;
-            case DOZE:
-                resetBrightnessToDefault();
                 break;
             case FINISH:
                 onDestroy();
@@ -222,6 +211,12 @@ public class DozeScreenBrightness extends BroadcastReceiver implements DozeMachi
         mDozeHost.setAodDimmingScrim(0f);
     }
 
+    private void setBrightnessToValue(int value) {
+        boolean forceCustomBrightness = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.DOZE_BRIGHTNESS_FORCE, 0, UserHandle.USER_CURRENT) == 1;
+        mDozeService.setDozeScreenBrightness(forceCustomBrightness ? value : clampToUserSetting(value));
+    }
+
     private int getDozeBrightnessValue() {
         return Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.DOZE_BRIGHTNESS, mDefaultDozeBrightness,
@@ -232,12 +227,6 @@ public class DozeScreenBrightness extends BroadcastReceiver implements DozeMachi
         return Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.PULSE_BRIGHTNESS, mDefaultPulseBrightness,
                 UserHandle.USER_CURRENT);
-    }
-
-    private void setBrightnessToValue(int value) {
-        boolean forceCustomBrightness = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.DOZE_BRIGHTNESS_FORCE, 0, UserHandle.USER_CURRENT) == 1;
-        mDozeService.setDozeScreenBrightness(forceCustomBrightness ? value : clampToUserSetting(value));
     }
 
     //TODO: brightnessfloat change usages to float.

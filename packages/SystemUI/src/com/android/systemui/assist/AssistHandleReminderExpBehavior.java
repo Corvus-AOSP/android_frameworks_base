@@ -285,18 +285,18 @@ final class AssistHandleReminderExpBehavior implements BehaviorController {
             mContext.getContentResolver().unregisterContentObserver(mSettingObserver);
             mSettingObserver = null;
             // putString to use overrideableByRestore
-            Settings.Secure.putString(
-                    mContext.getContentResolver(),
-                    Settings.Secure.ASSIST_HANDLES_LEARNING_TIME_ELAPSED_MILLIS,
-                    Long.toString(0L),
-                    /* overrideableByRestore = */ true);
+            //Settings.Secure.putString(
+            //        mContext.getContentResolver(),
+            //        Settings.Secure.ASSIST_HANDLES_LEARNING_TIME_ELAPSED_MILLIS,
+            //        Long.toString(0L),
+            //        /* overrideableByRestore = */ true);
             // putString to use overrideableByRestore
-            Settings.Secure.putString(
-                    mContext.getContentResolver(),
-                    Settings.Secure.ASSIST_HANDLES_LEARNING_EVENT_COUNT,
-                    Integer.toString(0),
-                    /* overrideableByRestore = */ true);
-            Settings.Secure.putLong(mContext.getContentResolver(), LEARNED_HINT_LAST_SHOWN_KEY, 0);
+            //Settings.Secure.putString(
+            //        mContext.getContentResolver(),
+            //        Settings.Secure.ASSIST_HANDLES_LEARNING_EVENT_COUNT,
+            //        Integer.toString(0),
+            //        /* overrideableByRestore = */ true);
+            //Settings.Secure.putLong(mContext.getContentResolver(), LEARNED_HINT_LAST_SHOWN_KEY, 0); */
             mContext = null;
         }
         mStatusBarStateController.get().removeCallback(mStatusBarStateListener);
