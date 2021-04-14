@@ -255,13 +255,14 @@ public class TileLayout extends ViewGroup implements QSTileLayout {
 
     public void updateSettings() {
         final Resources res = mContext.getResources();
+        int defaultColumns = Math.max(1, res.getInteger(R.integer.quick_settings_num_columns));
         boolean isPortrait = res.getConfiguration().orientation
                 == Configuration.ORIENTATION_PORTRAIT;
         int columns = Settings.System.getIntForUser(
-                mContext.getContentResolver(), Settings.System.OMNI_QS_LAYOUT_COLUMNS, 3,
+                mContext.getContentResolver(), Settings.System.OMNI_QS_LAYOUT_COLUMNS, defaultColumns,
                 UserHandle.USER_CURRENT);
         int columnsLandscape = Settings.System.getIntForUser(
-                mContext.getContentResolver(), Settings.System.OMNI_QS_LAYOUT_COLUMNS_LANDSCAPE, 4,
+                mContext.getContentResolver(), Settings.System.OMNI_QS_LAYOUT_COLUMNS_LANDSCAPE, defaultColumns,
                 UserHandle.USER_CURRENT);
         boolean showTitles = Settings.System.getIntForUser(
                 mContext.getContentResolver(), Settings.System.OMNI_QS_TILE_TITLE_VISIBILITY, 1,
