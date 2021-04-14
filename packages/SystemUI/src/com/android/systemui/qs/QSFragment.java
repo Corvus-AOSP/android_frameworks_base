@@ -461,14 +461,7 @@ public class QSFragment extends LifecycleFragment implements QS, CommandQueue.Ca
     }
 
     private void pinToBottom(float absoluteBottomPosition, MediaHost mediaHost, boolean expanded) {
-        View hostView;
-        try {
-            hostView = mediaHost.getHostView();
-        } catch (Exception e) {
-            // in case the user toggles off QS media player while media is playing
-            // HostView is null. There is no reason to continue
-            return;
-        }
+        View hostView = mediaHost.getHostView();
         if (mLastQSExpansion > 0) {
             float targetPosition = absoluteBottomPosition - getTotalBottomMargin(hostView)
                     - hostView.getHeight();

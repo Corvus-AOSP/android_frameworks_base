@@ -5476,12 +5476,6 @@ public final class Settings {
         public static final String NOTIFICATION_HEADERS = "notification_headers";
 
         /**
-         * Whether to show media player in QS
-         * @hide
-         */
-        public static final String QS_MEDIA_PLAYER = "qs_media_player";
-
-        /**
          * Change quick settings tiles animation style
          *
          * @hide
