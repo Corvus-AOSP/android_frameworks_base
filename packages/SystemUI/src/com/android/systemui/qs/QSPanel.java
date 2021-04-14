@@ -542,22 +542,15 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
 
     private void updateMinRows() {
         if (getTileLayout() == null) return;
-        if (!needsDynamicRowsAndColumns()) return;
-        final boolean isPortrait = mContext.getResources().getConfiguration().orientation
-                == Configuration.ORIENTATION_PORTRAIT;
-        final boolean isMedia = mUsingMediaPlayer && mMediaVisible;
-        final int rows = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.QS_LAYOUT_ROWS, 3,
-                UserHandle.USER_CURRENT);
-
-        QSTileLayout layout = getTileLayout();
-        if (isPortrait) {
-            layout.setLessRows(true);
-            layout.setMinRows(isMedia ? 2 : rows);
+        if (!mUsingMediaPlayer || !mMediaVisible) {
+            int rows = Settings.System.getIntForUser(mContext.getContentResolver(),
+                    Settings.System.QS_LAYOUT_ROWS, 3,
+                    UserHandle.USER_CURRENT);
+            boolean isPortrait = mContext.getResources().getConfiguration().orientation
+                    == Configuration.ORIENTATION_PORTRAIT;
+            getTileLayout().setMinRows(isPortrait ? rows : 1);
         } else {
-            layout.setLessRows(isMedia);
-            layout.setMinRows(isMedia ? 2 : 1);
-            layout.setMaxColumns(isMedia ? 3 : TileLayout.NO_MAX_COLUMNS);
+            getTileLayout().setMinRows(2);
         }
     }
 
@@ -688,6 +681,7 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
 
         if (newConfig.orientation != mLastOrientation) {
             mLastOrientation = newConfig.orientation;
+            updateMinRows();
             switchTileLayout();
             updateMinRows();
         }
@@ -741,6 +735,11 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
             mTileLayout = newLayout;
             if (mHost != null) setTiles(mHost.getTiles());
             newLayout.setListening(mListening);
+            if (needsDynamicRowsAndColumns()) {
+                newLayout.setMinRows(horizontal ? 2 : 1);
+                // Let's use 3 columns to match the current layout
+                newLayout.setMaxColumns(horizontal ? 3 : TileLayout.NO_MAX_COLUMNS);
+            }
             updateTileLayoutMargins();
             updateFooterMargin();
             updateDividerMargin();
@@ -1391,13 +1390,6 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
         default boolean setMaxColumns(int maxColumns) {
             return false;
         }
-
-        /**
-         * Set whether should use minimum possible rows
-         *
-         * @param enabled should use minimum
-         */
-        default void setLessRows(boolean enabled) {}
 
         default void setExpansion(float expansion) {}
 

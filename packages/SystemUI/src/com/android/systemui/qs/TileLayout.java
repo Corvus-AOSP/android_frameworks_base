@@ -41,7 +41,7 @@ public class TileLayout extends ViewGroup implements QSTileLayout {
     protected int mMaxAllowedRows = 3;
 
     // Prototyping with less rows
-    private boolean mLessRows;
+    private final boolean mLessRows;
     private int mMinRows = 3;
     private int mMaxColumns = NO_MAX_COLUMNS;
     private int mResourceColumns;
@@ -86,11 +86,6 @@ public class TileLayout extends ViewGroup implements QSTileLayout {
     public boolean setMaxColumns(int maxColumns) {
         mMaxColumns = maxColumns;
         return updateColumns();
-    }
-
-    @Override
-    public void setLessRows(boolean enabled) {
-        mLessRows = enabled;
     }
 
     public void addTile(TileRecord tile) {
