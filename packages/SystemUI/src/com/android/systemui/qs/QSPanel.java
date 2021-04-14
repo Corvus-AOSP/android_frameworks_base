@@ -702,7 +702,6 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
         super.onFinishInflate();
         mFooter = findViewById(R.id.qs_footer);
         mDivider = findViewById(R.id.divider);
-        mMediaVisible = mMediaHost.getVisible();
         switchTileLayout(true /* force */);
     }
 
