@@ -680,7 +680,6 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
 
         if (newConfig.orientation != mLastOrientation) {
             mLastOrientation = newConfig.orientation;
-            updateMinRows();
             switchTileLayout();
             updateMinRows();
         }
