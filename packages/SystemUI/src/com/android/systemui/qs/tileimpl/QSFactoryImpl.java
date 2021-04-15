@@ -45,7 +45,6 @@ import com.android.systemui.qs.tiles.HeadphonesBuddyTile;
 import com.android.systemui.qs.tiles.GamingModeTile;
 import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.HotspotTile;
-import com.android.systemui.qs.tiles.ImmersiveTile;
 import com.android.systemui.qs.tiles.LiveDisplayTile;
 import com.android.systemui.qs.tiles.LocationTile;
 import com.android.systemui.qs.tiles.MonoToggleTile;
@@ -107,7 +106,6 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<HeadphonesBuddyTile> mHeadphonesBuddyTile;
     private final Provider<RebootTile> mRebootTileProvider;
     private final Provider<CaffeineTile> mCaffeineTileProvider;
-    private final Provider<ImmersiveTile> mImmersiveTileProvider;
     private final Provider<MonoToggleTile> mMonoToggleTileProvider;
     private final Provider<UsbTetherTile> mUsbTetherTileProvider;
     private final Provider<SoundSearchTile> mSoundSearchTileProvider;
@@ -152,7 +150,6 @@ public class QSFactoryImpl implements QSFactory {
             Provider<LiveDisplayTile> liveDisplayTileProvider,
             Provider<RebootTile> rebootTileProvider,
             Provider<CaffeineTile> caffeineTileProvider,
-            Provider<ImmersiveTile> immersiveTileProvider,
             Provider<MonoToggleTile> monoToggleTileProvider,
             Provider<UsbTetherTile> usbTetherTileProvider,
             Provider<SoundSearchTile> soundSearchTileProvider,
@@ -193,7 +190,6 @@ public class QSFactoryImpl implements QSFactory {
         mLiveDisplayTileProvider = liveDisplayTileProvider;
         mRebootTileProvider = rebootTileProvider;
         mCaffeineTileProvider = caffeineTileProvider;
-        mImmersiveTileProvider = immersiveTileProvider;
         mMonoToggleTileProvider = monoToggleTileProvider;
         mUsbTetherTileProvider = usbTetherTileProvider;
         mSoundSearchTileProvider = soundSearchTileProvider;
@@ -273,8 +269,6 @@ public class QSFactoryImpl implements QSFactory {
                 return mRebootTileProvider.get();
             case "caffeine":
                 return mCaffeineTileProvider.get();
-            case "immersive":
-                return mImmersiveTileProvider.get();
             case "mono":
                 return mMonoToggleTileProvider.get();
             case "usb_tether":
