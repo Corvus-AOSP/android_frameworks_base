@@ -40,14 +40,6 @@
     <!-- Screen off delay -->
     <integer name="config_screen_off_delay">0</integer>
 
-    <!-- The list of components which should be automatically disabled. -->
-    <string-array name="config_disabledComponents" translatable="false">
-    </string-array>
-
-    <!-- The list of components which should be forced to be enabled. -->
-    <string-array name="config_forceEnabledComponents" translatable="false">
-    </string-array>
-
     <string-array translatable="false" name="custom_config_globalActionsList">
         <item>emergency</item>
         <item>power</item>
