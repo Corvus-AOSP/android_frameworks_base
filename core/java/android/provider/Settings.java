@@ -5892,6 +5892,7 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
          */
         public static final String QS_RUNNING_SERVICES_TOGGLE = "qs_running_services_toggle";
 
+        /**
          * Use doubletap as doze pulse triggers
          * @hide
          */
