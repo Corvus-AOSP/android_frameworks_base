@@ -249,5 +249,7 @@ public class SystemSettingsValidators {
                         return true;
                     }
                 });
+        VALIDATORS.put(System.CUSTOM_STATUSBAR_PADDING_START, ANY_INTEGER_VALIDATOR);
+        VALIDATORS.put(System.CUSTOM_STATUSBAR_PADDING_END, ANY_INTEGER_VALIDATOR);
     }
 }

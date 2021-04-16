@@ -5993,6 +5993,20 @@ public final class Settings {
         public static final String SYSTEMUI_PLUGIN_VOLUME = "systemui_plugin_volume";
 
         /**
+         * Statusbar padding Start
+         *
+         * @hide
+         */
+        public static final String CUSTOM_STATUSBAR_PADDING_START = "custom_statusbar_padding_start";
+
+        /**
+         * Statusbar padding End
+         *
+         * @hide
+         */
+        public static final String CUSTOM_STATUSBAR_PADDING_END  = "custom_statusbar_padding_end";
+
+	/**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
@@ -6167,6 +6181,8 @@ public final class Settings {
             PRIVATE_SETTINGS.add(NETWORK_TRAFFIC_VIEW_LOCATION);
             PRIVATE_SETTINGS.add(NETWORK_TRAFFIC_LAYOUT);
             PRIVATE_SETTINGS.add(SYSTEMUI_PLUGIN_VOLUME);
+            PRIVATE_SETTINGS.add(CUSTOM_STATUSBAR_PADDING_START);
+            PRIVATE_SETTINGS.add(CUSTOM_STATUSBAR_PADDING_END);
         }
 
         /**
