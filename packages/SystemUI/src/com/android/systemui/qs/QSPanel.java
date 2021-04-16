@@ -40,7 +40,6 @@ import android.os.Message;
 import android.os.UserHandle;
 import android.provider.Settings;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -173,7 +172,6 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
     private Consumer<Boolean> mMediaVisibilityChangedListener;
     private boolean mMediaVisible;
 
-
     @Inject
     public QSPanel(
             @Named(VIEW_CONTEXT) Context context,
@@ -205,41 +203,37 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
         mMovableContentStartIndex = getChildCount();
         mRegularTileLayout = createRegularTileLayout();
 
-        mHorizontalLinearLayout = new RemeasuringLinearLayout(mContext);
-        mHorizontalLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
-        mHorizontalLinearLayout.setClipChildren(false);
-        mHorizontalLinearLayout.setClipToPadding(false);
+        if (mUsingMediaPlayer) {
+            mHorizontalLinearLayout = new RemeasuringLinearLayout(mContext);
+            mHorizontalLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+            mHorizontalLinearLayout.setClipChildren(false);
+            mHorizontalLinearLayout.setClipToPadding(false);
 
-        mHorizontalContentContainer = new RemeasuringLinearLayout(mContext);
-        mHorizontalContentContainer.setOrientation(LinearLayout.VERTICAL);
-        mHorizontalContentContainer.setClipChildren(false);
-        mHorizontalContentContainer.setClipToPadding(false);
+            mHorizontalContentContainer = new RemeasuringLinearLayout(mContext);
+            mHorizontalContentContainer.setOrientation(LinearLayout.VERTICAL);
+            mHorizontalContentContainer.setClipChildren(false);
+            mHorizontalContentContainer.setClipToPadding(false);
 
-        mHorizontalTileLayout = createHorizontalTileLayout();
-        LayoutParams lp = new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1);
-        int marginSize = (int) mContext.getResources().getDimension(R.dimen.qqs_media_spacing);
-        lp.setMarginStart(0);
-        lp.setMarginEnd(marginSize);
-        lp.gravity = Gravity.CENTER_VERTICAL;
-        mHorizontalLinearLayout.addView(mHorizontalContentContainer, lp);
+            mHorizontalTileLayout = createHorizontalTileLayout();
+            LayoutParams lp = new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1);
+            int marginSize = (int) mContext.getResources().getDimension(R.dimen.qqs_media_spacing);
+            lp.setMarginStart(0);
+            lp.setMarginEnd(marginSize);
+            lp.gravity = Gravity.CENTER_VERTICAL;
+            mHorizontalLinearLayout.addView(mHorizontalContentContainer, lp);
 
-        lp = new LayoutParams(LayoutParams.MATCH_PARENT, 0, 1);
-        addView(mHorizontalLinearLayout, lp);
+            lp = new LayoutParams(LayoutParams.MATCH_PARENT, 0, 1);
+            addView(mHorizontalLinearLayout, lp);
 
-        initMediaHostState();
-
-        mMediaVisible = mUsingMediaPlayer ? mMediaHost.getVisible() : false;
-
+            initMediaHostState();
+        }
         addSecurityFooter();
         if (mRegularTileLayout instanceof PagedTileLayout) {
             mQsTileRevealController = new QSTileRevealController(mContext, this,
                     (PagedTileLayout) mRegularTileLayout);
         }
         mQSLogger.logAllTilesChangeListening(mListening, getDumpableTag(), mCachedSpecs);
-        updateSettings();
         updateResources();
-        mCustomSettingsObserver = new CustomSettingsObserver(mHandler);
-        mCustomSettingsObserver.update();
     }
 
     private class CustomSettingsObserver extends ContentObserver {
@@ -260,9 +254,6 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_SHOW_AUTO_BRIGHTNESS),
-                    false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.QS_LAYOUT_ROWS),
                     false, this, UserHandle.USER_ALL);
         }
 
@@ -286,9 +277,6 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.QS_SHOW_AUTO_BRIGHTNESS))) {
                 updateBrightnessButtonsVisibility();
-            } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.QS_LAYOUT_ROWS))) {
-                updateMinRows();
             }
         }
 
@@ -299,7 +287,6 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
                     UserHandle.USER_CURRENT) == 1);
             updateBrightnessSliderPosition();
             updateBrightnessButtonsVisibility();
-            updateMinRows();
         }
     }
 
@@ -308,13 +295,14 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
     protected void onMediaVisibilityChanged(Boolean visible) {
         mMediaVisible = visible;
         switchTileLayout();
+        if (getTileLayout() != null) {
+            getTileLayout().setMinRows(visible ? 2 : 3);
+        }
+        updateBrightnessSliderPosition();
+
         if (mMediaVisibilityChangedListener != null) {
             mMediaVisibilityChangedListener.accept(visible);
         }
-    }
-
-    public boolean getMediaVisible() {
-        return mMediaVisible;
     }
 
     protected void addSecurityFooter() {
@@ -343,6 +331,7 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
         }
         return mRegularTileLayout;
     }
+
 
     protected QSTileLayout createHorizontalTileLayout() {
         return createRegularTileLayout();
@@ -437,6 +426,7 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        mCustomSettingsObserver = new CustomSettingsObserver(mHandler);
         mCustomSettingsObserver.observe();
         mCustomSettingsObserver.update();
         if (mHost != null) {
@@ -481,8 +471,7 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
         boolean above = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.QS_SHOW_BRIGHTNESS_ABOVE_FOOTER, 0,
                 UserHandle.USER_CURRENT) == 1;
-        boolean shouldUseFooter = above && (!mMediaVisible || !mUsingMediaPlayer);
-        View seekView = shouldUseFooter ? mFooter : mDivider;
+        View seekView = above && !mMediaVisible ? mFooter : mDivider;
         for (int i = 0; i < getChildCount(); i++) {
             View v = getChildAt(i);
             if (v == seekView) {
@@ -542,27 +531,6 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
                 Settings.System.QS_SHOW_AUTO_BRIGHTNESS, 1,
                 UserHandle.USER_CURRENT) == 1;
         mBrightnessIcon.setVisibility(visible ? View.VISIBLE : View.GONE);
-    }
-
-    private void updateMinRows() {
-        if (getTileLayout() == null) return;
-        if (!needsDynamicRowsAndColumns()) return;
-        final boolean isPortrait = mContext.getResources().getConfiguration().orientation
-                == Configuration.ORIENTATION_PORTRAIT;
-        final boolean isMedia = mUsingMediaPlayer && mMediaVisible;
-        final int rows = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.QS_LAYOUT_ROWS, 3,
-                UserHandle.USER_CURRENT);
-
-        QSTileLayout layout = getTileLayout();
-        if (isPortrait) {
-            layout.setLessRows(true);
-            layout.setMinRows(isMedia ? 2 : rows);
-        } else {
-            layout.setLessRows(isMedia);
-            layout.setMinRows(isMedia ? 2 : 1);
-            layout.setMaxColumns(isMedia ? 3 : TileLayout.NO_MAX_COLUMNS);
-        }
     }
 
     public void openDetails(String subPanel) {
@@ -663,6 +631,9 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
         if (mTileLayout != null) {
             mTileLayout.updateResources();
         }
+        if (mCustomizePanel != null) {
+            mCustomizePanel.updateResources();
+        }
     }
 
     protected void updatePadding() {
@@ -693,7 +664,6 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
         if (newConfig.orientation != mLastOrientation) {
             mLastOrientation = newConfig.orientation;
             switchTileLayout();
-        
         }
     }
 
@@ -702,7 +672,6 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
         super.onFinishInflate();
         mFooter = findViewById(R.id.qs_footer);
         mDivider = findViewById(R.id.divider);
-        mMediaVisible = mMediaHost.getVisible();
         switchTileLayout(true /* force */);
     }
 
@@ -710,7 +679,7 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
         return switchTileLayout(false /* force */);
     }
 
-    public boolean switchTileLayout(boolean force) {
+    private boolean switchTileLayout(boolean force) {
         /** Whether or not the QuickQSPanel currently contains a media player. */
         boolean horizontal = shouldUseHorizontalLayout();
         if (mDivider != null) {
@@ -746,6 +715,15 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
             mTileLayout = newLayout;
             if (mHost != null) setTiles(mHost.getTiles());
             newLayout.setListening(mListening);
+            boolean landscapeAndMedia =
+                    horizontal && mUsingMediaPlayer && mMediaHost.getVisible();
+            if (needsDynamicRowsAndColumns() /*expanded qs panel*/) {
+                /* if no media notification allow custom rows/columns,
+                otherwise if landscape and media notification set a fixed value*/
+                newLayout.setMinRows(landscapeAndMedia ? 2 : 1);
+                // Let's use 3 columns to match the current layout
+                newLayout.setMaxColumns(landscapeAndMedia ? 3 : TileLayout.NO_MAX_COLUMNS);
+            }
             updateTileLayoutMargins();
             updateFooterMargin();
             updateDividerMargin();
@@ -753,10 +731,8 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
             updateMediaHostContentMargins();
             updateHorizontalLinearLayoutMargins();
             updatePadding();
-            updateMinRows();
             return true;
         }
-        updateMinRows();
         return false;
     }
 
@@ -1061,7 +1037,6 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
 
         if (mTileLayout != null) {
             mTileLayout.addTile(r);
-            configureTile(r.tile, r.tileView);
             tileClickListener(r.tile, r.tileView);
         }
 
@@ -1371,9 +1346,6 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
         int getOffsetTop(TileRecord tile);
 
         boolean updateResources();
-        int getNumColumns();
-        void updateSettings();
-        boolean isShowTitles();
 
         void setSidePadding(int paddingStart, int paddingEnd);
 
@@ -1399,16 +1371,7 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
             return false;
         }
 
-        /**
-         * Set whether should use minimum possible rows
-         *
-         * @param enabled should use minimum
-         */
-        default void setLessRows(boolean enabled) {}
-
         default void setExpansion(float expansion) {}
-
-
 
         int getNumVisibleTiles();
     }
@@ -1473,24 +1436,4 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
         }
     }
 
-    private void configureTile(QSTile t, QSTileView v) {
-        if (mTileLayout != null) {
-            v.setHideLabel(!mTileLayout.isShowTitles());
-        }
-    }
-
-    public void updateSettings() {
-        if (mTileLayout != null) {
-            mTileLayout.updateSettings();
-
-            for (TileRecord r : mRecords) {
-                configureTile(r.tile, r.tileView);
-            }
-        }
-        updateMinRows();
-    }
-
-    public int getNumColumns() {
-        return mTileLayout.getNumColumns();
-  }    
 }
