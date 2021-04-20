@@ -5112,6 +5112,11 @@ public final class Settings {
          */
         public static final String QS_FOOTER_TEXT_STRING = "qs_footer_text_string";
 
+        /**
+         * Whether StatusBar icons should use app icon
+         * @hide
+         */
+        public static final String STATUSBAR_ICONS_STYLE = "statusbar_icons_style";
 
         /**
          * Whether to show the battery info on the lockscreen while charging
@@ -6022,6 +6027,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(ANIM_TILE_DURATION);
             PRIVATE_SETTINGS.add(BACK_GESTURE_HAPTIC);
             PRIVATE_SETTINGS.add(QS_TILE_STYLE);
+            PRIVATE_SETTINGS.add(STATUSBAR_ICONS_STYLE);
         }
 
         /**
