@@ -1,18 +1,15 @@
 /*
- * Copyright (C) 2019 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* Copyright (C) 2014-2020 The BlissRoms Project
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+* * http://www.apache.org/licenses/LICENSE-2.0
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 package com.android.keyguard.clock;
 
 import android.app.WallpaperManager;
@@ -33,9 +30,9 @@ import com.android.systemui.plugins.ClockPlugin;
 import java.util.TimeZone;
 
 /**
- * Controller for Bubble clock that can appear on lock screen and AOD.
+ * Controller for Stretch clock that can appear on lock screen and AOD.
  */
-public class BubbleClockController implements ClockPlugin {
+public class OPNumbersClockController implements ClockPlugin {
 
     /**
      * Resources used to get title and thumbnail.
@@ -53,11 +50,6 @@ public class BubbleClockController implements ClockPlugin {
     private final SysuiColorExtractor mColorExtractor;
 
     /**
-     * Computes preferred position of clock.
-     */
-    private final SmallClockPosition mClockPosition;
-
-    /**
      * Renders preview from clock view.
      */
     private final ViewPreviewer mRenderer = new ViewPreviewer();
@@ -65,14 +57,8 @@ public class BubbleClockController implements ClockPlugin {
     /**
      * Custom clock shown on AOD screen and behind stack scroller on lock.
      */
-    private ClockLayout mView;
-    private ImageClock mAnalogClock;
-
-    /**
-     * Small clock shown on lock screen above stack scroller.
-     */
-    private View mLockClockContainer;
-    private TextClock mLockClock;
+    private ClockLayout mBigClockView;
+    private ImageClock mOneplusClock;
 
     /**
      * Helper to extract colors from wallpaper palette for clock face.
@@ -86,43 +72,37 @@ public class BubbleClockController implements ClockPlugin {
      * @param inflater Inflater used to inflate custom clock views.
      * @param colorExtractor Extracts accent color from wallpaper.
      */
-    public BubbleClockController(Resources res, LayoutInflater inflater,
+    public OPNumbersClockController(Resources res, LayoutInflater inflater,
             SysuiColorExtractor colorExtractor) {
         mResources = res;
         mLayoutInflater = inflater;
         mColorExtractor = colorExtractor;
-        mClockPosition = new SmallClockPosition(res);
     }
 
     private void createViews() {
-        mView = (ClockLayout) mLayoutInflater.inflate(R.layout.bubble_clock, null);
-        mAnalogClock = (ImageClock) mView.findViewById(R.id.analog_clock);
-
-        mLockClockContainer = mLayoutInflater.inflate(R.layout.digital_clock, null);
-        mLockClock = (TextClock) mLockClockContainer.findViewById(R.id.lock_screen_clock);
+        mBigClockView = (ClockLayout) mLayoutInflater.inflate(R.layout.oneplus_numbers_clock, null);
+        mOneplusClock = mBigClockView.findViewById(R.id.analog_clock);
     }
 
     @Override
     public void onDestroyView() {
-        mView = null;
-        mAnalogClock = null;
-        mLockClockContainer = null;
-        mLockClock = null;
+        mBigClockView = null;
+        mOneplusClock = null;
     }
 
     @Override
     public String getName() {
-        return "bubble";
+        return "Oneplus";
     }
 
     @Override
     public String getTitle() {
-        return mResources.getString(R.string.clock_title_bubble);
+        return mResources.getString(R.string.clock_title_oneplus_numbers);
     }
 
     @Override
     public Bitmap getThumbnail() {
-        return BitmapFactory.decodeResource(mResources, R.drawable.bubble_thumbnail);
+        return BitmapFactory.decodeResource(mResources, R.drawable.oneplus_numbers_thumbnail);
     }
 
     @Override
@@ -144,27 +124,21 @@ public class BubbleClockController implements ClockPlugin {
 
     @Override
     public View getView() {
-        if (mLockClockContainer == null) {
-            createViews();
-        }
-        return mLockClockContainer;
+        return null;
     }
 
     @Override
     public View getBigClockView() {
-        if (mView == null) {
+        if (mBigClockView == null) {
             createViews();
         }
-        return mView;
+        return mBigClockView;
     }
 
     @Override
     public int getPreferredY(int totalHeight) {
-        return mClockPosition.getPreferredY();
+        return totalHeight / 2;
     }
-
-    @Override
-    public void setStyle(Style style) {}
 
     @Override
     public void setTextColor(int color) {
@@ -180,27 +154,24 @@ public class BubbleClockController implements ClockPlugin {
     private void updateColor() {
         final int primary = mPalette.getPrimaryColor();
         final int secondary = mPalette.getSecondaryColor();
-        mLockClock.setTextColor(secondary);
-        mAnalogClock.setClockColors(primary, secondary);
+        //mOneplusClock.setClockColors(primary, secondary);
+    }
+
+    @Override
+    public void onTimeTick() {
+        mOneplusClock.onTimeChanged();
+        mBigClockView.onTimeChanged();
     }
 
     @Override
     public void setDarkAmount(float darkAmount) {
         mPalette.setDarkAmount(darkAmount);
-        mClockPosition.setDarkAmount(darkAmount);
-        mView.setDarkAmount(darkAmount);
-    }
-
-    @Override
-    public void onTimeTick() {
-        mAnalogClock.onTimeChanged();
-        mView.onTimeChanged();
-        mLockClock.refreshTime();
+        mBigClockView.setDarkAmount(darkAmount);
     }
 
     @Override
     public void onTimeZoneChanged(TimeZone timeZone) {
-        mAnalogClock.onTimeZoneChanged(timeZone);
+        mOneplusClock.onTimeZoneChanged(timeZone);
     }
 
     @Override

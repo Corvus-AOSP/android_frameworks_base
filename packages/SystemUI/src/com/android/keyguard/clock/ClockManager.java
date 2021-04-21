@@ -153,9 +153,20 @@ public final class ClockManager {
         addBuiltinClock(() -> new DefaultBoldClockController(res, layoutInflater, colorExtractor));
         addBuiltinClock(() -> new SamsungClockController(res, layoutInflater, colorExtractor));
         addBuiltinClock(() -> new SamsungBoldClockController(res, layoutInflater, colorExtractor));
-        addBuiltinClock(() -> new BubbleClockController(res, layoutInflater, colorExtractor));
-        addBuiltinClock(() -> new AnalogClockController(res, layoutInflater, colorExtractor));
+        addBuiltinClock(() -> new SpideyClockController(res, layoutInflater, colorExtractor));
+	addBuiltinClock(() -> new CorvusClockController(res, layoutInflater, colorExtractor));
+        addBuiltinClock(() -> new CustomNumClockController(res, layoutInflater, colorExtractor));
         addBuiltinClock(() -> new TypeClockController(res, layoutInflater, colorExtractor));
+        addBuiltinClock(() -> new BinaryClockController(res, layoutInflater, colorExtractor));
+        addBuiltinClock(() -> new DividedLinesClockController(res, layoutInflater, colorExtractor));
+        addBuiltinClock(() -> new SfunyClockController(res, layoutInflater, colorExtractor));
+        addBuiltinClock(() -> new MNMLBoxClockController(res, layoutInflater, colorExtractor));
+        addBuiltinClock(() -> new MNMLMinimalClockController(res, layoutInflater, colorExtractor));
+        addBuiltinClock(() -> new OPMinimalClockController(res, layoutInflater, colorExtractor));
+        addBuiltinClock(() -> new OPAnalogClockController(res, layoutInflater, colorExtractor));
+        addBuiltinClock(() -> new OPNumbersClockController(res, layoutInflater, colorExtractor));
+        addBuiltinClock(() -> new OPMinimalismClockController(res, layoutInflater, colorExtractor));
+        addBuiltinClock(() -> new OPRomanClockController(res, layoutInflater, colorExtractor));
 
         // Store the size of the display for generation of clock preview.
         DisplayMetrics dm = res.getDisplayMetrics();
@@ -333,7 +344,8 @@ public final class ClockManager {
                     .setTitle(plugin::getTitle)
                     .setId(id)
                     .setThumbnail(plugin::getThumbnail)
-                    .setPreview(() -> plugin.getPreview(mWidth, mHeight))
+                     // to make the preview bigger in ThemePicker
+                    .setPreview(() -> plugin.getPreview(mWidth * 2 / 5, mHeight * 2 / 5))
                     .build());
         }
 

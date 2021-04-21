@@ -227,4 +227,28 @@
     <string name="applock_fingerprint">&#160;or your fingerprint to unlock</string>
     <string name="applock_credential">&#160;to unlock</string>
     <string name="applock_unlock">Unlock</string>
+
+    <!-- Corvus Analog clock -->
+    <string name="clock_title_corvus" translatable="false">Corvus</string>
+
+    <!-- Custom num Analog clock -->
+    <string name="clock_title_custom_num" translatable="false">Custom-Num</string>
+
+    <!-- Spidey Analog clock -->
+    <string name="clock_title_spidey" translatable="false">Spidey</string>
+
+    <!-- Oneplus Numbers clock -->
+    <string name="clock_title_oneplus_numbers" translatable="false">OnePlus Numbers</string>
+
+    <!-- Oneplus Analog clock -->
+    <string name="clock_title_oneplus_minimal" translatable="false">OnePlus Minimal</string>
+
+    <!-- Oneplus Analog clock -->
+    <string name="clock_title_oneplus_roman" translatable="false">OnePlus Roman</string>
+
+    <!-- Oneplus Analog clock -->
+    <string name="clock_title_oneplus_analog" translatable="false">OnePlus Analog</string>
+
+    <!-- Oneplus Analog clock -->
+    <string name="clock_title_minimalism" translatable="false">Minimalism</string>
 </resources>

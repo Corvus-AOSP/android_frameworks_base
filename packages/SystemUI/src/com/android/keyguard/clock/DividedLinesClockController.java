@@ -1,5 +1,7 @@
 /*
  * Copyright (C) 2019 The Android Open Source Project
+ * Copyright (C) 2020 Projekt Spicy Future
+ * Copyright (C) 2020 Bootleggers ROM
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +26,7 @@ import android.graphics.Paint.Style;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextClock;
+import android.widget.TextView;
 
 import com.android.internal.colorextraction.ColorExtractor;
 import com.android.systemui.R;
@@ -33,9 +36,9 @@ import com.android.systemui.plugins.ClockPlugin;
 import java.util.TimeZone;
 
 /**
- * Controller for Stretch clock that can appear on lock screen and AOD.
+ * Plugin for the default clock face used only to provide a preview.
  */
-public class AnalogClockController implements ClockPlugin {
+public class DividedLinesClockController implements ClockPlugin {
 
     /**
      * Resources used to get title and thumbnail.
@@ -53,26 +56,30 @@ public class AnalogClockController implements ClockPlugin {
     private final SysuiColorExtractor mColorExtractor;
 
     /**
-     * Computes preferred position of clock.
-     */
-    private final SmallClockPosition mClockPosition;
-
-    /**
      * Renders preview from clock view.
      */
     private final ViewPreviewer mRenderer = new ViewPreviewer();
 
     /**
-     * Custom clock shown on AOD screen and behind stack scroller on lock.
+     * Root view of clock.
      */
     private ClockLayout mBigClockView;
-    private ImageClock mAnalogClock;
 
     /**
-     * Small clock shown on lock screen above stack scroller.
+     * Text clock in preview view hierarchy.
      */
-    private View mView;
-    private TextClock mLockClock;
+    private TextClock mClock;
+
+    /**
+     * Text date in preview view hierarchy.
+     */
+    private TextClock mDate;
+
+    /**
+     * Top and bottom dividers in preview view hierarchy.
+     */
+    private View mTopLine;
+    private View mBottomLine;
 
     /**
      * Helper to extract colors from wallpaper palette for clock face.
@@ -80,79 +87,79 @@ public class AnalogClockController implements ClockPlugin {
     private final ClockPalette mPalette = new ClockPalette();
 
     /**
-     * Create a BubbleClockController instance.
+     * Create a DefaultClockController instance.
      *
      * @param res Resources contains title and thumbnail.
      * @param inflater Inflater used to inflate custom clock views.
      * @param colorExtractor Extracts accent color from wallpaper.
      */
-    public AnalogClockController(Resources res, LayoutInflater inflater,
+    public DividedLinesClockController(Resources res, LayoutInflater inflater,
             SysuiColorExtractor colorExtractor) {
         mResources = res;
         mLayoutInflater = inflater;
         mColorExtractor = colorExtractor;
-        mClockPosition = new SmallClockPosition(res);
     }
 
     private void createViews() {
-        mBigClockView = (ClockLayout) mLayoutInflater.inflate(R.layout.analog_clock, null);
-        mAnalogClock = mBigClockView.findViewById(R.id.analog_clock);
-
-        mView = mLayoutInflater.inflate(R.layout.digital_clock, null);
-        mLockClock = mView.findViewById(R.id.lock_screen_clock);
+        mBigClockView = (ClockLayout) mLayoutInflater
+                .inflate(R.layout.divided_lines_clock, null);
+        mClock = mBigClockView.findViewById(R.id.clock);
+        mClock.setFormat12Hour("h:mm");
+        onTimeTick();
     }
 
     @Override
     public void onDestroyView() {
         mBigClockView = null;
-        mAnalogClock = null;
-        mView = null;
-        mLockClock = null;
+        mClock = null;
+        mDate = null;
+        mTopLine = null;
+        mBottomLine = null;
     }
 
     @Override
     public String getName() {
-        return "analog";
+        return "dividedlines";
     }
 
     @Override
     public String getTitle() {
-        return mResources.getString(R.string.clock_title_analog);
+        return "Divided Lines";
     }
 
     @Override
     public Bitmap getThumbnail() {
-        return BitmapFactory.decodeResource(mResources, R.drawable.analog_thumbnail);
+        return BitmapFactory.decodeResource(mResources, R.drawable.divided_lines_thumbnail);
     }
 
     @Override
     public Bitmap getPreview(int width, int height) {
-
-        // Use the big clock view for the preview
-        View view = getBigClockView();
+        View previewView = mLayoutInflater.inflate(R.layout.divided_lines_preview, null);
+        TextClock previewTime = previewView.findViewById(R.id.clock);
+        TextClock previewDate = previewView.findViewById(R.id.date);
+        View previewTLine = previewView.findViewById(R.id.topLine);
+        View previewBLine = previewView.findViewById(R.id.bottomLine);
 
         // Initialize state of plugin before generating preview.
-        setDarkAmount(1f);
-        setTextColor(Color.WHITE);
+        previewTime.setTextColor(Color.WHITE);
+        previewDate.setTextColor(Color.WHITE);
+        previewTLine.setBackgroundColor(Color.WHITE);
+        previewBLine.setBackgroundColor(Color.WHITE);
         ColorExtractor.GradientColors colors = mColorExtractor.getColors(
                 WallpaperManager.FLAG_LOCK);
         setColorPalette(colors.supportsDarkText(), colors.getColorPalette());
-        onTimeTick();
 
-        return mRenderer.createPreview(view, width, height);
+        return mRenderer.createPreview(previewView, width, height);
     }
 
     @Override
     public View getView() {
-        if (mView == null) {
-            createViews();
-        }
-        return mView;
+        return null;
     }
 
     @Override
     public View getBigClockView() {
-        if (mBigClockView == null) {
+        if (mBigClockView  == null) {
             createViews();
         }
         return mBigClockView;
@@ -160,7 +167,7 @@ public class AnalogClockController implements ClockPlugin {
 
     @Override
     public int getPreferredY(int totalHeight) {
-        return mClockPosition.getPreferredY();
+        return totalHeight / 2;
     }
 
     @Override
@@ -180,31 +187,22 @@ public class AnalogClockController implements ClockPlugin {
     private void updateColor() {
         final int primary = mPalette.getPrimaryColor();
         final int secondary = mPalette.getSecondaryColor();
-        mLockClock.setTextColor(secondary);
-        mAnalogClock.setClockColors(primary, secondary);
     }
 
     @Override
     public void onTimeTick() {
-        mAnalogClock.onTimeChanged();
-        mBigClockView.onTimeChanged();
-        mLockClock.refreshTime();
     }
 
     @Override
     public void setDarkAmount(float darkAmount) {
-        mPalette.setDarkAmount(darkAmount);
-        mClockPosition.setDarkAmount(darkAmount);
         mBigClockView.setDarkAmount(darkAmount);
     }
 
     @Override
-    public void onTimeZoneChanged(TimeZone timeZone) {
-        mAnalogClock.onTimeZoneChanged(timeZone);
-    }
+    public void onTimeZoneChanged(TimeZone timeZone) {}
 
     @Override
     public boolean shouldShowStatusArea() {
-        return true;
+        return false;
     }
 }
