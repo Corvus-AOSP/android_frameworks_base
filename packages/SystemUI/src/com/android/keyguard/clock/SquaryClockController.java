@@ -146,7 +146,7 @@ public class SquaryClockController implements ClockPlugin {
 
     @Override
     public View getView() {
-        return null
+        return null;
     }
 
     @Override
