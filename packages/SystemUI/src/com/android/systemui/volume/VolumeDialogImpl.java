@@ -854,14 +854,14 @@ public class VolumeDialogImpl implements VolumeDialog,
             .start();
     }
 
-  //  @Override
-  //  public void onDeviceListUpdate(List<MediaDevice> devices) {
-  //      mMediaDevices.clear();
-  //      mMediaDevices.addAll(devices);
-  //      if (!mHandler.hasMessages(H.UPDATE_MEDIA_OUTPUT_VIEW)) {
-  //          mHandler.sendEmptyMessageDelayed(H.UPDATE_MEDIA_OUTPUT_VIEW, 30);
-  //      }
-  //  }
+    @Override
+    public void onDeviceListUpdate(List<MediaDevice> devices) {
+        mMediaDevices.clear();
+        mMediaDevices.addAll(devices);
+        if (!mHandler.hasMessages(H.UPDATE_MEDIA_OUTPUT_VIEW)) {
+            mHandler.sendEmptyMessageDelayed(H.UPDATE_MEDIA_OUTPUT_VIEW, 30);
+        }
+    }
 
     @Override
     public void onSelectedDeviceStateChanged(MediaDevice device, int state) {
@@ -901,7 +901,7 @@ public class VolumeDialogImpl implements VolumeDialog,
             }
         }
 
-
+    try {
         // handle the remaining devices
         for (MediaDevice device : mMediaDevices) {
             if (device.isConnected()) {
@@ -941,6 +941,9 @@ public class VolumeDialogImpl implements VolumeDialog,
                 mMediaOutputView.addView(row.view);
                 mMediaOutputRows.add(row);
             }
+	}
+        } catch (Exception e) {
+          // nothing to do
         }
         if (mMediaOutputView.getChildCount() == 1) {
             // This means there are no external devices connected
