@@ -36,4 +36,5 @@
     <dimen name="date_padding">8dp</dimen>
     <dimen name="clock_bottom_margin">8dp</dimen>
 
+    <dimen name="ide_clock_font_size">14sp</dimen>
 </resources>
