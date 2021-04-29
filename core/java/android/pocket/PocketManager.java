@@ -16,11 +16,7 @@
 package android.pocket;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.PowerManager;
 import android.os.RemoteException;
-import android.os.SystemClock;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.util.Slog;
 
@@ -58,7 +54,6 @@ import android.util.Slog;
 public class PocketManager {
 
     private static final String TAG = PocketManager.class.getSimpleName();
-    static final boolean DEBUG = false;
 
     /**
      * Whether {@link IPocketCallback#onStateChanged(boolean, int)}
@@ -84,9 +79,6 @@ public class PocketManager {
 
     private Context mContext;
     private IPocketService mService;
-    private PowerManager mPowerManager;
-    private Handler mHandler;
-    private boolean mPocketViewTimerActive;
 
     public PocketManager(Context context, IPocketService service) {
         mContext = context;
@@ -94,8 +86,6 @@ public class PocketManager {
         if (mService == null) {
             Slog.v(TAG, "PocketService was null");
         }
-        mPowerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
-        mHandler = new Handler();
     }
 
     /**
@@ -142,21 +132,6 @@ public class PocketManager {
      * {@link PhoneWindowManager#startedGoingToSleep(int)}
      */
     public void onInteractiveChanged(boolean interactive) {
-        boolean isPocketViewShowing = (interactive && isDeviceInPocket());
-        synchronized (mPocketLockTimeout) {
-            if (mPocketViewTimerActive != isPocketViewShowing) {
-                if (isPocketViewShowing) {
-                    if (DEBUG) Log.v(TAG, "Setting pocket timer");
-                    mHandler.removeCallbacks(mPocketLockTimeout); // remove any pending requests
-                    mHandler.postDelayed(mPocketLockTimeout, 10 * DateUtils.SECOND_IN_MILLIS);
-                    mPocketViewTimerActive = true;
-                } else {
-                    if (DEBUG) Log.v(TAG, "Clearing pocket timer");
-                    mHandler.removeCallbacks(mPocketLockTimeout);
-                    mPocketViewTimerActive = false;
-                }
-            }
-        }
         if (mService != null) try {
             mService.onInteractiveChanged(interactive);
         } catch (RemoteException e) {
@@ -174,12 +149,6 @@ public class PocketManager {
         } catch (RemoteException e) {
             Log.w(TAG, "Remote exception in setListeningExternal: ", e);
         }
-        // Clear timeout when user hides pocket lock with long press power.
-        if (mPocketViewTimerActive && !listen) {
-            if (DEBUG) Log.v(TAG, "Clearing pocket timer due to override");
-            mHandler.removeCallbacks(mPocketLockTimeout);
-            mPocketViewTimerActive = false;
-        }
     }
 
     /**
@@ -195,15 +164,5 @@ public class PocketManager {
         }
         return false;
     }
-
-    class PocketLockTimeout implements Runnable {
-        @Override
-        public void run() {
-            mPowerManager.goToSleep(SystemClock.uptimeMillis());
-            mPocketViewTimerActive = false;
-        }
-    }
-
-    private PocketLockTimeout mPocketLockTimeout = new PocketLockTimeout();
 
 }
