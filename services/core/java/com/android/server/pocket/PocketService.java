@@ -143,7 +143,6 @@ public class PocketService extends SystemService implements IBinder.DeathRecipie
 
     // Custom methods
     private boolean mPocketLockVisible;
-    private boolean mSupportedByDevice;
 
     public PocketService(Context context) {
         super(context);
@@ -160,13 +159,9 @@ public class PocketService extends SystemService implements IBinder.DeathRecipie
         if (mLightSensor != null) {
             mLightMaxRange = mLightSensor.getMaximumRange();
         }
-        mSupportedByDevice = mContext.getResources().getBoolean(
-                                 com.android.internal.R.bool.config_pocketModeSupported);
         mObserver = new PocketObserver(mHandler);
-        if (mSupportedByDevice){
-            mObserver.onChange(true);
-            mObserver.register();
-        }
+        mObserver.onChange(true);
+        mObserver.register();
     }
 
     private class PocketObserver extends ContentObserver {
@@ -418,9 +413,6 @@ public class PocketService extends SystemService implements IBinder.DeathRecipie
     };
 
     private boolean isDeviceInPocket() {
-        if (!mSupportedByDevice){
-            return false;
-        }
         if (mLightState != LIGHT_UNKNOWN) {
             return mProximityState == PROXIMITY_POSITIVE
                     && mLightState == LIGHT_POCKET;
@@ -429,9 +421,6 @@ public class PocketService extends SystemService implements IBinder.DeathRecipie
     }
 
     private void setEnabled(boolean enabled) {
-        if (!mSupportedByDevice){
-            return;
-        }
         if (enabled != mEnabled) {
             mEnabled = enabled;
             mHandler.removeCallbacksAndMessages(null);
@@ -440,9 +429,6 @@ public class PocketService extends SystemService implements IBinder.DeathRecipie
     }
 
     private void update() {
-        if (!mSupportedByDevice){
-            return;
-        }
         if (!mEnabled || mInteractive) {
             if (mEnabled && isDeviceInPocket()) {
                 // if device is judged to be in pocket while switching
@@ -457,17 +443,11 @@ public class PocketService extends SystemService implements IBinder.DeathRecipie
     }
 
     private void registerSensorListeners() {
-        if (!mSupportedByDevice){
-            return;
-        }
         startListeningForProximity();
         startListeningForLight();
     }
 
     private void unregisterSensorListeners() {
-        if (!mSupportedByDevice){
-            return;
-        }
         stopListeningForProximity();
         stopListeningForLight();
     }

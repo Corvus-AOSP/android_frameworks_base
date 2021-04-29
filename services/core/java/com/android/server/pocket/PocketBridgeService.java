@@ -73,9 +73,6 @@ public class PocketBridgeService extends SystemService {
         }
     };
 
-    // Custom methods
-    private boolean mSupportedByDevice;
-
     public PocketBridgeService(Context context) {
         super(context);
         mContext = context;
@@ -84,13 +81,9 @@ public class PocketBridgeService extends SystemService {
         mHandler = new PocketBridgeHandler(handlerThread.getLooper());
         mPocketManager = (PocketManager)
                 context.getSystemService(Context.POCKET_SERVICE);
-        mSupportedByDevice = mContext.getResources().getBoolean(
-                                 com.android.internal.R.bool.config_pocketModeSupported);
         mObserver = new PocketBridgeObserver(mHandler);
-        if (mSupportedByDevice){
-            mObserver.onChange(true);
-            mObserver.register();
-        }
+        mObserver.onChange(true);
+        mObserver.register();
     }
 
     @Override
@@ -105,7 +98,7 @@ public class PocketBridgeService extends SystemService {
     }
 
     private void update() {
-        if (!mSupportedByDevice || mPocketManager == null) return;
+        if (mPocketManager == null) return;
 
         if (mEnabled) {
             mPocketManager.addCallback(mPocketCallback);
