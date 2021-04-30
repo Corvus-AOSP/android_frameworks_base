@@ -81,8 +81,8 @@ public class ColorTemperatureController extends LiveDisplayFeature {
                 .isSupported(LineageHardwareManager.FEATURE_COLOR_BALANCE);
         mColorBalanceRange = mHardware.getColorBalanceRange();
 
-        mUseTemperatureAdjustment = !mNightDisplayAvailable &&
-                (mUseColorBalance || mDisplayHardware.hasColorAdjustment());
+        mUseTemperatureAdjustment = mUseColorBalance ||
+                mDisplayHardware.hasColorAdjustment();
 
         mDefaultDayTemperature = mContext.getResources().getInteger(
                 com.android.internal.R.integer.config_dayColorTemperature);
