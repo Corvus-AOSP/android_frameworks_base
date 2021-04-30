@@ -228,9 +228,7 @@ public class LiveDisplayTile extends QSTileImpl<LiveDisplayState> {
             }
         }
 
-        Settings.System.putIntForUser(mContext.getContentResolver(),
-            Settings.System.DISPLAY_TEMPERATURE_MODE, nextMode,
-            UserHandle.USER_CURRENT);
+        mLiveDisplay.setMode(nextMode);
     }
 
     private class LiveDisplayObserver extends ContentObserver {
