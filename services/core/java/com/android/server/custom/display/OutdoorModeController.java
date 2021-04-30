@@ -249,9 +249,9 @@ public class OutdoorModeController extends LiveDisplayFeature {
     }
 
     boolean isAutomaticOutdoorModeEnabled() {
-        return mUseOutdoorMode && (mNightDisplayAvailable ||
+        return mUseOutdoorMode &&
                 getBoolean(Settings.System.DISPLAY_AUTO_OUTDOOR_MODE,
-                           getDefaultAutoOutdoorMode()));
+                           getDefaultAutoOutdoorMode());
     }
 
     boolean getDefaultAutoOutdoorMode() {
