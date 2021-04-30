@@ -52,10 +52,7 @@ public class PictureAdjustmentController extends LiveDisplayFeature {
 
         boolean usePA = mHardware.isSupported(LineageHardwareManager.FEATURE_PICTURE_ADJUSTMENT);
         if (usePA) {
-            final List<Range<Float>> r = mHardware.getPictureAdjustmentRanges();
-            if (r != null) {
-                mRanges.addAll(r);
-            }
+            mRanges.addAll(mHardware.getPictureAdjustmentRanges());
             if (mRanges.size() < 4) {
                 usePA = false;
             } else {
