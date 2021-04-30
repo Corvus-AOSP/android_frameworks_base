@@ -244,7 +244,7 @@ public class SettingsToPropertiesMapper {
     }
 
     private static void log(String msg, Exception e) {
-        if (Build.IS_ENG) {
+        if (Build.IS_DEBUGGABLE) {
             Slog.wtf(TAG, msg, e);
         } else {
             Slog.e(TAG, msg, e);
@@ -252,7 +252,7 @@ public class SettingsToPropertiesMapper {
     }
 
     private static void log(String msg) {
-        if (Build.IS_ENG) {
+        if (Build.IS_DEBUGGABLE) {
             Slog.wtf(TAG, msg);
         } else {
             Slog.e(TAG, msg);

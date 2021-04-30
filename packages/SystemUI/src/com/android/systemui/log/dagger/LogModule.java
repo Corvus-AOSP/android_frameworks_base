@@ -115,7 +115,7 @@ public class LogModule {
     public static LogcatEchoTracker provideLogcatEchoTracker(
             ContentResolver contentResolver,
             @Main Looper looper) {
-        if (Build.IS_ENG) {
+        if (Build.IS_DEBUGGABLE) {
             return LogcatEchoTrackerDebug.create(contentResolver, looper);
         } else {
             return new LogcatEchoTrackerProd();

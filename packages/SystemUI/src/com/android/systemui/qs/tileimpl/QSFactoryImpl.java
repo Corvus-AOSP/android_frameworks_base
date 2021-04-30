@@ -292,7 +292,7 @@ public class QSFactoryImpl implements QSFactory {
         }
 
         // Debug tiles.
-        /*if (Build.IS_ENG) {
+        /*if (Build.IS_DEBUGGABLE) {
             if (tileSpec.equals(GarbageMonitor.MemoryTile.TILE_SPEC)) {
                 return mMemoryTileProvider.get();
             }

@@ -101,7 +101,7 @@ final class InputManagerCallback implements InputManagerService.WindowManagerCal
      * Do not hold the {@link WindowManagerGlobalLock} while calling this method.
      */
     private void preDumpIfLockTooSlow() {
-        if (!Build.IS_ENG)  {
+        if (!Build.IS_DEBUGGABLE)  {
             return;
         }
         final long now = SystemClock.uptimeMillis();

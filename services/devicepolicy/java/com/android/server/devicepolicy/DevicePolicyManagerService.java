@@ -2306,7 +2306,7 @@ public class DevicePolicyManagerService extends BaseIDevicePolicyManager {
         }
 
         boolean isBuildDebuggable() {
-            return Build.IS_ENG;
+            return Build.IS_DEBUGGABLE;
         }
 
         LockPatternUtils newLockPatternUtils() {
