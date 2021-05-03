@@ -882,19 +882,28 @@ public class GlobalScreenshot implements ViewTreeObserver.OnComputeInternalInset
             mActionsView.addView(actionChip);
             chips.add(actionChip);
         }
-
-        // Scrolling Screenshot
-        ScreenshotActionChip scrollChip = (ScreenshotActionChip) inflater.inflate(
+        ScreenshotActionChip shareChip = (ScreenshotActionChip) inflater.inflate(
                 R.layout.global_screenshot_action_chip, mActionsView, false);
-        scrollChip.setText(imageData.scrollAction.title);
-        scrollChip.setIcon(imageData.scrollAction.getIcon(), true);
-        scrollChip.setPendingIntent(imageData.scrollAction.actionIntent, () -> {
-            mUiEventLogger.log(ScreenshotEvent.SCREENSHOT_SCROLL_TAPPED);
+        shareChip.setText(imageData.shareAction.title);
+        shareChip.setIcon(imageData.shareAction.getIcon(), true);
+        shareChip.setPendingIntent(imageData.shareAction.actionIntent, () -> {
+            mUiEventLogger.log(ScreenshotEvent.SCREENSHOT_SHARE_TAPPED);
             dismissScreenshot("chip tapped", false);
             mOnCompleteRunnable.run();
         });
-        mActionsView.addView(scrollChip);
-        chips.add(scrollChip);
+        mActionsView.addView(shareChip);
+        chips.add(shareChip);
+        ScreenshotActionChip editChip = (ScreenshotActionChip) inflater.inflate(
+                R.layout.global_screenshot_action_chip, mActionsView, false);
+        editChip.setText(imageData.editAction.title);
+        editChip.setIcon(imageData.editAction.getIcon(), true);
+        editChip.setPendingIntent(imageData.editAction.actionIntent, () -> {
+            mUiEventLogger.log(ScreenshotEvent.SCREENSHOT_EDIT_TAPPED);
+            dismissScreenshot("chip tapped", false);
+            mOnCompleteRunnable.run();
+        });
+        mActionsView.addView(editChip);
+        chips.add(editChip);
 
         ScreenshotActionChip deleteChip = (ScreenshotActionChip) inflater.inflate(
                 R.layout.global_screenshot_action_chip, mActionsView, false);
@@ -908,29 +917,18 @@ public class GlobalScreenshot implements ViewTreeObserver.OnComputeInternalInset
         mActionsView.addView(deleteChip);
         chips.add(deleteChip);
 
-        ScreenshotActionChip editChip = (ScreenshotActionChip) inflater.inflate(
+        // Scrolling Screenshot
+        ScreenshotActionChip scrollChip = (ScreenshotActionChip) inflater.inflate(
                 R.layout.global_screenshot_action_chip, mActionsView, false);
-        editChip.setText(imageData.editAction.title);
-        editChip.setIcon(imageData.editAction.getIcon(), true);
-        editChip.setPendingIntent(imageData.editAction.actionIntent, () -> {
-            mUiEventLogger.log(ScreenshotEvent.SCREENSHOT_EDIT_TAPPED);
+        scrollChip.setText(imageData.scrollAction.title);
+        scrollChip.setIcon(imageData.scrollAction.getIcon(), true);
+        scrollChip.setPendingIntent(imageData.scrollAction.actionIntent, () -> {
+            mUiEventLogger.log(ScreenshotEvent.SCREENSHOT_SCROLL_TAPPED);
             dismissScreenshot("chip tapped", false);
             mOnCompleteRunnable.run();
         });
-        mActionsView.addView(editChip);
-        chips.add(editChip);
-
-        ScreenshotActionChip shareChip = (ScreenshotActionChip) inflater.inflate(
-                R.layout.global_screenshot_action_chip, mActionsView, false);
-        shareChip.setText(imageData.shareAction.title);
-        shareChip.setIcon(imageData.shareAction.getIcon(), true);
-        shareChip.setPendingIntent(imageData.shareAction.actionIntent, () -> {
-            mUiEventLogger.log(ScreenshotEvent.SCREENSHOT_SHARE_TAPPED);
-            dismissScreenshot("chip tapped", false);
-            mOnCompleteRunnable.run();
-        });
-        mActionsView.addView(shareChip);
-        chips.add(shareChip);
+        mActionsView.addView(scrollChip);
+        chips.add(scrollChip);
 
         mScreenshotPreview.setOnClickListener(v -> {
             try {
