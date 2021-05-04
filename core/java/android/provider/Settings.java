@@ -5329,6 +5329,12 @@ public final class Settings {
          */
         public static final String VOWIFI_ICON_STYLE = "vowifi_icon_style";
 
+	/**
+         * Enable and disable Artwork on background media notification
+         * @hide
+         */
+        public static final String ARTWORK_MEDIA_BACKGROUND = "artwork_media_background";
+
         /**
          * @hide
          */
