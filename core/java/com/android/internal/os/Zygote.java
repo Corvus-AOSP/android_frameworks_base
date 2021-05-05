@@ -51,7 +51,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 
-
 /** @hide */
 public final class Zygote {
     /*
@@ -833,9 +832,6 @@ public final class Zygote {
         } else {
             Log.w(loggingTag, "Unable to set package name.");
         }
-
-        // Set pixel props
-        PixelPropsUtils.setProps(args.mPackageName);
 
         // Modify model to defy Next-Generation Assistant in the Google app
         maybeSetGoogleModel(args.mPackageName, loggingTag);
