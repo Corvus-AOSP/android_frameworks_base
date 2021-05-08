@@ -1385,6 +1385,18 @@
         android:description="@string/permdesc_useBiometric"
         android:protectionLevel="normal" />
 
+    <permission-group android:name="android.permission-group.OTHER_SENSORS"
+        android:icon="@drawable/perm_group_location"
+        android:label="@string/permgrouplab_otherSensors"
+        android:description="@string/permgroupdesc_otherSensors"
+        android:priority="1000" />
+
+    <permission android:name="android.permission.OTHER_SENSORS"
+        android:permissionGroup="android.permission-group.UNDEFINED"
+        android:label="@string/permlab_otherSensors"
+        android:description="@string/permdesc_otherSensors"
+        android:protectionLevel="dangerous" />
+
     <!-- ====================================================================== -->
     <!-- REMOVED PERMISSIONS                                                    -->
     <!-- ====================================================================== -->
@@ -1595,13 +1607,21 @@
     <!-- ======================================= -->
     <eat-comment />
 
+    <!-- Network access -->
+    <permission-group android:name="android.permission-group.NETWORK"
+        android:icon="@drawable/perm_group_network"
+        android:label="@string/permgrouplab_network"
+        android:description="@string/permgroupdesc_network"
+        android:priority="900" />
+
     <!-- Allows applications to open network sockets.
          <p>Protection level: normal
     -->
     <permission android:name="android.permission.INTERNET"
+        android:permissionGroup="android.permission-group.UNDEFINED"
         android:description="@string/permdesc_createNetworkSockets"
         android:label="@string/permlab_createNetworkSockets"
-        android:protectionLevel="normal|instant" />
+        android:protectionLevel="dangerous|instant" />
 
     <!-- Allows applications to access information about networks.
          <p>Protection level: normal
@@ -2846,16 +2866,17 @@
         android:description="@string/permdesc_getPackageSize"
         android:protectionLevel="normal" />
 
-    <!-- @hide -->
+    <!-- Dummy user-facing group for faking package signature -->
     <permission-group android:name="android.permission-group.FAKE_PACKAGE"
         android:label="@string/permgrouplab_fake_package_signature"
         android:description="@string/permgroupdesc_fake_package_signature"
         android:request="@string/permgrouprequest_fake_package_signature"
         android:priority="100" />
 
-    <!-- @hide Allows an application to change the package signature as
-	 seen by applications -->
+    <!-- Allows an application to change the package signature as
+         seen by applications -->
     <permission android:name="android.permission.FAKE_PACKAGE_SIGNATURE"
+        android:permissionGroup="android.permission-group.UNDEFINED"
         android:protectionLevel="dangerous"
         android:label="@string/permlab_fakePackageSignature"
         android:description="@string/permdesc_fakePackageSignature" />
@@ -5080,13 +5101,6 @@
     <permission android:name="android.permission.INPUT_CONSUMER"
                 android:protectionLevel="signature" />
 
-    <!-- @hide  -->
-    <permission android:name="lineageos.permission.HARDWARE_ABSTRACTION_ACCESS"
-                android:protectionLevel="signature|privileged" />
-    <!-- @hide  -->
-    <permission android:name="lineageos.permission.MANAGE_LIVEDISPLAY"
-                android:protectionLevel="signature|privileged" />
-
     <!-- Attribution for Country Detector. -->
     <attribution android:tag="CountryDetector" android:label="@string/country_detector"/>
     <!-- Attribution for Location service. -->
@@ -5096,11 +5110,6 @@
              android:label="@string/sensor_notification_service"/>
     <!-- Feature Id for Twilight service. -->
     <attribution android:tag="TwilightService" android:label="@string/twilight_service"/>
-
-    <!-- Live display -->
-    <protected-broadcast android:name="lineageos.intent.action.INITIALIZE_LINEAGE_HARDWARE" />
-    <protected-broadcast android:name="lineageos.intent.action.INITIALIZE_LIVEDISPLAY" />
-    <protected-broadcast android:name="lineageos.platform.intent.action.UPDATE_TWILIGHT_STATE" />
 
     <application android:process="system"
                  android:persistent="true"

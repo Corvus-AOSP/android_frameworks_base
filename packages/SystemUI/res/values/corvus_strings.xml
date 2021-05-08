@@ -217,17 +217,6 @@
     <string name="gaming_mode_not_enabled">Gaming mode is disabled in settings</string>
     <string name="quick_settings_gaming_mode_label">Gaming mode</string>
 
-    <!-- Scrolling Screenshot string -->
-    <string name="scrollss">Scroll</string>
-
-    <!-- App Lock -->
-    <string name="applock_locked">&#160;is locked</string>
-    <string name="applock_fingerprint_face">, fingerprint or your face to unlock</string>
-    <string name="applock_face">&#160;or your face to unlock</string>
-    <string name="applock_fingerprint">&#160;or your fingerprint to unlock</string>
-    <string name="applock_credential">&#160;to unlock</string>
-    <string name="applock_unlock">Unlock</string>
-
     <!-- Corvus Analog clock -->
     <string name="clock_title_corvus" translatable="false">Corvus</string>
 
@@ -251,4 +240,9 @@
 
     <!-- Oneplus Analog clock -->
     <string name="clock_title_minimalism" translatable="false">Minimalism</string>
+
+    <!-- FPS Info tile -->
+    <string name="quick_settings_fpsinfo_label">FPS Info</string>
+    <string name="accessibility_quick_settings_fpsinfo_off">FPS Info off</string>
+    <string name="accessibility_quick_settings_fpsinfo_on">FPS Info on</string>
 </resources>

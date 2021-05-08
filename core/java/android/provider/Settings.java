@@ -4067,13 +4067,6 @@ public final class Settings {
          */
         public static final int SCREEN_BRIGHTNESS_MODE_AUTOMATIC = 1;
 
-	/**
-         * Indicates whether we should only show the app lock view when the device is woken up
-         * Or always.
-         * @hide
-         */
-        public static final String APP_LOCK_SHOW_ONLY_ON_WAKE = "app_lock_show_only_on_wake";
-
         /**
          * Control whether to enable adaptive sleep mode.
          * @deprecated Use {@link android.provider.Settings.Secure#ADAPTIVE_SLEEP} instead.
@@ -5097,15 +5090,6 @@ public final class Settings {
          */
         public static final String DATA_DISABLED_ICON = "data_disabled_icon";
 
-         /**
-         * Whether allowing pocket service to register sensors and dispatch informations.
-         *   0 = disabled
-         *   1 = enabled
-         * @author Carlo Savignano
-         * @hide
-         */
-        public static final String POCKET_JUDGE = "pocket_judge";
-
         /**
          * @hide
          */     
@@ -5630,68 +5614,6 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
         public static final String BACK_GESTURE_HAPTIC = "back_gesture_haptic";
 
         /**
-         * Color temperature of the display during the day
-         */
-        public static final String DISPLAY_TEMPERATURE_DAY = "display_temperature_day";
-
-        /**
-         * Color temperature of the display at night
-         */
-        public static final String DISPLAY_TEMPERATURE_NIGHT = "display_temperature_night";
-
-        /**
-         * Display color temperature adjustment mode, one of DAY (default), NIGHT, or AUTO.
-         */
-        public static final String DISPLAY_TEMPERATURE_MODE = "display_temperature_mode";
-
-        /**
-         * Automatic outdoor mode
-         * 0 = 0ff, 1 = on
-         */
-        public static final String DISPLAY_AUTO_OUTDOOR_MODE = "display_auto_outdoor_mode";
-
-        /**
-         * Reader mode
-         * 0 = 0ff, 1 = on
-         */
-        public static final String DISPLAY_READING_MODE = "display_reading_mode";
-
-        /**
-         * Use display power saving features such as CABC or CABL
-         * 0 = 0ff, 1 = on
-         */
-        public static final String DISPLAY_CABC = "display_low_power";
-
-        /**
-         * Use color enhancement feature of display
-         * 0 = 0ff, 1 = on
-         */
-        public static final String DISPLAY_COLOR_ENHANCE = "display_color_enhance";
-
-        /**
-         * Use auto contrast optimization feature of display
-         * 0 = 0ff, 1 = on
-         */
-        public static final String DISPLAY_AUTO_CONTRAST = "display_auto_contrast";
-
-        /**
-         * Manual display color adjustments (RGB values as floats, separated by spaces)
-         */
-        public static final String DISPLAY_COLOR_ADJUSTMENT = "display_color_adjustment";
-
-        /**
-         * The current custom picture adjustment values as a delimited string
-         */
-        public static final String DISPLAY_PICTURE_ADJUSTMENT =
-                "display_picture_adjustment";
-
-        /**
-         * Did we tell about how they can stop breaking their eyes?
-         * @hide
-         */
-        public static final String LIVE_DISPLAY_HINTED = "live_display_hinted";
-
-        /**
          * Whether to enable PULSE Edge lights
          * @hide
          */
@@ -6040,7 +5962,6 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
             PRIVATE_SETTINGS.add(LOCKSCREEN_BATTERY_INFO);
             PRIVATE_SETTINGS.add(COLOR_BUCKET_OVERLAY);
             PRIVATE_SETTINGS.add(LOCKSCREEN_MEDIA_ART);
-            PRIVATE_SETTINGS.add(POCKET_JUDGE);
             PRIVATE_SETTINGS.add(BUTTON_BACKLIGHT_TIMEOUT);
             PRIVATE_SETTINGS.add(BUTTON_BRIGHTNESS);
             PRIVATE_SETTINGS.add(FORCE_SHOW_NAVBAR);
@@ -6072,18 +5993,6 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
             PRIVATE_SETTINGS.add(ANIM_TILE_STYLE);
             PRIVATE_SETTINGS.add(ANIM_TILE_DURATION);
             PRIVATE_SETTINGS.add(BACK_GESTURE_HAPTIC);
-            PRIVATE_SETTINGS.add(QS_TILE_STYLE);
-            PRIVATE_SETTINGS.add(DISPLAY_TEMPERATURE_DAY);
-            PRIVATE_SETTINGS.add(DISPLAY_TEMPERATURE_NIGHT);
-            PRIVATE_SETTINGS.add(DISPLAY_TEMPERATURE_MODE);
-            PRIVATE_SETTINGS.add(DISPLAY_AUTO_OUTDOOR_MODE);
-            PRIVATE_SETTINGS.add(DISPLAY_READING_MODE);
-            PRIVATE_SETTINGS.add(DISPLAY_CABC);
-            PRIVATE_SETTINGS.add(DISPLAY_COLOR_ENHANCE);
-            PRIVATE_SETTINGS.add(DISPLAY_AUTO_CONTRAST);
-            PRIVATE_SETTINGS.add(DISPLAY_COLOR_ADJUSTMENT);
-            PRIVATE_SETTINGS.add(DISPLAY_PICTURE_ADJUSTMENT);
-            PRIVATE_SETTINGS.add(LIVE_DISPLAY_HINTED);
         }
 
         /**
@@ -14670,6 +14579,11 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
          * @hide
          */
         public static final String SHOW_CPU_OVERLAY = "show_cpu_overlay";
+
+        /**
+         * @hide
+         */
+        public static final String SHOW_FPS_OVERLAY = "show_fps_overlay";
 
         /**
          * Global settings that shouldn't be persisted.

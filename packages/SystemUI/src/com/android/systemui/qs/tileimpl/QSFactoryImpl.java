@@ -43,9 +43,9 @@ import com.android.systemui.qs.tiles.DndTile;
 import com.android.systemui.qs.tiles.FlashlightTile;
 import com.android.systemui.qs.tiles.HeadphonesBuddyTile;
 import com.android.systemui.qs.tiles.GamingModeTile;
+import com.android.systemui.qs.tiles.FPSInfoTile;
 import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.HotspotTile;
-import com.android.systemui.qs.tiles.LiveDisplayTile;
 import com.android.systemui.qs.tiles.LocationTile;
 import com.android.systemui.qs.tiles.MonoToggleTile;
 import com.android.systemui.qs.tiles.NfcTile;
@@ -99,10 +99,10 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<UiModeNightTile> mUiModeNightTileProvider;
     private final Provider<ScreenRecordTile> mScreenRecordTileProvider;
     private final Provider<AmbientDisplayTile> mAmbientDisplayTileProvider;
+    private final Provider<FPSInfoTile> mFPSInfoTileProvider;
     private final Provider<HeadsUpTile> mHeadsUpTileProvider;
     private final Provider<DataSwitchTile> mDataSwitchTileProvider;
     private final Provider<CPUInfoTile> mCPUInfoTileProvider;
-    private final Provider<LiveDisplayTile> mLiveDisplayTileProvider;
     private final Provider<HeadphonesBuddyTile> mHeadphonesBuddyTile;
     private final Provider<RebootTile> mRebootTileProvider;
     private final Provider<CaffeineTile> mCaffeineTileProvider;
@@ -144,10 +144,10 @@ public class QSFactoryImpl implements QSFactory {
             Provider<ScreenRecordTile> screenRecordTileProvider,
             Provider<AmbientDisplayTile> ambientDisplayTileProvider,
             Provider<HeadphonesBuddyTile> headphonesBuddyTile,
+            Provider<FPSInfoTile> fpsInfoTileProvider,
             Provider<HeadsUpTile> headsUpTileProvider,
             Provider<DataSwitchTile> dataSwitchTileProvider,
             Provider<CPUInfoTile> cpuInfoTileProvider,
-            Provider<LiveDisplayTile> liveDisplayTileProvider,
             Provider<RebootTile> rebootTileProvider,
             Provider<CaffeineTile> caffeineTileProvider,
             Provider<MonoToggleTile> monoToggleTileProvider,
@@ -184,10 +184,10 @@ public class QSFactoryImpl implements QSFactory {
         mScreenRecordTileProvider = screenRecordTileProvider;
         mAmbientDisplayTileProvider = ambientDisplayTileProvider;
         mHeadphonesBuddyTile = headphonesBuddyTile;
+        mFPSInfoTileProvider = fpsInfoTileProvider;
         mHeadsUpTileProvider = headsUpTileProvider;
         mDataSwitchTileProvider = dataSwitchTileProvider;
         mCPUInfoTileProvider = cpuInfoTileProvider;
-        mLiveDisplayTileProvider = liveDisplayTileProvider;
         mRebootTileProvider = rebootTileProvider;
         mCaffeineTileProvider = caffeineTileProvider;
         mMonoToggleTileProvider = monoToggleTileProvider;
@@ -257,14 +257,14 @@ public class QSFactoryImpl implements QSFactory {
                 return mAmbientDisplayTileProvider.get();
             case "headphonesbuddy":
                 return mHeadphonesBuddyTile.get();
+            case "fpsinfo":
+                return mFPSInfoTileProvider.get();
             case "heads_up":
                 return mHeadsUpTileProvider.get();
             case "dataswitch":
                 return mDataSwitchTileProvider.get();
             case "cpuinfo":
                 return mCPUInfoTileProvider.get();
-            case "livedisplay":
-                return mLiveDisplayTileProvider.get();
             case "reboot":
                 return mRebootTileProvider.get();
             case "caffeine":
