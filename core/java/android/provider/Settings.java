@@ -5659,6 +5659,12 @@ public final class Settings {
         public static final String FONT_PACKAGES = "font_packages";
 
         /**
+         * FOD icon animation
+         * @hide
+         */
+        public static final String FOD_ICON_ANIMATION = "fod_icon_animation";
+
+        /**
          * Whether to launch default music player when headset plugged in
          * @hide
          */
