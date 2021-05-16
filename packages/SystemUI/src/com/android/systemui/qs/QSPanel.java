@@ -295,9 +295,6 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
     protected void onMediaVisibilityChanged(Boolean visible) {
         mMediaVisible = visible;
         switchTileLayout();
-        if (getTileLayout() != null) {
-            getTileLayout().setMinRows(visible ? 2 : 3);
-        }
         updateBrightnessSliderPosition();
 
         if (mMediaVisibilityChangedListener != null) {
