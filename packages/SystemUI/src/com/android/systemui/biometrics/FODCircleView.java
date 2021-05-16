@@ -547,7 +547,6 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
     public void hideCircle() {
         mIsCircleShowing = false;
 
-        setImageResource(ICON_STYLES[mSelectedIcon]);
         invalidate();
 
         dispatchRelease();
