@@ -69,6 +69,7 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
     private boolean mShowRippleEffect = true;
     private float mStrokeWidthActive;
     private float mStrokeWidthInactive;
+    private float mStrokeWidthInactiveCustom;
 
     private final ImageView mBg;
     private int mColorActive;
@@ -92,6 +93,8 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
                 .getDimension(com.android.internal.R.dimen.config_qsTileStrokeWidthActive);
         mStrokeWidthInactive = context.getResources()
                 .getDimension(com.android.internal.R.dimen.config_qsTileStrokeWidthInactive);
+	mStrokeWidthInactiveCustom = context.getResources()
+                .getDimension(com.android.internal.R.dimen.config_qsTileStrokeWidthInactiveCustom);
         int size = context.getResources().getDimensionPixelSize(R.dimen.qs_quick_tile_size);
         addView(mIconFrame, new LayoutParams(size, size));
         mBg = new ImageView(getContext());
@@ -212,6 +215,8 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
     }
 
     private void updateStrokeShapeWidth(QSTile.State state) {
+    boolean setQsUseNewTint = Settings.System.getIntForUser(mContext.getContentResolver(),
+                    Settings.System.QS_PANEL_BG_USE_NEW_TINT, 0, UserHandle.USER_CURRENT) == 1;
         Resources resources = getContext().getResources();
         if (!(mBg.getDrawable() instanceof ShapeDrawable)) {
             return;
@@ -220,10 +225,17 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
         d.getPaint().setStyle(Paint.Style.FILL);
         switch (state.state) {
             case Tile.STATE_INACTIVE:
+	     if (setQsUseNewTint) {
                 if (mStrokeWidthInactive >= 0) {
                     d.getPaint().setStyle(Paint.Style.STROKE);
                     d.getPaint().setStrokeWidth(mStrokeWidthInactive);
                 }
+	      } else {
+		if (mStrokeWidthInactiveCustom >= 0) {
+                    d.getPaint().setStyle(Paint.Style.STROKE);
+                    d.getPaint().setStrokeWidth(mStrokeWidthInactiveCustom);
+                }
+	      }
                 break;
             case Tile.STATE_ACTIVE:
                 if (mStrokeWidthActive >= 0) {
