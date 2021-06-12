@@ -147,7 +147,6 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
     public void onViewAttachedToWindow(View v) {
         Dependency.get(TunerService.class).addTunable(this, ALLOW_FANCY_ANIMATION,
                 MOVE_FULL_ROWS, QuickQSPanel.NUM_QUICK_TILES);
-        Dependency.get(TunerService.class).addTunable(this, QS_SHOW_BRIGHTNESS);
     }
 
     @Override
@@ -170,8 +169,6 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
         } else if (QuickQSPanel.NUM_QUICK_TILES.equals(key)) {
             mNumQuickTiles = QuickQSPanel.parseNumTiles(newValue);
             clearAnimationState();
-        } else if (QS_SHOW_BRIGHTNESS.equals(key)) {
-            mIsQuickQsBrightnessEnabled = TunerService.parseInteger(newValue, 0) > 1;
         }
         updateAnimators();
     }
@@ -310,7 +307,7 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
                 } else {
                     firstPageBuilder.addFloat(brightness, "translationY", heightDiff, 0);
                     mBrightnessAnimator = new TouchAnimator.Builder()
-			    .addFloat(brightness, "alpha", mIsQuickQsBrightnessEnabled ? 1 : 0, 1)
+                            .addFloat(brightness, "alpha", 0, 1)
                             .setStartDelay(.5f)
                             .build();
                 }
