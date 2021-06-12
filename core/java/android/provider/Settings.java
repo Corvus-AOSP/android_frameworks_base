@@ -5691,6 +5691,18 @@ public static final String THEMING_SETTINGS_DASHBOARD_ICONS =
         public static final String AMBIENT_LIGHT_REPEAT_COUNT = "ambient_light_repeat_count";
 
         /**
+         * Hold current font name and name of the originating package Uses "|" as a delimiter
+         * @hide
+         */
+        public static final String FONT_INFO = "font_info";
+
+        /**
+         * Hold list of installed font provider packages. Uses "|" as a delimiter
+         * @hide
+         */
+        public static final String FONT_PACKAGES = "font_packages";
+
+        /**
          * Whether to launch default music player when headset plugged in
          * @hide
          */

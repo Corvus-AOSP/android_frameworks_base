@@ -115,6 +115,12 @@
     <protected-broadcast android:name="android.app.action.EXIT_DESK_MODE" />
     <protected-broadcast android:name="android.app.action.NEXT_ALARM_CLOCK_CHANGED" />
 
+    <protected-broadcast android:name="android.app.action.USER_ADDED" />
+    <protected-broadcast android:name="android.app.action.USER_REMOVED" />
+    <protected-broadcast android:name="android.app.action.USER_STARTED" />
+    <protected-broadcast android:name="android.app.action.USER_STOPPED" />
+    <protected-broadcast android:name="android.app.action.USER_SWITCHED" />
+
     <protected-broadcast android:name="android.app.action.BUGREPORT_SHARING_DECLINED" />
     <protected-broadcast android:name="android.app.action.BUGREPORT_FAILED" />
     <protected-broadcast android:name="android.app.action.BUGREPORT_SHARE" />
@@ -485,6 +491,8 @@
     <protected-broadcast android:name="android.app.action.ACTION_PASSWORD_FAILED" />
     <protected-broadcast android:name="android.app.action.ACTION_PASSWORD_SUCCEEDED" />
     <protected-broadcast android:name="com.android.server.ACTION_EXPIRED_PASSWORD_NOTIFICATION" />
+    <protected-broadcast android:name="com.android.server.ACTION_PROFILE_OFF_DEADLINE" />
+    <protected-broadcast android:name="com.android.server.ACTION_TURN_PROFILE_ON_NOTIFICATION" />
 
     <protected-broadcast android:name="android.intent.action.MANAGED_PROFILE_ADDED" />
     <protected-broadcast android:name="android.intent.action.MANAGED_PROFILE_UNLOCKED" />
@@ -673,6 +681,9 @@
     <!-- Gaming mode -->
     <protected-broadcast android:name="android.intent.action.GAMING_MODE_TURN_OFF" />
     <protected-broadcast android:name="android.intent.action.GAMING_MODE_TURN_ON" />
+
+    <!-- Font service -->
+    <protected-broadcast android:name="com.android.server.ACTION_FONT_CHANGED" />
 
     <!-- ====================================================================== -->
     <!--                          RUNTIME PERMISSIONS                           -->
@@ -4426,6 +4437,13 @@
     <!-- @TestApi @hide Allows testing apk level rollbacks. -->
     <permission android:name="android.permission.TEST_MANAGE_ROLLBACKS"
         android:protectionLevel="signature" />
+
+    <!-- Allows an application to access the font manager
+         @hide -->
+    <permission android:name="android.permission.ACCESS_FONT_MANAGER"
+        android:label="@string/permlab_accessFontManager"
+        android:description="@string/permdesc_accessFontManager"
+        android:protectionLevel="signatureOrSystem" />
 
     <!-- @SystemApi @hide Allows an application to mark other applications as harmful -->
     <permission android:name="android.permission.SET_HARMFUL_APP_WARNINGS"

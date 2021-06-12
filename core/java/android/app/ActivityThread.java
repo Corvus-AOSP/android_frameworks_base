@@ -84,6 +84,7 @@ import android.database.sqlite.SQLiteDebug.DbStats;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.HardwareRenderer;
+import android.graphics.Typeface;
 import android.graphics.ImageDecoder;
 import android.hardware.display.DisplayManagerGlobal;
 import android.inputmethodservice.InputMethodService;
@@ -4603,6 +4604,10 @@ public final class ActivityThread extends ClientTransactionHandler {
         }
 
         if (r.isTopResumedActivity == onTop) {
+            if (!Build.IS_DEBUGGABLE) {
+                Slog.w(TAG, "Activity top position already set to onTop=" + onTop);
+                return;
+            }
             throw new IllegalStateException("Activity top position already set to onTop=" + onTop);
         }
 
@@ -5931,9 +5936,13 @@ public final class ActivityThread extends ClientTransactionHandler {
         if (configDiff != 0) {
             // Ask text layout engine to free its caches if there is a locale change
             boolean hasLocaleConfigChange = ((configDiff & ActivityInfo.CONFIG_LOCALE) != 0);
-            if (hasLocaleConfigChange) {
-                Canvas.freeTextLayoutCaches();
-                if (DEBUG_CONFIGURATION) Slog.v(TAG, "Cleared TextLayout Caches");
+            boolean hasFontConfigChange = ((configDiff & ActivityInfo.CONFIG_THEME_FONT) != 0);
+            if (hasLocaleConfigChange || hasFontConfigChange) {
+                 Canvas.freeTextLayoutCaches();
+                if (hasFontConfigChange) {
+                    Typeface.recreateDefaults();
+                }
+                 if (DEBUG_CONFIGURATION) Slog.v(TAG, "Cleared TextLayout Caches");
             }
         }
     }

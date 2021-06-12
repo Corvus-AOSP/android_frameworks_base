@@ -87,34 +87,6 @@ public class ThemesUtils {
             "com.android.theme.corvusclear.systemui",
     };
 
-    public static final String[] FONTS = {
-            "com.android.theme.font.notoserifsource",
-            "com.android.theme.font.aclonicasource",
-            "com.android.theme.font.amarantesource",
-            "com.android.theme.font.arvolato",
-            "com.android.theme.font.bariolsource",
-            "com.android.theme.font.cagliostrosource",
-            "com.android.theme.font.circularstd",
-            "com.android.theme.font.comicsanssource",
-            "com.android.theme.font.comfortaa",
-            "com.android.theme.font.coolstorysource",
-            "com.android.theme.font.exotwo",
-            "com.android.theme.font.firasans",
-            "com.android.theme.font.googlesans",
-            "com.android.theme.font.lgsmartgothicsource",
-            "com.android.theme.font.rosemarysource",
-            "com.android.theme.font.rubikrubik",
-            "com.android.theme.font.samsungone",
-            "com.android.theme.font.sfpro",
-            "com.android.theme.font.slateforoneplus",
-            "com.android.theme.font.sonysketchsource",
-            "com.android.theme.font.storopia",
-            "com.android.theme.font.surfersource",
-            "com.android.theme.font.ubuntu",
-            "com.android.theme.font.linotte",
-            "com.android.theme.font.ginto",
-    };
-
     public static final String[] NAVBAR_STYLES = {
             "com.android.theme.navbar.asus",
             "com.android.theme.navbar.oneplus",

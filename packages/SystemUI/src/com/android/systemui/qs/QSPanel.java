@@ -228,6 +228,7 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
             initMediaHostState();
         }
         addSecurityFooter();
+	addViewsBelowTiles();
         if (mRegularTileLayout instanceof PagedTileLayout) {
             mQsTileRevealController = new QSTileRevealController(mContext, this,
                     (PagedTileLayout) mRegularTileLayout);
@@ -295,9 +296,6 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
     protected void onMediaVisibilityChanged(Boolean visible) {
         mMediaVisible = visible;
         switchTileLayout();
-        if (getTileLayout() != null) {
-            getTileLayout().setMinRows(visible ? 2 : 3);
-        }
         updateBrightnessSliderPosition();
 
         if (mMediaVisibilityChangedListener != null) {
@@ -310,6 +308,9 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
     }
 
     protected void addViewsAboveTiles() {
+    }
+
+    protected void addViewsBelowTiles() {
         mBrightnessView = LayoutInflater.from(mContext).inflate(
             R.layout.quick_settings_brightness_dialog, this, false);
         ImageView brightnessIcon = mBrightnessView.findViewById(R.id.brightness_icon);

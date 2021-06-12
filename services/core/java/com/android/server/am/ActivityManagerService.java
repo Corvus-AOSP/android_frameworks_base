@@ -183,6 +183,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProcessMemoryState;
 import android.app.ProfilerInfo;
+import android.app.PropertyInvalidatedCache;
 import android.app.WaitResult;
 import android.app.backup.IBackupManager;
 import android.app.usage.UsageEvents;
@@ -574,6 +575,8 @@ public class ActivityManagerService extends IActivityManager.Stub
 
     private static final int NATIVE_DUMP_TIMEOUT_MS = 2000; // 2 seconds;
     private static final int JAVA_DUMP_MINIMUM_SIZE = 100; // 100 bytes.
+
+    private static final String PROP_REFRESH_TYPEFACE = "sys.refresh_typeface";
 
     OomAdjuster mOomAdjuster;
     final LowMemDetector mLowMemDetector;
@@ -1265,6 +1268,13 @@ public class ActivityManagerService extends IActivityManager.Stub
     final PendingTempWhitelists mPendingTempWhitelist = new PendingTempWhitelists(this);
 
     /**
+     * List of uids that are allowed to have while-in-use permission when FGS is started from
+     * background.
+     */
+    private final FgsWhileInUseTempAllowList mFgsWhileInUseTempAllowList =
+            new FgsWhileInUseTempAllowList();
+
+    /**
      * Information about and control over application operations
      */
     final AppOpsService mAppOpsService;
@@ -1662,6 +1672,8 @@ public class ActivityManagerService extends IActivityManager.Stub
     final HiddenApiSettings mHiddenApiBlacklist;
 
     private final PlatformCompat mPlatformCompat;
+
+    final ZygoteTypefaceRefreshUpdate mZygoteTypefaceRefresh;
 
     PackageManagerInternal mPackageManagerInt;
     PermissionManagerServiceInternal mPermissionManagerInt;
@@ -2134,7 +2146,7 @@ public class ActivityManagerService extends IActivityManager.Stub
                         0,
                         new HostingRecord("system"));
                 app.setPersistent(true);
-                app.pid = MY_PID;
+                app.pid = app.mPidForCompact = MY_PID;
                 app.getWindowProcessController().setPid(MY_PID);
                 app.maxAdj = ProcessList.SYSTEM_ADJ;
                 app.makeActive(mSystemThread.getApplicationThread(), mProcessStats);
@@ -2513,6 +2525,41 @@ public class ActivityManagerService extends IActivityManager.Stub
         }
         return mAppOpsManager;
     }
+    
+    static class ZygoteTypefaceRefreshUpdate extends ContentObserver {
+
+        private final Context mContext;
+
+        public ZygoteTypefaceRefreshUpdate(Handler handler, Context context) {
+            super(handler);
+            mContext = context;
+        }
+
+        public void registerObserver() {
+            mContext.getContentResolver().registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.FONT_SCALE),
+                    false,
+                    this);
+            update();
+        }
+
+        private void update() {
+            // Check if zygote should refresh its fonts
+            if (SystemProperties.getBoolean(PROP_REFRESH_TYPEFACE, false)) {
+                SystemProperties.set(PROP_REFRESH_TYPEFACE, "false");
+                ZYGOTE_PROCESS.refreshTypeface();
+            }
+        }
+
+        public void onChange(boolean selfChange) {
+            update();
+        }
+    }
+
+    @VisibleForTesting
+    public ActivityManagerService(Injector injector) {
+        this(injector, null /* handlerThread */);
+    }
 
     /**
      * Provides the basic functionality for activity task related tests when a handler thread is
@@ -2557,6 +2604,7 @@ public class ActivityManagerService extends IActivityManager.Stub
         mProcStartHandlerThread = null;
         mProcStartHandler = null;
         mHiddenApiBlacklist = null;
+        mZygoteTypefaceRefresh = null;
         mFactoryTest = FACTORY_TEST_OFF;
         mUgmInternal = LocalServices.getService(UriGrantsManagerInternal.class);
         mInternal = new LocalService();
@@ -2700,6 +2748,7 @@ public class ActivityManagerService extends IActivityManager.Stub
         };
 
         mHiddenApiBlacklist = new HiddenApiSettings(mHandler, mContext);
+        mZygoteTypefaceRefresh = new ZygoteTypefaceRefreshUpdate(mHandler, mContext);
 
         Watchdog.getInstance().addMonitor(this);
         Watchdog.getInstance().addThread(mHandler);
@@ -5117,6 +5166,9 @@ public class ActivityManagerService extends IActivityManager.Stub
         EventLogTags.writeAmProcBound(app.userId, app.pid, app.processName);
 
         app.curAdj = app.setAdj = app.verifiedAdj = ProcessList.INVALID_ADJ;
+        synchronized (mOomAdjuster.mCachedAppOptimizer) {
+            app.mSetAdjForCompact = ProcessList.INVALID_ADJ;
+        }
         mOomAdjuster.setAttachingSchedGroupLocked(app);
         app.forcingToImportant = null;
         updateProcessForegroundLocked(app, false, 0, false);
@@ -6007,9 +6059,7 @@ public class ActivityManagerService extends IActivityManager.Stub
     }
 
     private boolean isAppBad(ApplicationInfo info) {
-        synchronized (this) {
-            return mAppErrors.isBadProcessLocked(info);
-        }
+        return mAppErrors.isBadProcess(info.processName, info.uid);
     }
 
     // NOTE: this is an internal method used by the OnShellCommand implementation only and should
@@ -9496,6 +9546,7 @@ public class ActivityManagerService extends IActivityManager.Stub
         final long waitForNetworkTimeoutMs = Settings.Global.getLong(resolver,
                 NETWORK_ACCESS_TIMEOUT_MS, NETWORK_ACCESS_TIMEOUT_DEFAULT_MS);
         mHiddenApiBlacklist.registerObserver();
+        mZygoteTypefaceRefresh.registerObserver();
 
         final long pssDeferralMs = DeviceConfig.getLong(DeviceConfig.NAMESPACE_ACTIVITY_MANAGER,
                 ACTIVITY_START_PSS_DEFER_CONFIG, 0L);
@@ -12850,6 +12901,10 @@ public class ActivityManagerService extends IActivityManager.Stub
             if (r.thread != null) {
                 pw.println("\n\n** Cache info for pid " + r.pid + " [" + r.processName + "] **");
                 pw.flush();
+                if (r.pid == MY_PID) {
+                    PropertyInvalidatedCache.dumpCacheInfo(fd, args);
+                    continue;
+                }
                 try {
                     TransferPipe tp = new TransferPipe();
                     try {
@@ -19746,6 +19801,22 @@ public class ActivityManagerService extends IActivityManager.Stub
         }
 
         @Override
+        public boolean hasForegroundServiceNotification(String pkg, int userId,
+                String channelId) {
+            synchronized (ActivityManagerService.this) {
+                return mServices.hasForegroundServiceNotificationLocked(pkg, userId, channelId);
+            }
+        }
+
+        @Override
+        public void stopForegroundServicesForChannel(String pkg, int userId,
+                String channelId) {
+            synchronized (ActivityManagerService.this) {
+                mServices.stopForegroundServicesForChannelLocked(pkg, userId, channelId);
+            }
+        }
+
+        @Override
         public void registerProcessObserver(IProcessObserver processObserver) {
             ActivityManagerService.this.registerProcessObserver(processObserver);
         }
@@ -19796,6 +19867,24 @@ public class ActivityManagerService extends IActivityManager.Stub
         @Override
         public boolean isPendingTopUid(int uid) {
             return mPendingStartActivityUids.isPendingTopUid(uid);
+        }
+
+        @Override
+        public void tempAllowWhileInUsePermissionInFgs(int uid, long duration) {
+            mFgsWhileInUseTempAllowList.add(uid, duration);
+        }
+
+        @Override
+        public boolean isTempAllowlistedForFgsWhileInUse(int uid) {
+            return mFgsWhileInUseTempAllowList.isAllowed(uid);
+        }
+
+        @Override
+        public boolean canAllowWhileInUsePermissionInFgs(int pid, int uid,
+                @NonNull String packageName) {
+            synchronized (ActivityManagerService.this) {
+                return mServices.canAllowWhileInUsePermissionInFgsLocked(pid, uid, packageName);
+            }
         }
     }
 
@@ -20437,7 +20526,7 @@ public class ActivityManagerService extends IActivityManager.Stub
         int callerUid = Binder.getCallingUid();
 
         // Only system can toggle the freezer state
-        if (callerUid == SYSTEM_UID) {
+        if (callerUid == SYSTEM_UID || Build.IS_DEBUGGABLE) {
             return mOomAdjuster.mCachedAppOptimizer.enableFreezer(enable);
         } else {
             throw new SecurityException("Caller uid " + callerUid + " cannot set freezer state ");
