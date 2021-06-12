@@ -4516,6 +4516,7 @@ public class CarrierConfigManager {
         sDefaults.putBoolean(KEY_DISABLE_DUN_APN_WHILE_ROAMING_WITH_PRESET_APN_BOOL, false);
         sDefaults.putString(KEY_DEFAULT_PREFERRED_APN_NAME_STRING, "");
         sDefaults.putBoolean(KEY_USE_LOWER_MTU_VALUE_IF_BOTH_RECEIVED, false);
+<<<<<<< HEAD
         sDefaults.putStringArray(KEY_MULTI_APN_ARRAY_FOR_SAME_GID, new String[] {
                 "52FF:mms,supl,hipri,default,fota:SA:nrphone",
                 "52FF:mms,supl,hipri,default,fota:NSA:nxtgenphone",
@@ -4535,6 +4536,8 @@ public class CarrierConfigManager {
                 "53FF:mms,supl,hipri,default,fota:1xRTT:nxtgenphone",
         });
         sDefaults.putBoolean(KEY_REQUIRE_APN_FILTERING_WITH_RADIO_CAPABILITY, false);
+=======
+>>>>>>> android-11.0.0_r38
         sDefaults.putBoolean(KEY_NETWORK_TEMP_NOT_METERED_SUPPORTED_BOOL, true);
     }
 
