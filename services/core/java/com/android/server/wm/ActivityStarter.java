@@ -1014,7 +1014,8 @@ class ActivityStarter {
 
         final String pkg = aInfo == null ? null : aInfo.packageName;
         if (mService.isAppLocked(pkg) && !mService.isAppOpened(pkg)
-                && !mService.isAlarmOrCallIntent(intent)) {
+                && !mService.isAlarmOrCallIntent(intent)
+                && !getTopStackPackageName().equals(pkg)) {
             if (DEBUG_APPLOCK) Slog.d(TAG_APPLOCK, "Locked pkg:" + pkg + " intent:" + intent);
             mService.mAppLockService.setAppIntent(pkg, intent);
             mService.mAppLockService.launchBeforeActivity(pkg);
