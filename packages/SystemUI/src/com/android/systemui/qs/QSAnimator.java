@@ -319,6 +319,12 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
                 if (mQsPanel.isBrightnessBottom()) {
                     builder.addFloat(brightness, "alpha", 0, 1);
                     mBrightnessAnimator = null;
+		} else {
+                    firstPageBuilder.addFloat(brightness, "translationY", heightDiff, 0);
+                    mBrightnessAnimator = new TouchAnimator.Builder()
+                            .addFloat(brightness, "alpha", 0, 1)
+                            .setStartDelay(.5f)
+                            .build();
                 }
                 mAllViews.add(brightness);
             } else {
