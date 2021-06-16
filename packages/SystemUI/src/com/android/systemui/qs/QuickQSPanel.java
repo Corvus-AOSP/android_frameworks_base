@@ -198,7 +198,7 @@ public class QuickQSPanel extends QSPanel {
 
    @Override
    public void updateViewVisibilityForTuningValue(boolean visible) {
-        super.updateViewVisibilityForTuningValue(true);
+        super.updateViewVisibilityForTuningValue(false);
 
     }
 

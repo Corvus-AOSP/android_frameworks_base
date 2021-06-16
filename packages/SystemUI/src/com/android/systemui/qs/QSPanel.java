@@ -799,10 +799,14 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
         }
     }
 
-    private boolean shouldUseHorizontalLayout() {
+    boolean shouldUseHorizontalLayout() {
         return mUsingMediaPlayer && mMediaHost.getVisible()
                 && getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
+    }
+
+    boolean isMediaHostVisible() {
+        return mMediaHost.getVisible();
     }
 
     protected void reAttachMediaHost() {

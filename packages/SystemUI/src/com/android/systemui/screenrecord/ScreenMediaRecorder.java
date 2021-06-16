@@ -61,12 +61,12 @@ import java.util.Date;
  */
 public class ScreenMediaRecorder {
     private static final int TOTAL_NUM_TRACKS = 1;
-    private static final int VIDEO_FRAME_RATE = 30;
+    private static final int VIDEO_FRAME_RATE = 60;
+    private static final int REFRESH_RATE = 60;
     private static final int VIDEO_FRAME_RATE_TO_RESOLUTION_RATIO = 6;
     private static final int AUDIO_BIT_RATE = 196000;
     private static final int AUDIO_SAMPLE_RATE = 44100;
-    private static final int MAX_DURATION_MS = 60 * 60 * 1000;
-    private static final long MAX_FILESIZE_BYTES = 5000000000L;
+    private static final long MAX_FILESIZE_BYTES = 10000000000L;
     private static final String TAG = "ScreenMediaRecorder";
 
 
@@ -127,20 +127,15 @@ public class ScreenMediaRecorder {
         wm.getDefaultDisplay().getRealMetrics(metrics);
         int screenWidth = metrics.widthPixels;
         int screenHeight = metrics.heightPixels;
-        int refereshRate = (int) wm.getDefaultDisplay().getRefreshRate();
-        int maxRefreshRate = mContext.getResources().getInteger(
-                com.android.internal.R.integer.config_screenRecorderMaxFramerate);
-        if (maxRefreshRate != 0 && refereshRate > maxRefreshRate) refereshRate = maxRefreshRate;
-        int vidBitRate = screenHeight * screenWidth * refereshRate / VIDEO_FRAME_RATE
+        int vidBitRate = screenHeight * screenWidth * REFRESH_RATE / VIDEO_FRAME_RATE
                 * VIDEO_FRAME_RATE_TO_RESOLUTION_RATIO;
         mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
         mMediaRecorder.setVideoEncodingProfileLevel(
                 MediaCodecInfo.CodecProfileLevel.AVCProfileMain,
                 MediaCodecInfo.CodecProfileLevel.AVCLevel3);
         mMediaRecorder.setVideoSize(screenWidth, screenHeight);
-        mMediaRecorder.setVideoFrameRate(refereshRate);
+        mMediaRecorder.setVideoFrameRate(REFRESH_RATE);
         mMediaRecorder.setVideoEncodingBitRate(vidBitRate);
-        mMediaRecorder.setMaxDuration(MAX_DURATION_MS);
         mMediaRecorder.setMaxFileSize(MAX_FILESIZE_BYTES);
 
         // Set up audio

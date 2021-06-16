@@ -244,7 +244,6 @@
     <color name="media_primary_text">@android:color/white</color>
     <color name="media_secondary_text">#99ffffff</color> <!-- 60% -->
     <color name="media_seekbar_progress">#c0ffffff</color>
-    <color name="media_thumb_color">#4d4d4d</color>
     <color name="media_disabled">#80ffffff</color>
     <color name="media_seamless_border">#26ffffff</color> <!-- 15% -->
     <color name="media_divider">#1d000000</color>

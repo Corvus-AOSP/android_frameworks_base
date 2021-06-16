@@ -20,6 +20,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.media.AudioManager;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.media.MediaActionSound;
 import android.net.Uri;
 import android.os.UserHandle;
@@ -38,11 +41,17 @@ public class StitchImageUtility {
     private static String TAG = "StitchImageUtility";
     private final Context mContext;
     private MediaActionSound mCameraSound;
+    private AudioManager mAudioManager;
+    private Vibrator mVibrator;
     private PackageManager mPackageManager;
 
     public StitchImageUtility(Context context) {
         mContext = context;
         mPackageManager = mContext.getPackageManager();
+
+        // Grab system services needed for screenshot sound
+        mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+        mVibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
     }
 
     public boolean takeScreenShot(String focusedPackageName) {
@@ -63,13 +72,27 @@ public class StitchImageUtility {
     }
 
     private void playScreenshotSound(){
-        if (mCameraSound == null){
+	if (mCameraSound == null){
             mCameraSound = new MediaActionSound();
             mCameraSound.load(MediaActionSound.SHUTTER_CLICK);
         }
-        if (Settings.System.getIntForUser(mContext.getContentResolver(), Settings.System.SCREENSHOT_SOUND, 1, UserHandle.USER_CURRENT) == 1) {
-            mCameraSound.play(MediaActionSound.SHUTTER_CLICK);
-        }
+	switch (mAudioManager.getRingerMode()) {
+            case AudioManager.RINGER_MODE_SILENT:
+                // do nothing
+                break;
+            case AudioManager.RINGER_MODE_VIBRATE:
+                if (mVibrator != null && mVibrator.hasVibrator()) {
+                    mVibrator.vibrate(VibrationEffect.createOneShot(50,
+                            VibrationEffect.DEFAULT_AMPLITUDE));
+                }
+                break;
+            case AudioManager.RINGER_MODE_NORMAL:
+	 	if (Settings.System.getIntForUser(mContext.getContentResolver(), Settings.System.SCREENSHOT_SOUND, 1, UserHandle.USER_CURRENT) == 1) {
+                // Play the shutter sound to notify that we've taken a screenshot
+                mCameraSound.play(MediaActionSound.SHUTTER_CLICK);
+		}
+                break;
+	}
     }
 
     private boolean isPackageAllowed(String focusedPackageName){
