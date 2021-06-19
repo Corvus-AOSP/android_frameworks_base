@@ -57,7 +57,7 @@ public class PixelPropsUtils {
         "com.google.android.apps.nexuslauncher"
     };
 
-    private static final String[] packagesToChangePixel3 = {
+    private static final String[] packagesToChangePixel3XL = {
         "com.google.android.googlequicksearchbox"
     };
 
@@ -69,8 +69,13 @@ public class PixelPropsUtils {
         propsToChange.put("PRODUCT", "redfin");
         propsToChange.put("MODEL", "Pixel 5");
         propsToChange.put("FINGERPRINT", "google/redfin/redfin:11/RQ3A.210605.005/7349499:user/release-keys");
-        propsToChangePixel3 = new HashMap<>();
-        propsToChangePixel3.put("MODEL", "Pixel 3 XL");
+	propsToChangePixel3XL = new HashMap<>();
+        propsToChangePixel3XL.put("BRAND", "google");
+        propsToChangePixel3XL.put("MANUFACTURER", "Google");
+        propsToChangePixel3XL.put("DEVICE", "crosshatch");
+        propsToChangePixel3XL.put("PRODUCT", "crosshatch");
+        propsToChangePixel3XL.put("MODEL", "Pixel 3 XL");
+        propsToChangePixel3XL.put("FINGERPRINT", "google/crosshatch/crosshatch:11/RQ3A.210605.005/7349499:user/release-keys");
     }
 
     public static void setProps(String packageName) {
@@ -87,11 +92,11 @@ public class PixelPropsUtils {
                 setPropValue(key, value);
             }
         }
-        if (Arrays.asList(packagesToChangePixel3).contains(packageName)) {
+	if (Arrays.asList(packagesToChangePixel3XL).contains(packageName)) {
             if (DEBUG) {
                 Log.d(TAG, "Defining props for: " + packageName);
             }
-            for (Map.Entry<String, Object> prop : propsToChangePixel3.entrySet()) {
+            for (Map.Entry<String, Object> prop : propsToChangePixel3XL.entrySet()) {
                 String key = prop.getKey();
                 Object value = prop.getValue();
                 setPropValue(key, value);
