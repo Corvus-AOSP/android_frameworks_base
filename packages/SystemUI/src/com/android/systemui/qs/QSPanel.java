@@ -228,7 +228,6 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
             initMediaHostState();
         }
         addSecurityFooter();
-	addViewsBelowTiles();
         if (mRegularTileLayout instanceof PagedTileLayout) {
             mQsTileRevealController = new QSTileRevealController(mContext, this,
                     (PagedTileLayout) mRegularTileLayout);
@@ -308,9 +307,6 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
     }
 
     protected void addViewsAboveTiles() {
-    }
-
-    protected void addViewsBelowTiles() {
         mBrightnessView = LayoutInflater.from(mContext).inflate(
             R.layout.quick_settings_brightness_dialog, this, false);
         ImageView brightnessIcon = mBrightnessView.findViewById(R.id.brightness_icon);
@@ -799,14 +795,10 @@ public class QSPanel extends LinearLayout implements Callback, BrightnessMirrorL
         }
     }
 
-    boolean shouldUseHorizontalLayout() {
+    private boolean shouldUseHorizontalLayout() {
         return mUsingMediaPlayer && mMediaHost.getVisible()
                 && getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
-    }
-
-    boolean isMediaHostVisible() {
-        return mMediaHost.getVisible();
     }
 
     protected void reAttachMediaHost() {

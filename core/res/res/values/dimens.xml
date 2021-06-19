@@ -571,7 +571,6 @@
     <!-- Tile Stroke width -->
     <dimen name="config_qsTileStrokeWidthActive">-1dp</dimen>
     <dimen name="config_qsTileStrokeWidthInactive">-1dp</dimen>
-    <dimen name="config_qsTileStrokeWidthInactiveCustom">2dp</dimen>
 
     <!-- Amount to reduce the size of the circular mask by (to compensate for
          aliasing effects). This is only used on circular displays. -->
