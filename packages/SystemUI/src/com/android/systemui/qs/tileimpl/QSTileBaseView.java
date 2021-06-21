@@ -132,7 +132,7 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
         mColorActiveAlpha = adjustAlpha(mColorActive, 0.2f);
         mColorDisabled = Utils.getDisabled(context,
                 Utils.getColorAttrDefaultColor(context, android.R.attr.textColorTertiary));
-        mColorInactive = Utils.getColorAttrDefaultColor(context, android.R.attr.textColorSecondary);
+        mColorInactive = context.getResources().getColor(R.color.qs_tile_background_inactive);
 
         setPadding(0, 0, 0, 0);
         setClipChildren(false);
@@ -317,9 +317,6 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
                     Settings.System.QS_PANEL_BG_USE_NEW_TINT, 0, UserHandle.USER_CURRENT) == 1;
         switch (state) {
             case Tile.STATE_ACTIVE:
-		if (setQsUseNewTint)
-	            return mColorActiveAlpha;
-		else
 		    return mColorActive;
             case Tile.STATE_INACTIVE:
 		if (setQsUseNewTint)

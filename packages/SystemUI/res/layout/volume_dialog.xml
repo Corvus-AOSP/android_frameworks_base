@@ -48,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="16dp"
-                android:tint="?android:attr/colorAccent" />
+                android:tint="?android:attr/colorPrimary" />
 
             <include
                 layout="@layout/volume_dnd_icon"
@@ -162,7 +162,6 @@
             <com.android.systemui.statusbar.phone.ExpandableIndicator
                 android:id="@+id/expandable_indicator"
                 style="@style/VolumeButtons"
-		android:tint="?android:attr/colorAccent"
                 android:layout_width="@dimen/volume_dialog_panel_width"
                 android:layout_height="@dimen/volume_dialog_button_height"
                 android:background="@drawable/ripple_drawable_20dp"
@@ -182,7 +181,7 @@
             <com.android.keyguard.AlphaOptimizedImageButton
                 android:id="@+id/media_button"
                 style="@style/VolumeButtons"
-		android:tint="?android:attr/colorAccent"
+		android:tint="?android:attr/colorPrimary"
                 android:layout_width="@dimen/volume_dialog_panel_width"
                 android:layout_height="@dimen/volume_dialog_button_height"
                 android:background="@drawable/ripple_drawable_20dp"
@@ -208,7 +207,6 @@
                 <com.android.systemui.volume.CaptionsToggleImageButton
                     android:id="@+id/odi_captions_icon"
                     style="@style/VolumeButtons"
-		    android:tint="?android:attr/colorAccent"
                     android:layout_width="@dimen/volume_dialog_panel_width"
                     android:layout_height="@dimen/volume_dialog_button_height"
                     android:background="@drawable/ripple_drawable_20dp"
