@@ -38,7 +38,6 @@ public class PixelPropsUtils {
         "com.breel.wallpapers20",
         "com.google.android.apps.customization.pixel",
         "com.google.android.apps.fitness",
-        "com.google.android.apps.photos",
         "com.google.android.apps.recorder",
         "com.google.android.apps.subscriptions.red",
         "com.google.android.apps.tachyon",
