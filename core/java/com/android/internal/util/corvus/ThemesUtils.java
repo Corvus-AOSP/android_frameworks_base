@@ -84,7 +84,7 @@ public class ThemesUtils {
     public static final String[] QS_HEADER_THEMES = {
             "com.android.systemui.qsheader.grey",
             "com.android.systemui.qsheader.lightgrey",
-            "com.android.systemui.qsheader.accent", 
+            "com.android.systemui.qsheader.accent",
             "com.android.systemui.qsheader.transparent",
     };
 
@@ -96,6 +96,7 @@ public class ThemesUtils {
         "com.android.system.switch.contained", // 5
         "com.android.system.switch.retro", // 6
         "com.android.system.switch.stockish", // 7
+        "com.android.system.switch.android12", // 8
     };
 
     public static final String[] STATUSBAR_HEIGHT = {
