@@ -261,7 +261,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     private BrightnessController mBrightnessController;
     private boolean mIsQsAutoBrightnessEnabled;
 
-    private int mBrightnessSlider = 2;
+    private int mBrightnessSlider = 1;
 
     @Inject
     public QuickStatusBarHeader(@Named(VIEW_CONTEXT) Context context, AttributeSet attrs,
@@ -526,9 +526,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
 
         if (mBrightnessSlider != 0) {
             if (mBrightnessSlider == 1) {
-                headerPanel.addRule(RelativeLayout.BELOW, R.id.quick_qs_brightness_bar);
-            } else if (mBrightnessSlider == 2) {
-                lpQuickQsBrightness.addRule(RelativeLayout.BELOW, R.id.quick_qs_panel);
+		lpQuickQsBrightness.addRule(RelativeLayout.BELOW, R.id.quick_qs_panel);
             }
             if (mIsQsAutoBrightnessEnabled && resources.getBoolean(
                     com.android.internal.R.bool.config_automatic_brightness_available)) {
@@ -979,7 +977,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     public void onTuningChanged(String key, String newValue) {
         switch (key) {
             case QQS_SHOW_BRIGHTNESS_SLIDER:
-                mBrightnessSlider = TunerService.parseInteger(newValue, 2);
+                mBrightnessSlider = TunerService.parseInteger(newValue, 0);
                 updateResources();
                 break;
             case QS_SHOW_AUTO_BRIGHTNESS:
