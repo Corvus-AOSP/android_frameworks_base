@@ -317,6 +317,9 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
                     Settings.System.QS_PANEL_BG_USE_NEW_TINT, 0, UserHandle.USER_CURRENT) == 1;
         switch (state) {
             case Tile.STATE_ACTIVE:
+		if (setQsUseNewTint)
+		    return mColorActiveAlpha;
+		else
 		    return mColorActive;
             case Tile.STATE_INACTIVE:
 		if (setQsUseNewTint)
