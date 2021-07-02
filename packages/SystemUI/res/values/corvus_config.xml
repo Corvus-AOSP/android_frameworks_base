@@ -34,9 +34,6 @@
 
     <bool name="config_display_vowifi">true</bool>
 
-    <!-- Enable face auth only when swiping security view -->
-    <bool name="config_faceAuthOnlyOnSecurityView">false</bool>
-
     <!-- System icon area layout weight -->
     <item name="system_icon_area_weight" format="float" type="integer">1</item>
 
@@ -48,4 +45,5 @@
 
     <!-- FPSInfoService FPS node file path -->
     <string name="config_fpsInfoSysNode" translatable="false"></string>
+
 </resources>
