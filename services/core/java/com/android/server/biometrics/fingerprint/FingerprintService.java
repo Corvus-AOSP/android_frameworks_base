@@ -80,7 +80,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.android.internal.util.custom.FodUtils;
+import lineageos.app.LineageContextConstants;
 
 import vendor.lineage.biometrics.fingerprint.inscreen.V1_0.IFingerprintInscreen;
 
@@ -723,7 +723,6 @@ public class FingerprintService extends BiometricServiceBase {
                         authenticated = true;
                     }
                 }
-
                 final Fingerprint fp = new Fingerprint("", groupId, fingerId, deviceId);
                 FingerprintService.super.handleAuthenticated(authenticated, fp, token);
                 if (mHasFod && fp.getBiometricId() != 0) {
@@ -892,10 +891,10 @@ public class FingerprintService extends BiometricServiceBase {
         mAlarmManager = context.getSystemService(AlarmManager.class);
         context.registerReceiver(mLockoutReceiver, new IntentFilter(getLockoutResetIntent()),
                 getLockoutBroadcastPermission(), null /* handler */);
+        mLockPatternUtils = new LockPatternUtils(context);
 
         PackageManager packageManager = context.getPackageManager();
-        mHasFod = FodUtils.hasFodSupport(context);
-        mLockPatternUtils = new LockPatternUtils(context);
+        mHasFod = packageManager.hasSystemFeature(LineageContextConstants.Features.FOD);
     }
 
     @Override
