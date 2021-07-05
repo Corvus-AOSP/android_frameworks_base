@@ -237,6 +237,7 @@ public class SystemSettingsValidators {
                         return true;
                     }
                 });
+        VALIDATORS.put(System.HIGH_TOUCH_POLLING_RATE_ENABLE, BOOLEAN_VALIDATOR);
         VALIDATORS.put(System.HIGH_TOUCH_SENSITIVITY_ENABLE, BOOLEAN_VALIDATOR);
     }
 }

@@ -5693,6 +5693,14 @@ public final class Settings {
         public static final String CUSTOM_RINGTONE_VIBRATION_PATTERN = "custom_ringtone_vibration_pattern";
 
         /**
+         * Whether the HighTouchPollingRate is activated or not.
+         * 0 = off, 1 = on
+         * @hide
+         */
+        public static final String HIGH_TOUCH_POLLING_RATE_ENABLE =
+                "high_touch_polling_rate_enable";
+
+        /**
          * Whether the HighTouchSensitivity is activated or not.
          * 0 = off, 1 = on
          * @hide
@@ -5876,6 +5884,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(VIBRATE_ON_CONNECT);
             PRIVATE_SETTINGS.add(VIBRATE_ON_CALLWAITING);
             PRIVATE_SETTINGS.add(VIBRATE_ON_DISCONNECT);
+            PRIVATE_SETTINGS.add(HIGH_TOUCH_POLLING_RATE_ENABLE);
             PRIVATE_SETTINGS.add(HIGH_TOUCH_SENSITIVITY_ENABLE);
         }
 
