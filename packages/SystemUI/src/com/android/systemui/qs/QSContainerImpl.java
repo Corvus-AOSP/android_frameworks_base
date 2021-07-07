@@ -78,6 +78,7 @@ public class QSContainerImpl extends FrameLayout implements
     private View mQSPanelContainer;
 
     private View mBackground;
+    private View mBackgroundGradient;
     private View mStatusBarBackground;
 
     private int mSideMargins;
@@ -111,6 +112,7 @@ public class QSContainerImpl extends FrameLayout implements
         mStatusBarBackground = findViewById(R.id.quick_settings_status_bar_background);
         mBackgroundImage = findViewById(R.id.qs_header_image_view);
         mBackgroundImage.setClipToOutline(true);
+        mBackgroundGradient = findViewById(R.id.quick_settings_gradient_view);
         updateResources();
         mHeader.getHeaderQsPanel().setMediaVisibilityChangedListener((visible) -> {
             if (mHeader.getHeaderQsPanel().isShown()) {
@@ -162,7 +164,7 @@ public class QSContainerImpl extends FrameLayout implements
     protected void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mLandscape = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE;
-
+        setBackgroundGradientVisibility(newConfig);
         updateResources();
         mSizePoint.set(0, 0); // Will be retrieved on next measure pass.
     }
@@ -244,6 +246,7 @@ public class QSContainerImpl extends FrameLayout implements
     public void disable(int state1, int state2, boolean animate) {
         final boolean disabled = (state2 & DISABLE2_QUICK_SETTINGS) != 0;
         if (disabled == mQsDisabled) return;
+        setBackgroundGradientVisibility(getResources().getConfiguration());
         mQsDisabled = disabled;
         mBackground.setVisibility(mQsDisabled ? View.GONE : View.VISIBLE);
         updateStatusbarVisibility();
@@ -325,6 +328,16 @@ public class QSContainerImpl extends FrameLayout implements
                 + mHeader.getHeight();
     }
 
+    private void setBackgroundGradientVisibility(Configuration newConfig) {
+        if (newConfig.orientation == ORIENTATION_LANDSCAPE) {
+            mBackgroundGradient.setVisibility(View.INVISIBLE);
+            mStatusBarBackground.setVisibility(View.INVISIBLE);
+        } else {
+            mBackgroundGradient.setVisibility(mQsDisabled ? View.INVISIBLE : View.VISIBLE);
+            mStatusBarBackground.setVisibility(View.VISIBLE);
+        }
+    }
+
     public void setExpansion(float expansion) {
         mQsExpansion = expansion;
         mDragHandle.setAlpha(1.0f - expansion);
@@ -334,7 +347,7 @@ public class QSContainerImpl extends FrameLayout implements
     private void updatePaddingsAndMargins() {
         for (int i = 0; i < getChildCount(); i++) {
             View view = getChildAt(i);
-            if (view == mStatusBarBackground || view == mQSCustomizer) {
+            if (view == mStatusBarBackground || view == mBackgroundGradient || view == mQSCustomizer) {
                 // Some views are always full width
                 continue;
             }
