@@ -89,6 +89,7 @@
 
     <!-- Pocket Service -->
     <java-symbol type="string" name="config_pocketJudgeVendorSensorName" />
+    <java-symbol type="string" name="config_pocketJudgeVendorProximitySensorName" />
 
     <!-- Enable face auth only when swiping security view -->
     <java-symbol type="bool" name="config_faceAuthOnlyOnSecurityView" />
