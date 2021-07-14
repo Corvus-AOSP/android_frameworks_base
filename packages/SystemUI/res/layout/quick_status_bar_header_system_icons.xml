@@ -27,6 +27,65 @@
     android:paddingTop="@dimen/status_bar_padding_top"
     android:background="@android:color/transparent" >
 
+    <com.android.systemui.statusbar.policy.Clock
+        android:id="@+id/clock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+	android:layout_gravity="center_vertical|start"
+	android:textColor="@android:color/white"
+        android:shadowColor="@android:color/black"
+        android:shadowDy="4"
+        android:shadowRadius="3"
+        android:minWidth="48dp"
+        android:singleLine="true"
+        android:textAppearance="@style/TextAppearance.StatusBar.Clock"
+        systemui:showDark="false" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_height="24dp"
+        android:background="@android:color/white"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical" >
+
+    <com.android.systemui.statusbar.policy.DateView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+	android:textStyle="bold"
+	android:textSize="13sp"
+	android:shadowColor="@android:color/black"
+	android:shadowDy="4"
+        android:shadowRadius="3"
+        systemui:showDark="false"
+        systemui:datePattern="EEEEdd" />
+
+    <com.android.systemui.statusbar.policy.DateView
+        android:id="@+id/year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+	android:textSize="13sp"
+	android:textStyle="bold"
+	android:shadowColor="@android:color/black"
+	android:shadowDy="4"
+        android:shadowRadius="3"
+        systemui:showDark="false"
+        systemui:datePattern="yyyy" />
+
+    </LinearLayout>
+
     <android.widget.Space
         android:id="@+id/space"
         android:layout_width="0dp"
