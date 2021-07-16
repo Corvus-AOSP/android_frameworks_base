@@ -189,5 +189,8 @@
 
      <!-- Enable face auth only when swiping security view -->
      <java-symbol type="bool" name="config_faceAuthOnlyOnSecurityView" />
+    
+     <!-- Power button fingerprint -->
+     <java-symbol type="bool" name="config_powerButtonFingerprint" />
 
 </resources>
