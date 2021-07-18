@@ -195,4 +195,7 @@
 
     <!-- NightLight FOD -->
     <java-symbol type="bool" name="disable_fod_night_light"/>
+
+    <!-- Whether doze feature is enabled by default in settings -->
+    <java-symbol type="bool" name="config_doze_enabled_by_default" />
 </resources>
