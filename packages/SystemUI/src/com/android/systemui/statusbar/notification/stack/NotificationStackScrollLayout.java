@@ -822,7 +822,7 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
                 continue;
             }
             final ExpandableNotificationRow row = (ExpandableNotificationRow) child;
-            if (row.getEntry().isClearable() && matchesSelection(row, selection)) {
+            if (row.canViewBeDismissed() && matchesSelection(row, selection)) {
                 return row;
             }
         }
