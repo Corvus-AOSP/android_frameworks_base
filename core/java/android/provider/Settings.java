@@ -10166,13 +10166,6 @@ public final class Settings {
         public static final String VOLUME_LINK_NOTIFICATION = "volume_link_notification";
 
         /**
-         * Wheter to have transparent background on lockscreen notifications
-         *
-         * @hide
-         */
-        public static final String LOCK_SCREEN_TRANSPARENT_NOTIFICATIONS_ENABLED =
-                "lock_screen_transparent_notifications_enabled";
-        /**
          * @hide
          */
         public static final String ADVANCED_REBOOT = "advanced_reboot";
