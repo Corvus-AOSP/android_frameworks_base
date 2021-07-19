@@ -67,8 +67,6 @@ public abstract class ExpandableView extends FrameLayout implements Dumpable {
     protected int mContentShift;
     private final ExpandableViewState mViewState;
     private float mContentTranslation;
-    protected boolean mLastInSection;
-    protected boolean mFirstInSection;
 
     public ExpandableView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -767,44 +765,6 @@ public abstract class ExpandableView extends FrameLayout implements Dumpable {
      */
     public float getContentTranslation() {
         return mContentTranslation;
-    }
-
-    /** Sets whether this view is the first notification in a section. */
-    public void setFirstInSection(boolean firstInSection) {
-        mFirstInSection = firstInSection;
-    }
-
-    /** Sets whether this view is the last notification in a section. */
-    public void setLastInSection(boolean lastInSection) {
-        mLastInSection = lastInSection;
-    }
-
-    public boolean isLastInSection() {
-        return mLastInSection;
-    }
-
-    public boolean isFirstInSection() {
-        return mFirstInSection;
-    }
-
-    /**
-     * Set the topRoundness of this view.
-     * @return Whether the roundness was changed.
-     */
-    public boolean setTopRoundness(float topRoundness, boolean animate) {
-        return false;
-    }
-
-    /**
-     * Set the bottom roundness of this view.
-     * @return Whether the roundness was changed.
-     */
-    public boolean setBottomRoundness(float bottomRoundness, boolean animate) {
-        return false;
-    }
-
-    public int getHeadsUpHeightWithoutHeader() {
-        return getHeight();
     }
 
     /**

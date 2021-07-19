@@ -36,6 +36,7 @@ import com.android.systemui.statusbar.notification.people.PeopleHubViewAdapter
 import com.android.systemui.statusbar.notification.people.PeopleHubViewBoundary
 import com.android.systemui.statusbar.notification.people.PersonViewModel
 import com.android.systemui.statusbar.notification.people.Subscription
+import com.android.systemui.statusbar.notification.row.ActivatableNotificationView
 import com.android.systemui.statusbar.notification.row.ExpandableNotificationRow
 import com.android.systemui.statusbar.notification.row.ExpandableView
 import com.android.systemui.statusbar.notification.row.StackScrollerDecorView
@@ -477,14 +478,14 @@ class NotificationSectionsManager @Inject internal constructor(
     private sealed class SectionBounds {
 
         data class Many(
-            val first: ExpandableView,
-            val last: ExpandableView
+            val first: ActivatableNotificationView,
+            val last: ActivatableNotificationView
         ) : SectionBounds()
 
-        data class One(val lone: ExpandableView) : SectionBounds()
+        data class One(val lone: ActivatableNotificationView) : SectionBounds()
         object None : SectionBounds()
 
-        fun addNotif(notif: ExpandableView): SectionBounds = when (this) {
+        fun addNotif(notif: ActivatableNotificationView): SectionBounds = when (this) {
             is None -> One(notif)
             is One -> Many(lone, notif)
             is Many -> copy(last = notif)
@@ -497,8 +498,8 @@ class NotificationSectionsManager @Inject internal constructor(
         }
 
         private fun NotificationSection.setFirstAndLastVisibleChildren(
-            first: ExpandableView?,
-            last: ExpandableView?
+            first: ActivatableNotificationView?,
+            last: ActivatableNotificationView?
         ): Boolean {
             val firstChanged = setFirstVisibleChild(first)
             val lastChanged = setLastVisibleChild(last)
@@ -513,7 +514,7 @@ class NotificationSectionsManager @Inject internal constructor(
      */
     fun updateFirstAndLastViewsForAllSections(
         sections: Array<NotificationSection>,
-        children: List<ExpandableView>
+        children: List<ActivatableNotificationView>
     ): Boolean {
         // Create mapping of bucket to section
         val sectionBounds = children.asSequence()

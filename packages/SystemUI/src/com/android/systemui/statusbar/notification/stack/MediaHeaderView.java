@@ -16,35 +16,45 @@
 
 package com.android.systemui.statusbar.notification.stack;
 
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.systemui.statusbar.notification.row.ExpandableView;
+import com.android.systemui.R;
+import com.android.systemui.statusbar.notification.row.ActivatableNotificationView;
 
 /**
  * Root view to insert Lock screen media controls into the notification stack.
  */
-public class MediaHeaderView extends ExpandableView {
+public class MediaHeaderView extends ActivatableNotificationView {
+
+    private View mContentView;
 
     public MediaHeaderView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
     @Override
-    public long performRemoveAnimation(long duration, long delay, float translationDirection,
-            boolean isHeadsUpAnimation, float endLocation, Runnable onFinishedRunnable,
-            AnimatorListenerAdapter animationListener) {
-        return 0;
+    protected void onFinishInflate() {
+        super.onFinishInflate();
     }
 
     @Override
-    public void performAddAnimation(long delay, long duration, boolean isHeadsUpAppear) {
-        // No animation, it doesn't need it, this would be local
+    protected View getContentView() {
+        return mContentView;
+    }
+
+    /**
+     * Sets the background color, to be used when album art changes.
+     * @param color background
+     */
+    public void setBackgroundColor(int color) {
+        setTintColor(color);
     }
 
     public void setContentView(ViewGroup contentView) {
+        mContentView = contentView;
         addView(contentView);
         ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
         layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;

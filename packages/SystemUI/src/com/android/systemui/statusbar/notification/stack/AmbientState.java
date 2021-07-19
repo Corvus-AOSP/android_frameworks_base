@@ -64,7 +64,7 @@ public class AmbientState {
     private int mZDistanceBetweenElements;
     private int mBaseZHeight;
     private int mMaxLayoutHeight;
-    private ExpandableView mLastVisibleBackgroundChild;
+    private ActivatableNotificationView mLastVisibleBackgroundChild;
     private float mCurrentScrollVelocity;
     private int mStatusBarState;
     private float mExpandingVelocity;
@@ -348,11 +348,11 @@ public class AmbientState {
      * view in the shade, without the clear all button.
      */
     public void setLastVisibleBackgroundChild(
-            ExpandableView lastVisibleBackgroundChild) {
+            ActivatableNotificationView lastVisibleBackgroundChild) {
         mLastVisibleBackgroundChild = lastVisibleBackgroundChild;
     }
 
-    public ExpandableView getLastVisibleBackgroundChild() {
+    public ActivatableNotificationView getLastVisibleBackgroundChild() {
         return mLastVisibleBackgroundChild;
     }
 
