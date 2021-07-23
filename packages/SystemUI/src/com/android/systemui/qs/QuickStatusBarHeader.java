@@ -79,6 +79,9 @@ public class QuickStatusBarHeader extends FrameLayout implements
     private View mStatusIconsView;
     private View mContainer;
 
+    private View mQsWeatherView;
+    private View mQsWeatherHeaderView; 
+
     private View mQSCarriers;
     private ViewGroup mClockContainer;
     private Clock mClockView;
@@ -145,6 +148,8 @@ public class QuickStatusBarHeader extends FrameLayout implements
         mDateView = findViewById(R.id.date);
         mDateView.setOnClickListener(this);
         mClockDateView = findViewById(R.id.date_clock);
+        mQsWeatherView = findViewById(R.id.qs_weather_view);
+        mQsWeatherHeaderView = findViewById(R.id.weather_view_header);
         mSecurityHeaderView = findViewById(R.id.header_text_container);
         mClockIconsSeparator = findViewById(R.id.separator);
         mRightLayout = findViewById(R.id.rightLayout);
@@ -388,6 +393,8 @@ public class QuickStatusBarHeader extends FrameLayout implements
                 // These views appear on expanding down
                 .addFloat(mDateView, "alpha", 0, 0, 1)
                 .addFloat(mClockDateView, "alpha", 1, 0, 0)
+                .addFloat(mQsWeatherHeaderView, "alpha", 0, 0, 1)
+                .addFloat(mQsWeatherView, "alpha", 1, 0, 0)
                 .addFloat(mQSCarriers, "alpha", 0, 1)
                 .setListener(new TouchAnimator.ListenerAdapter() {
                     @Override
@@ -443,7 +450,7 @@ public class QuickStatusBarHeader extends FrameLayout implements
         if (mExpanded == expanded) return;
         mExpanded = expanded;
         quickQSPanelController.setExpanded(expanded);
-	mDateView.setVisibility(mClockView.isClockDateEnabled() ? View.INVISIBLE : View.VISIBLE);
+	    mDateView.setVisibility(mClockView.isClockDateEnabled() ? View.INVISIBLE : View.VISIBLE);
         updateEverything();
     }
 
