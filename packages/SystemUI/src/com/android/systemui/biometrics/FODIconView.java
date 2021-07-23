@@ -16,14 +16,20 @@
 
 package com.android.systemui.biometrics;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.database.ContentObserver;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.UserHandle;
 import android.provider.Settings;
 import android.view.WindowManager;
 import android.widget.ImageView;
+
 import com.android.systemui.R;
 
 public class FODIconView extends ImageView {
@@ -36,12 +42,46 @@ public class FODIconView extends ImageView {
     private int mSize;
     private final WindowManager mWindowManager;
 
+    private Handler mHandler;
+
     private int mSelectedAnim;
     private final int[] ANIMATION_STYLES_NAMES = {
         R.drawable.fod_icon_aod_anim,
         R.drawable.zaid_oneui_fod,
         R.drawable.oneui2_fod,
         R.drawable.oos_fod_animated
+    };
+
+    private int mSelectedIcon;
+    private final int[] ICON_STYLES = {
+        R.drawable.fod_icon_default,
+        R.drawable.fod_icon_default_0,
+        R.drawable.fod_icon_default_1,
+        R.drawable.fod_icon_default_2,
+        R.drawable.fod_icon_default_3,
+        R.drawable.fod_icon_default_4,
+        R.drawable.fod_icon_default_5,
+        R.drawable.fod_icon_arc_reactor,
+        R.drawable.fod_icon_cpt_america_flat,
+        R.drawable.fod_icon_cpt_america_flat_gray,
+        R.drawable.fod_icon_dragon_black_flat,
+        R.drawable.fod_icon_cr1,
+        R.drawable.fod_icon_glow_circle,
+        R.drawable.fod_icon_neon_arc,
+        R.drawable.fod_icon_neon_arc_gray,
+        R.drawable.fod_icon_neon_circle_pink,
+        R.drawable.fod_icon_neon_triangle,
+        R.drawable.fod_icon_paint_splash_circle,
+        R.drawable.fod_icon_rainbow_horn,
+        R.drawable.fod_icon_shooky,
+        R.drawable.fod_icon_spiral_blue,
+        R.drawable.fod_icon_sun_metro,
+        R.drawable.fod_icon_scratch_pink_blue,
+        R.drawable.fod_icon_scratch_red_blue,
+        R.drawable.fod_icon_fire_ice_ouroboros,
+        R.drawable.fod_icon_light,
+        R.drawable.fod_icon_gxzw,
+        R.drawable.fod_icon_transparent
     };
 
     public FODIconView(Context context, int i, int i2, int i3) {
@@ -66,18 +106,56 @@ public class FODIconView extends ImageView {
         boolean z = Settings.System.getInt(getContext().getContentResolver(), "fod_icon_animation", 0) != 0;
         this.mIsFODIconAnimated = z;
         if (z) {
-            update(z);
+            mCustomSettingsObserver.observe();
+            mCustomSettingsObserver.update();
             setBackgroundResource(ANIMATION_STYLES_NAMES[mSelectedAnim]);
             this.iconAnim = (AnimationDrawable) getBackground();
         } else {
-            setImageResource(R.drawable.fod_icon_default);
+            setImageResource(ICON_STYLES[mSelectedIcon]);
         }
         hide();
 
-        update(z);
+        mCustomSettingsObserver.observe();
+        mCustomSettingsObserver.update();
     }
 
-    public void update(boolean isEnabled) {
+    private CustomSettingsObserver mCustomSettingsObserver = new CustomSettingsObserver(mHandler);
+    private class CustomSettingsObserver extends ContentObserver {
+
+        CustomSettingsObserver(Handler handler) {
+            super(handler);
+        }
+
+        void observe() {
+            ContentResolver resolver = mContext.getContentResolver();
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.FOD_ICON),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.FOD_ICON_ANIM_TYPE),
+                    false, this, UserHandle.USER_ALL);
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            boolean z = Settings.System.getInt(getContext().getContentResolver(), "fod_icon_animation", 0) != 0;
+            mIsFODIconAnimated = z;
+            if (uri.equals(Settings.System.getUriFor(Settings.System.FOD_ICON)) ||
+                    uri.equals(Settings.System.getUriFor(Settings.System.FOD_ICON_ANIM_TYPE))) {
+                updateStyle(z);
+            }
+        }
+
+        public void update() {
+            boolean z = Settings.System.getInt(getContext().getContentResolver(), "fod_icon_animation", 0) != 0;
+            mIsFODIconAnimated = z;
+            updateStyle(z);
+        }
+    }
+
+    public void updateStyle(boolean isEnabled) {
+        mSelectedIcon = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.FOD_ICON, 0);
         mSelectedAnim = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.FOD_ICON_ANIM_TYPE, 0);
     }
@@ -113,22 +191,20 @@ public class FODIconView extends ImageView {
         this.mIsFODIconAnimated = z;
         if (z) {
             setImageResource(0);
-            update(z);
+            mCustomSettingsObserver.observe();
+            mCustomSettingsObserver.update();
             setBackgroundResource(ANIMATION_STYLES_NAMES[mSelectedAnim]);
             this.iconAnim = (AnimationDrawable) getBackground();
             return;
         }
         setBackgroundResource(0);
-        setImageResource(R.drawable.fod_icon_default);
+        setImageResource(ICON_STYLES[mSelectedIcon]);
     }
 
     public void setIsKeyguard(boolean z) {
         this.mIsKeyguard = z;
-        if (z && !this.mIsFODIconAnimated) {
-            setColorFilter(-1);
-        } else if (this.mIsKeyguard || !this.mIsFODIconAnimated) {
+        if (this.mIsKeyguard || !this.mIsFODIconAnimated) {
             setBackgroundTintList(null);
-            setColorFilter((ColorFilter) null);
         } else {
             setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#807B7E")));
         }
