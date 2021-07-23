@@ -26,6 +26,32 @@
     android:focusable="true"
     android:theme="@style/QSHeaderTheme">
 
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+	android:paddingStart="@dimen/status_bar_left_clock_starting_padding"
+        android:paddingEnd="@dimen/status_bar_left_clock_end_padding"
+        android:gravity="start" >
+
+	<com.android.systemui.corvus.qsweather.QsWeatherImage
+                android:id="@+id/weather_image"
+                android:layout_width="24dp"
+                android:layout_height="match_parent"
+                android:paddingStart="2dp" />
+
+	<com.android.systemui.corvus.qsweather.QsWeatherText
+                android:id="@+id/weather_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+		android:gravity="center_vertical"
+                android:maxLines="1"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp" />
+
+    </LinearLayout>
+
     <com.android.systemui.statusbar.phone.StatusIconContainer
         android:id="@+id/statusIcons"
         android:layout_width="0dp"
