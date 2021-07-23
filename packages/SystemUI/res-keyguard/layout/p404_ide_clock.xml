@@ -51,7 +51,7 @@
 
                 <TextView
                     android:id="@+id/textStd"
-                    android:text="blissrom;"
+                    android:text="corvusos;"
                     style="@style/IdeClock_StaticString.Bold" />
             </LinearLayout>
 

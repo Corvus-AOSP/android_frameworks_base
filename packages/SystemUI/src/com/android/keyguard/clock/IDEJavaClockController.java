@@ -248,7 +248,7 @@ public class IDEJavaClockController implements ClockPlugin {
 
     @Override
     public void onTimeTick() {
-        String buildType = SystemProperties.get("ro.bliss.build.status", "unofficial");
+        String buildType = SystemProperties.get("ro.corvus.build.type", "unofficial");
         mtextPackageSubclass.setText(buildType.toLowerCase());
         DateFormat dateFormat = DateFormat.getInstanceForSkeleton("EEEEd", Locale.getDefault());
         dateFormat.setContext(DisplayContext.CAPITALIZATION_FOR_STANDALONE);
