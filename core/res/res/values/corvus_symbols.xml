@@ -13,9 +13,6 @@
 -->
 <resources>
 
-    <!-- In-display Fingerprint -->
-    <java-symbol type="bool" name="config_supportsInDisplayFingerprint" />
-
     <!-- Rotation sensor -->
     <java-symbol type="bool" name="config_useSystemClockforRotationSensor" />
 
@@ -200,4 +197,26 @@
 
      <!-- Home button wake -->
      <java-symbol type="bool" name="config_HomeWakeButton" />
+
+    <!-- Whether to show a custom view for FOD -->
+    <java-symbol type="bool" name="config_needCustomFODView" />
+
+    <!-- Default fod pressed icon -->
+    <java-symbol type="integer" name="config_fod_pressed_color" />
+
+    <!-- Default value for FOD animation package resources -->
+    <java-symbol type="string" name="config_fodAnimationPackage" />
+
+    <!-- NightLight FOD -->
+    <java-symbol type="bool" name="disable_fod_night_light"/>
+
+    <!-- Whether doze feature is enabled by default in settings -->
+    <java-symbol type="bool" name="config_doze_enabled_by_default" />
+
+    <!-- Hide FOD while Going to sleep from lockscreen to avoid HBM flicker
+       or FOD Circle hiding after the screen is put to sleep  -->
+    <java-symbol type="bool" name="config_hideFodCircleGoingToSleep" />
+
+    <!-- App Lock -->
+    <java-symbol type="string" name="lockscreen_pattern_instructions" />
 </resources>

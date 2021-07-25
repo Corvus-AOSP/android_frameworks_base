@@ -46,4 +46,6 @@
     <!-- FPSInfoService FPS node file path -->
     <string name="config_fpsInfoSysNode" translatable="false"></string>
 
+    <!-- Color of the FOD view -->
+    <color name="config_fodColorBackground">#20000000</color>
 </resources>

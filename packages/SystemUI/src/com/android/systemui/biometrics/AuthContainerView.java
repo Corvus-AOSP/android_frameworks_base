@@ -470,7 +470,7 @@ public class AuthContainerView extends LinearLayout
             mBiometricView.restoreState(savedState);
             hasFod = mBiometricView.getHasFod();
         }
-        wm.addView(this, getLayoutParams(mWindowToken, hasFod));
+        wm.addView(this, getLayoutParams(mWindowToken, mBiometricView.getHasFod()));
     }
 
     @Override

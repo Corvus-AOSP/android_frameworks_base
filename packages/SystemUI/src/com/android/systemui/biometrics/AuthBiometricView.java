@@ -17,6 +17,7 @@
 package com.android.systemui.biometrics;
 
 import static android.view.Gravity.CENTER;
+import static android.view.WindowManagerPolicyConstants.NAV_BAR_MODE_GESTURAL;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -34,6 +35,8 @@ import android.hardware.biometrics.BiometricPrompt;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.UserHandle;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -46,6 +49,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.internal.annotations.VisibleForTesting;
+import com.android.internal.util.corvus.FodUtils;
+import com.android.systemui.statusbar.phone.StatusBar;
+import com.android.systemui.Dependency;
 import com.android.systemui.R;
 
 import java.lang.annotation.Retention;
@@ -226,12 +232,6 @@ public abstract class AuthBiometricView extends LinearLayout {
      */
     protected abstract boolean supportsSmallDialog();
 
-    /**
-     * @return string resource which is appended to the negative text
-     */
-    @StringRes
-    protected abstract int getDescriptionTextId();
-
     private final Runnable mResetErrorRunnable;
 
     private final Runnable mResetHelpRunnable;
@@ -270,10 +270,11 @@ public abstract class AuthBiometricView extends LinearLayout {
         mInjector = injector;
         mInjector.mBiometricView = this;
 
-        mPackageManager = context.getPackageManager();
-        mHasFod = mPackageManager.hasSystemFeature(FOD);
-
         mAccessibilityManager = context.getSystemService(AccessibilityManager.class);
+
+        mPackageManager = context.getPackageManager();
+        mHasFod = mPackageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT) &&
+                FodUtils.hasFodSupport(context);
 
         mResetErrorRunnable = () -> {
             updateState(getStateForAfterError());
@@ -662,10 +663,13 @@ public abstract class AuthBiometricView extends LinearLayout {
         });
 
         if (this instanceof AuthBiometricFingerprintView) {
-            if (!Utils.canAuthenticateWithFace(mContext, mUserId)){
-                mUseFaceButton.setVisibility(View.GONE);
+		if (!Utils.canAuthenticateWithFace(mContext, mUserId)){
+		   mUseFaceButton.setVisibility(View.GONE);
             }
             if (mHasFod) {
+                boolean isGesturalNav = Integer.parseInt(Settings.Secure.getStringForUser(
+                        mContext.getContentResolver(), Settings.Secure.NAVIGATION_MODE,
+                        UserHandle.USER_CURRENT)) == NAV_BAR_MODE_GESTURAL;
                 final int navbarHeight = getResources().getDimensionPixelSize(
                         com.android.internal.R.dimen.navigation_bar_height);
                 final int fodMargin = getResources().getDimensionPixelSize(
@@ -674,9 +678,11 @@ public abstract class AuthBiometricView extends LinearLayout {
                 mIconView.setVisibility(View.INVISIBLE);
                 // The view is invisible, so it still takes space and
                 // we use that to adjust for the FOD
-                mIconView.setPadding(0, 0, 0, fodMargin - navbarHeight);
 
-                // Add Errortext above the biometric icon
+                mIconView.setPadding(0, 0, 0, isGesturalNav ? fodMargin : (fodMargin > navbarHeight)
+                    ? (fodMargin - navbarHeight) : 0);
+
+                // Add IndicatorView above the biometric icon
                 this.removeView(mIndicatorView);
                 this.addView(mIndicatorView, this.indexOfChild(mIconView));
             } else {
@@ -743,25 +749,26 @@ public abstract class AuthBiometricView extends LinearLayout {
             setTextOrHide(mDescriptionView,
                     mBiometricPromptBundle.getString(BiometricPrompt.KEY_DESCRIPTION));
         } else {
-            ApplicationInfo aInfo = null;
+            Drawable icon = null;
             try {
-                aInfo = mPackageManager.getApplicationInfoAsUser(applockPackage.toString(), 0, mUserId);
+                icon = mPackageManager.getApplicationIcon(
+                    mPackageManager.getApplicationInfoAsUser(applockPackage.toString(), 0, mUserId));
             } catch(PackageManager.NameNotFoundException e) {
                 // ignored
             }
-            Drawable icon = (aInfo == null) ? null : mPackageManager.getApplicationIcon(aInfo);
-            if (icon == null) {
-                mTitleView.setVisibility(View.VISIBLE);
-                setText(mTitleView, getResources().getString(R.string.applock_unlock) + " "
-                        + mBiometricPromptBundle.getString(BiometricPrompt.KEY_TITLE));
-            } else {
-                mTitleView.setVisibility(View.GONE);
-                mAppIcon.setVisibility(View.VISIBLE);
-                mAppIcon.setImageDrawable(icon);
+            if (icon == null){
+                try {
+                    icon = mPackageManager.getApplicationIcon(
+                        mPackageManager.getApplicationInfoAsUser("android", 0, mUserId));
+                } catch(PackageManager.NameNotFoundException e) {
+                    // ignored
+                }
             }
+            mTitleView.setVisibility(View.GONE);
+            mAppIcon.setVisibility(View.VISIBLE);
+            mAppIcon.setImageDrawable(icon);
             setTextOrHide(mDescriptionView, mBiometricPromptBundle.getString(BiometricPrompt.KEY_DESCRIPTION)
-                    + getResources().getString(R.string.applock_locked) + "\n"
-                    + negativeText + getResources().getString(getDescriptionTextId()));
+                    + "\n" + getResources().getString(R.string.applock_unlock));
             mDescriptionView.setGravity(CENTER);
         }
 
@@ -798,9 +805,22 @@ public abstract class AuthBiometricView extends LinearLayout {
             final View child = getChildAt(i);
 
             if (child.getId() == R.id.biometric_icon) {
-                child.measure(
-                        MeasureSpec.makeMeasureSpec(newWidth, MeasureSpec.AT_MOST),
-                        MeasureSpec.makeMeasureSpec(height, MeasureSpec.AT_MOST));
+                if (this instanceof AuthBiometricFingerprintView && mHasFod) {
+                    final int buttonBarHeight =
+                            findViewById(R.id.button_bar).getLayoutParams().height;
+                    // The view is invisible, so it still takes space and
+                    // we use that to adjust for the FOD icon
+                    final int fodHeight = Dependency.get(StatusBar.class).getFodHeight(true) -
+                            buttonBarHeight - findViewById(R.id.button_bar).getPaddingTop();
+
+                    child.measure(
+                            MeasureSpec.makeMeasureSpec(newWidth, MeasureSpec.AT_MOST),
+                            MeasureSpec.makeMeasureSpec(fodHeight, MeasureSpec.EXACTLY));
+                } else {
+                    child.measure(
+                            MeasureSpec.makeMeasureSpec(newWidth, MeasureSpec.AT_MOST),
+                            MeasureSpec.makeMeasureSpec(height, MeasureSpec.AT_MOST));
+                }
             } else if (child.getId() == R.id.button_bar) {
                 child.measure(
                         MeasureSpec.makeMeasureSpec(newWidth, MeasureSpec.EXACTLY),

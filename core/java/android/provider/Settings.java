@@ -4944,7 +4944,19 @@ public final class Settings {
          * @hide
          */
         public static final String THREE_FINGER_GESTURE = "three_finger_gesture";
-        
+
+        /**
+         * FOD recognizing animation
+         * @hide
+         */
+        public static final String FOD_RECOGNIZING_ANIMATION = "fod_recognizing_animation";
+
+        /**
+         * FOD recognizing animation picker
+         * @hide
+         */
+        public static final String FOD_ANIM = "fod_anim";
+
         /**
          * Switch between filters for lockscreen album art
          * @hide
@@ -5094,6 +5106,11 @@ public final class Settings {
          */
         public static final String QS_FOOTER_TEXT_STRING = "qs_footer_text_string";
 
+        /**
+         * Whether StatusBar icons should use app icon
+         * @hide
+         */
+        public static final String STATUSBAR_ICONS_STYLE = "statusbar_icons_style";
 
         /**
          * Whether to show the battery info on the lockscreen while charging
@@ -5653,6 +5670,18 @@ public final class Settings {
         public static final String FONT_PACKAGES = "font_packages";
 
         /**
+         * FOD icon animation
+         * @hide
+         */
+        public static final String FOD_ICON_ANIMATION = "fod_icon_animation";
+
+        /**
+         * FOD icon animation style
+         * @hide
+         */
+        public static final String FOD_ICON_ANIM_TYPE = "fod_icon_anim_type";
+
+        /**
          * Whether to launch default music player when headset plugged in
          * @hide
          */
@@ -5720,6 +5749,12 @@ public final class Settings {
          * @hide
          */
         public static final String GAMING_MODE_ENABLED = "gaming_mode_enabled";
+
+        /**
+         * Screen off fod
+         * @hide
+         */
+        public static final String FOD_GESTURE = "fod_gesture";
 
         /**
          * Gaming mode active state - to disable via notification / tile
@@ -5917,6 +5952,24 @@ public final class Settings {
         public static final String HARDWARE_KEYS_DISABLE = "hardware_keys_disable";
 
         /**
+         * FOD icon picker
+         * @hide
+         */
+        public static final String FOD_ICON = "fod_icon";
+
+        /**
+         * FOD pressed color
+         * @hide
+         */
+        public static final String FOD_COLOR = "fod_color";
+        
+        /**
+         * FOD night light
+         * @hide
+         */
+        public static final String FOD_NIGHT_LIGHT = "fod_night_light";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
@@ -6082,6 +6135,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(DISPLAY_CUTOUT_MODE);
             PRIVATE_SETTINGS.add(STOCK_STATUSBAR_IN_HIDE);
 	    PRIVATE_SETTINGS.add(OMNIJAWS_WEATHER_ICON_PACK);
+            PRIVATE_SETTINGS.add(STATUSBAR_ICONS_STYLE);
         }
 
         /**
