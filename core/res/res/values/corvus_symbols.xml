@@ -87,13 +87,6 @@
   <java-symbol type="color" name="theme_generic_semi_transparent_color" />
   <java-symbol type="color" name="du_themes_qs_inactive_color" />
 
-  <!-- Smart charging -->
-  <java-symbol type="integer" name="config_smartChargingBatteryLevel" />
-  <java-symbol type="integer" name="config_smartChargingBatteryResumeLevel" /> 
-  <java-symbol type="string" name="config_SmartChargingSysfsNode" />
-  <java-symbol type="string" name="config_SmartChargingSuspendValue" />
-  <java-symbol type="string" name="config_SmartChargingResumeValue" />
-
    <!-- Path to fast charging status file to detect whether an oem fast charger is active -->
    <java-symbol type="string" name="config_oemFastChargerStatusPath" />
 
