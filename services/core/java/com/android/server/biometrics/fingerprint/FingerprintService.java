@@ -930,7 +930,6 @@ public class FingerprintService extends BiometricServiceBase {
         mAlarmManager = context.getSystemService(AlarmManager.class);
         context.registerReceiver(mLockoutReceiver, new IntentFilter(getLockoutResetIntent()),
                 getLockoutBroadcastPermission(), null /* handler */);
-        mLockPatternUtils = new LockPatternUtils(context);
 
         mHasFod = FodUtils.hasFodSupport(context);
         mLockPatternUtils = new LockPatternUtils(context);
