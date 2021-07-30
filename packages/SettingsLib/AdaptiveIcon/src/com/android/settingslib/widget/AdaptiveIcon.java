@@ -114,6 +114,16 @@ public class AdaptiveIcon extends LayerDrawable {
     }
 
     /**
+     * Ability to set custom Alpha to the background.
+     * Added specific to Corvus dashboard icons
+     * @hide
+     */
+    public void setBackgroundAlpha(int alpha) {
+	Drawable bg = getDrawable(0);
+	bg.setAlpha(alpha);
+    }
+
+    /**
      * Set foreground color for AICP theming.
      * @hide
      */
