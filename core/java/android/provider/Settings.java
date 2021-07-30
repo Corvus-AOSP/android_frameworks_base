@@ -5187,12 +5187,6 @@ public final class Settings {
          */
         public static final String GLOBAL_ACTIONS_FLASHLIGHT = "global_actions_flashlight";
 
-	/**
-         * Home wake button
-         * @hide
-         */
-        public static final String HOME_WAKE_BUTTON = "home_wake_button";
-
         /**
          * Whether to display the flashlight option in the power menu
          *
