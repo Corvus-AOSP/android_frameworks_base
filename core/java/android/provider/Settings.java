@@ -5920,12 +5920,6 @@ public final class Settings {
                 "status_bar_locked_on_secure_keyguard";
 
         /**
-         * Disable hw buttons - actions, brightness, haptic feedback, overflow menu
-         * @hide
-         */
-        public static final String HARDWARE_KEYS_DISABLE = "hardware_keys_disable";
-
-        /**
          * FOD icon picker
          * @hide
          */
