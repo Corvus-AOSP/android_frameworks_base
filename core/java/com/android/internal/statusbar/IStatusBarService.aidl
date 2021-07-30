@@ -159,11 +159,6 @@ interface IStatusBarService
     void toggleCameraFlash();
     void toggleCameraFlashState(boolean enable);
 
-    void toggleRecentApps();
-    void toggleSplitScreen();
-    void preloadRecentApps();
-    void cancelPreloadRecentApps();
-
     /**
      * Used to show or hide in display fingerprint view.
      */
