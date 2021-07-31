@@ -101,20 +101,6 @@
 
     <include layout="@layout/ongoing_privacy_chip" />
 
-    <com.android.systemui.statusbar.policy.NetworkTrafficQS
-        android:id="@+id/networkTraffic"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
-        android:shadowColor="@android:color/black"
-        android:shadowDy="4"
-        android:shadowRadius="3"
-        android:singleLine="false"
-        android:lineSpacingMultiplier="1.2"
-        systemui:showDark="false"
-        android:gravity="left|center_vertical"/>
-
     </LinearLayout>
 
         <LinearLayout
@@ -145,5 +131,4 @@
                 android:singleLine="true"
                 android:visibility="gone" />
         </LinearLayout>
-
 </LinearLayout>
