@@ -298,6 +298,17 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mSystemIconsView = findViewById(R.id.quick_status_bar_system_icons);
         mQuickQsStatusIcons = findViewById(R.id.quick_qs_status_icons);
         StatusIconContainer iconContainer = findViewById(R.id.statusIcons);
+	LinearLayout qsIconContainerLayout = findViewById(R.id.statusIconsHolder);
+
+	boolean setQsIconBG = Settings.System.getIntForUser(getContext().getContentResolver(),
+                     Settings.System.QS_STATUS_ICON_BACKGROUND, 0, UserHandle.USER_CURRENT) == 1;
+
+	if (setQsIconBG) {
+	qsIconContainerLayout.setBackgroundResource(R.drawable.qs_icons_border);
+	} else {
+	qsIconContainerLayout.setBackgroundResource(0);
+	}
+
         // Ignore privacy icons because they show in the space above QQS
         iconContainer.addIgnoredSlots(getIgnoredIconSlots());
         iconContainer.setShouldRestrictIcons(false);
