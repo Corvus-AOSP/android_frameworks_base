@@ -250,5 +250,6 @@ public class SystemSettingsValidators {
                     }
                 });
 	VALIDATORS.put(System.FORCE_FULLSCREEN_CUTOUT_APPS, ANY_STRING_VALIDATOR);
+        VALIDATORS.put(System.OMNI_CUSTOM_FP_ICON, ANY_STRING_VALIDATOR);
     }
 }

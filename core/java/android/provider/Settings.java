@@ -5992,6 +5992,11 @@ public final class Settings {
         public static final String GAMING_MODE_DISABLE_NOTIFICATION_ALERT = "gaming_mode_disable_notification_alert";
 
         /**
+         * @hide
+         */
+        public static final String OMNI_CUSTOM_FP_ICON = "custom_fingerprint_icon";
+
+        /**
           * @hide
           */
         public static final String GAMING_MODE_DISABLE_RINGTONE = "gaming_mode_disable_ringtone";
@@ -6235,6 +6240,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(NETWORK_TRAFFIC_VIEW_LOCATION);
             PRIVATE_SETTINGS.add(NETWORK_TRAFFIC_LAYOUT);
             PRIVATE_SETTINGS.add(SYSTEMUI_PLUGIN_VOLUME);
+            PRIVATE_SETTINGS.add(OMNI_CUSTOM_FP_ICON);
         }
 
         /**

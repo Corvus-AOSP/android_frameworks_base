@@ -103,5 +103,6 @@ public class SystemSettings {
         Settings.System.NAVBAR_LAYOUT_VIEWS,
 	    Settings.System.QS_STATUS_ICON_BACKGROUND,
         Settings.System.QS_HEADER_DATE_LOCATION,
+        Settings.System.OMNI_CUSTOM_FP_ICON,
     };
 }
