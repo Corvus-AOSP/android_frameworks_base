@@ -583,8 +583,6 @@ public class StatusBar extends SystemUI implements DemoMode,
     private final NotificationLockscreenUserManager mLockscreenUserManager;
     private final NotificationRemoteInputManager mRemoteInputManager;
     private boolean mWallpaperSupported;
-    private int mChargingAnimation;
-
 
     private final BroadcastReceiver mWallpaperChangedReceiver = new BroadcastReceiver() {
         @Override
@@ -2234,9 +2232,6 @@ public class StatusBar extends SystemUI implements DemoMode,
                     Settings.System.LOCKSCREEN_MEDIA_BLUR),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.LOCKSCREEN_CHARGING_ANIMATION_STYLE),
-                    false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.FORCE_SHOW_NAVBAR),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -2301,9 +2296,6 @@ public class StatusBar extends SystemUI implements DemoMode,
                     Settings.System.LOCKSCREEN_MEDIA_BLUR))) {
                 setLockScreenMediaBlurLevel();
             } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.LOCKSCREEN_CHARGING_ANIMATION_STYLE))) {
-                updateChargingAnimation();
-            } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL))) {
                 setScreenBrightnessMode();
             } else if (uri.equals(Settings.System.getUriFor(Settings.System.GAMING_MODE_ACTIVE)) ||
@@ -2342,7 +2334,6 @@ public class StatusBar extends SystemUI implements DemoMode,
         public void update() {
             setOldMobileType();
             setLockScreenMediaBlurLevel();
-            updateChargingAnimation();
             updateNavigationBar(false);
             setScreenBrightnessMode();
             setGamingMode();
@@ -4381,14 +4372,6 @@ public class StatusBar extends SystemUI implements DemoMode,
     private void setLockScreenMediaBlurLevel() {
         if (mMediaManager != null) {
             mMediaManager.setLockScreenMediaBlurLevel();
-        }
-    }
-
-    private void updateChargingAnimation() {
-        mChargingAnimation = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.LOCKSCREEN_CHARGING_ANIMATION_STYLE, 1, UserHandle.USER_CURRENT);
-        if (mKeyguardIndicationController != null) {
-            mKeyguardIndicationController.updateChargingIndication(mChargingAnimation);
         }
     }
 

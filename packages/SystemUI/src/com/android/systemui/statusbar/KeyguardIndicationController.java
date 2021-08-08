@@ -29,6 +29,7 @@ import android.content.IntentFilter;
 import android.content.pm.UserInfo;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.hardware.biometrics.BiometricSourceType;
 import android.hardware.face.FaceManager;
 import android.hardware.fingerprint.FingerprintManager;
@@ -42,8 +43,10 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 
@@ -51,11 +54,13 @@ import com.airbnb.lottie.LottieAnimationView;
 
 import com.android.internal.annotations.VisibleForTesting;
 import com.android.internal.app.IBatteryStats;
+import com.android.internal.util.corvus.FodUtils;
 import com.android.internal.widget.ViewClippingUtil;
 import com.android.keyguard.KeyguardUpdateMonitor;
 import com.android.keyguard.KeyguardUpdateMonitorCallback;
 import com.android.settingslib.Utils;
 import com.android.settingslib.fuelgauge.BatteryStatus;
+import com.android.systemui.Dependency;
 import com.android.systemui.Interpolators;
 import com.android.systemui.R;
 import com.android.systemui.broadcast.BroadcastDispatcher;
@@ -66,6 +71,7 @@ import com.android.systemui.statusbar.phone.KeyguardIndicationTextView;
 import com.android.systemui.statusbar.phone.LockscreenLockIconController;
 import com.android.systemui.statusbar.phone.StatusBarKeyguardViewManager;
 import com.android.systemui.statusbar.policy.KeyguardStateController;
+import com.android.systemui.tuner.TunerService;
 import com.android.systemui.util.wakelock.SettableWakeLock;
 import com.android.systemui.util.wakelock.WakeLock;
 
@@ -77,12 +83,14 @@ import java.util.IllegalFormatConversionException;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import vendor.lineage.biometrics.fingerprint.inscreen.V1_0.IFingerprintInscreen;
+
 /**
  * Controls the indications and error messages shown on the Keyguard
  */
 @Singleton
 public class KeyguardIndicationController implements StateListener,
-        KeyguardStateController.Callback {
+        KeyguardStateController.Callback, TunerService.Tunable {
 
     private static final String TAG = "KeyguardIndication";
     private static final boolean DEBUG_CHARGING_SPEED = false;
@@ -92,6 +100,9 @@ public class KeyguardIndicationController implements StateListener,
     private static final int MSG_SWIPE_UP_TO_UNLOCK = 3;
     private static final long TRANSIENT_BIOMETRIC_ERROR_TIMEOUT = 1300;
     private static final float BOUNCE_ANIMATION_FINAL_Y = 0f;
+
+    private static final String LOCKSCREEN_CHARGING_ANIMATION_STYLE =
+            "system:" + Settings.System.LOCKSCREEN_CHARGING_ANIMATION_STYLE;
 
     private final Context mContext;
     private final BroadcastDispatcher mBroadcastDispatcher;
@@ -103,6 +114,7 @@ public class KeyguardIndicationController implements StateListener,
     private KeyguardIndicationTextView mDisclosure;
     private LottieAnimationView mChargingIndicationView;
     private int mChargingIndication = 1;
+    private int mFODPositionY = 0;
     private final IBatteryStats mBatteryInfo;
     private final SettableWakeLock mWakeLock;
     private final DockManager mDockManager;
@@ -180,6 +192,22 @@ public class KeyguardIndicationController implements StateListener,
         mKeyguardUpdateMonitor.registerCallback(mTickReceiver);
         mStatusBarStateController.addCallback(this);
         mKeyguardStateController.addCallback(this);
+
+        final TunerService tunerService = Dependency.get(TunerService.class);
+        tunerService.addTunable(this, LOCKSCREEN_CHARGING_ANIMATION_STYLE);
+    }
+
+    @Override
+    public void onTuningChanged(String key, String newValue) {
+        switch (key) {
+            case LOCKSCREEN_CHARGING_ANIMATION_STYLE:
+                mChargingIndication =
+                        TunerService.parseInteger(newValue, 1);
+                if (mChargingIndicationView != null) updateChargingIndicationStyle();
+                break;
+            default:
+                break;
+        }
     }
 
     public void setIndicationArea(ViewGroup indicationArea) {
@@ -187,10 +215,22 @@ public class KeyguardIndicationController implements StateListener,
         mTextView = indicationArea.findViewById(R.id.keyguard_indication_text);
         mInitialTextColorState = mTextView != null ?
                 mTextView.getTextColors() : ColorStateList.valueOf(Color.WHITE);
-        mChargingIndicationView = (LottieAnimationView) indicationArea.findViewById(
-                R.id.charging_indication);
         mDisclosure = indicationArea.findViewById(R.id.keyguard_indication_enterprise_disclosure);
         mDisclosureMaxAlpha = mDisclosure.getAlpha();
+        mChargingIndicationView = (LottieAnimationView) indicationArea.findViewById(
+                R.id.charging_indication);
+        updateChargingIndicationStyle();
+        if (hasActiveInDisplayFp()) {
+            try {
+                IFingerprintInscreen daemon = IFingerprintInscreen.getService();
+                mFODPositionY = daemon.getPositionY();
+            } catch (RemoteException e) {
+                // do nothing
+            }
+            if (mFODPositionY <= 0) {
+                mFODPositionY = 0;
+            }
+        }
         updateIndication(false /* animate */);
         updateDisclosure();
 
@@ -492,14 +532,14 @@ public class KeyguardIndicationController implements StateListener,
         }
         mTextView.setTextColor(isError ? Utils.getColorError(mContext)
                 : mInitialTextColorState);
+        updateChargingIndication();
         if (hideIndication) {
             mIndicationArea.setVisibility(View.GONE);
 
         }
     }
 
-    public void updateChargingIndication(int style) {
-        mChargingIndication = style;
+    public void updateChargingIndicationStyle() {
         switch (mChargingIndication) {
             default:
             case 1: // Flash
@@ -600,10 +640,48 @@ public class KeyguardIndicationController implements StateListener,
         if (mChargingIndicationView == null) return;
         if (mChargingIndication > 0 && mPowerPluggedIn) {
             mChargingIndicationView.setVisibility(View.VISIBLE);
+            if (hasActiveInDisplayFp()) {
+                if (mFODPositionY != 0) {
+                    // Get screen height
+                    WindowManager windowManager = mContext.getSystemService(WindowManager.class);
+                    Display defaultDisplay = windowManager.getDefaultDisplay();
+                    Point size = new Point();
+                    defaultDisplay.getRealSize(size);
+                    int screenHeight = size.y;
+                    // Correct FOD position if cutout is hidden
+                    int statusbarHeight = mContext.getResources().getDimensionPixelSize(
+                            com.android.internal.R.dimen.status_bar_height_portrait);
+                    boolean cutoutMasked = mContext.getResources().getBoolean(
+                            com.android.internal.R.bool.config_maskMainBuiltInDisplayCutout);
+                    int fodPositionY = mFODPositionY;
+                    if (cutoutMasked) {
+                        fodPositionY = mFODPositionY - statusbarHeight;
+                    }
+                    // Get indication text height
+                    int textViewHeight = mTextView.getMeasuredHeight();
+                    // Get bottom margin height
+                    int marginBottom = mContext.getResources().getDimensionPixelSize(
+                            R.dimen.keyguard_indication_margin_bottom_fingerprint_in_display);
+                    // Calculate charging indication margin
+                    int animationMargin = (screenHeight - fodPositionY) - (textViewHeight + marginBottom) + 10;
+                    // Set position of charging indication
+                    ViewGroup.MarginLayoutParams params =
+                            (ViewGroup.MarginLayoutParams) mChargingIndicationView.getLayoutParams();
+                    params.setMargins(0, 0, 0, animationMargin);
+                    mChargingIndicationView.setLayoutParams(params);
+                }
+            }
             mChargingIndicationView.playAnimation();
         } else {
             mChargingIndicationView.setVisibility(View.GONE);
         }
+    }
+
+    private boolean hasActiveInDisplayFp() {
+        boolean hasInDisplayFingerprint = FodUtils.hasFodSupport(mContext);
+        int userId = KeyguardUpdateMonitor.getCurrentUser();
+        FingerprintManager fpm = (FingerprintManager) mContext.getSystemService(Context.FINGERPRINT_SERVICE);
+        return hasInDisplayFingerprint && fpm.getEnrolledFingerprints(userId).size() > 0;
     }
 
     // animates textView - textView moves up and bounces down
