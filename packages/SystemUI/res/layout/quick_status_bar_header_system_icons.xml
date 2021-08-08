@@ -27,11 +27,17 @@
     android:paddingTop="@dimen/status_bar_padding_top"
     android:background="@android:color/transparent" >
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
     <com.android.systemui.statusbar.policy.Clock
         android:id="@+id/clock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-	    android:layout_gravity="center_vertical|start"
+	    android:layout_gravity="center_vertical|center"
 	    android:textColor="@android:color/white"
         android:shadowColor="@android:color/black"
         android:shadowDy="4"
@@ -40,7 +46,25 @@
         android:textAppearance="@style/TextAppearance.StatusBar.Clock"
         systemui:showDark="false" />
 
+    <com.android.systemui.statusbar.policy.DateView
+        android:id="@+id/underClock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+	    android:textStyle="bold"
+	    android:textSize="13sp"
+	    android:shadowColor="@android:color/black"
+	    android:shadowDy="4"
+        android:shadowRadius="3"
+        systemui:showDark="false"
+        systemui:datePattern="EEE, d MMM"
+        android:visibility="gone" />
+
+    </LinearLayout>
+
     <View
+        android:id="@+id/dateDivider"
         android:layout_width="1dp"
         android:layout_gravity="center"
         android:layout_marginStart="6dp"
@@ -67,10 +91,10 @@
 	    android:shadowDy="4"
         android:shadowRadius="3"
         systemui:showDark="false"
-        systemui:datePattern="EEEEdd" />
+        systemui:datePattern="d MMM" />
 
     <com.android.systemui.statusbar.policy.DateView
-        android:id="@+id/year"
+        android:id="@+id/subDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:singleLine="true"
@@ -81,7 +105,7 @@
 	    android:shadowDy="4"
         android:shadowRadius="3"
         systemui:showDark="false"
-        systemui:datePattern="yyyy" />
+        systemui:datePattern="EEE" />
 
     </LinearLayout>
 

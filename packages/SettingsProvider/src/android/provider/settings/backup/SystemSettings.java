@@ -101,6 +101,7 @@ public class SystemSettings {
         Settings.System.NAVIGATION_BAR_ARROW_KEYS,
         Settings.System.NAVIGATION_BAR_INVERSE,
         Settings.System.NAVBAR_LAYOUT_VIEWS,
-	Settings.System.QS_STATUS_ICON_BACKGROUND,
+	    Settings.System.QS_STATUS_ICON_BACKGROUND,
+        Settings.System.QS_HEADER_DATE_LOCATION,
     };
 }

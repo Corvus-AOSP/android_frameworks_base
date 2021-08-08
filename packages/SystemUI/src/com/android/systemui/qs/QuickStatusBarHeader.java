@@ -167,9 +167,9 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     private View mStatusSeparator;
     private ImageView mRingerModeIcon;
     private TextView mRingerModeTextView;
-    private View mRingerContainer;
+    private View mRingerContainer, mDateDivider;
     private Clock mClockView;
-    private DateView mDateView;
+    private DateView mDateView, mSubDate, mClockDate;
     private OngoingPrivacyChip mPrivacyChip;
     private Space mSpace;
     private BatteryMeterView mBatteryRemainingIcon;
@@ -338,6 +338,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mRingerModeIcon = findViewById(R.id.ringer_mode_icon);
         mRingerModeTextView = findViewById(R.id.ringer_mode_text);
         mRingerContainer = findViewById(R.id.ringer_container);
+        mDateDivider = findViewById(R.id.dateDivider);
         mRingerContainer.setOnClickListener(this::onClick);
         mPrivacyChip = findViewById(R.id.privacy_chip);
         mPrivacyChip.setOnClickListener(this::onClick);
@@ -356,10 +357,13 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mIconManager.setTint(fillColor);
         mNextAlarmIcon.setImageTintList(ColorStateList.valueOf(fillColor));
         mRingerModeIcon.setImageTintList(ColorStateList.valueOf(fillColor));
+        
 
         mClockView = findViewById(R.id.clock);
         mClockView.setOnClickListener(this);
         mDateView = findViewById(R.id.date);
+        mSubDate = findViewById(R.id.subDate);
+        mClockDate = findViewById(R.id.underClock);
         mDateView.setOnClickListener(this);
         mSpace = findViewById(R.id.space);
         mClockView.setQsHeader();
@@ -647,10 +651,23 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     }
 
     public void setExpanded(boolean expanded) {
+        boolean switchDateStyle = Settings.System.getIntForUser(getContext().getContentResolver(),
+                    Settings.System.QS_HEADER_DATE_LOCATION, 0, UserHandle.USER_CURRENT) == 1;
         if (mExpanded == expanded) return;
         mExpanded = expanded;
         mHeaderQsPanel.setExpanded(expanded);
-	mDateView.setVisibility(mClockView.isClockDateEnabled() ? View.INVISIBLE : View.VISIBLE);
+	    mDateView.setVisibility(mClockView.isClockDateEnabled() ? View.INVISIBLE : View.VISIBLE);
+        if (switchDateStyle) {
+        mClockDate.setVisibility(View.VISIBLE);
+        mDateView.setVisibility(View.GONE);
+        mSubDate.setVisibility(View.GONE);
+        mDateDivider.setVisibility(View.GONE);
+        } else {
+        mClockDate.setVisibility(View.GONE);
+        mDateView.setVisibility(View.VISIBLE);
+        mSubDate.setVisibility(View.VISIBLE);
+        mDateDivider.setVisibility(View.VISIBLE);   
+        }
         updateEverything();
     }
 
