@@ -34,6 +34,7 @@
             android:layout_gravity="start"
             android:focusable="true"
             android:contentDescription="@string/manage_notifications_history_text"
+            android:drawableLeft="@drawable/ic_qs_history"
             android:text="@string/manage_notifications_history_text"
         />
         <com.android.systemui.statusbar.notification.row.FooterViewButton
@@ -44,6 +45,7 @@
             android:layout_gravity="end"
             android:focusable="true"
             android:contentDescription="@string/accessibility_clear_all"
+            android:drawableLeft="@drawable/ic_qs_clear"
             android:text="@string/clear_all_notifications_text"
         />
     </com.android.systemui.statusbar.AlphaOptimizedFrameLayout>
