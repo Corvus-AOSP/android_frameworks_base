@@ -74,7 +74,7 @@ import android.util.Log;
 import android.util.Slog;
 import android.util.SparseBooleanArray;
 import android.view.ContextThemeWrapper;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.Gravity;
 import android.view.View;
@@ -114,6 +114,7 @@ import com.android.systemui.statusbar.phone.ExpandableIndicator;
 import com.android.systemui.statusbar.policy.AccessibilityManagerWrapper;
 import com.android.systemui.statusbar.policy.ConfigurationController;
 import com.android.systemui.statusbar.policy.DeviceProvisionedController;
+import com.android.systemui.tuner.TunerService;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -798,15 +799,15 @@ public class VolumeDialogImpl implements VolumeDialog,
                 mExpandRows.setExpanded(mExpanded);
             });
         }
-        updateAppRows(expand);
+        updateAppRows(mExpanded);
     }
 
-    private void updateAppRows(boolean expand) {
+    private void updateAppRows(boolean mExpanded) {
         for (int i = mAppRows.size() - 1; i >= 0; i--) {
             final VolumeRow row = mAppRows.get(i);
             removeAppRow(row);
         }
-        if (!expand) return;
+        if (!mExpanded) return;
         List<AppTrackData> trackDatas = mController.getAudioManager().listAppTrackDatas();
         for (AppTrackData data : trackDatas) {
             if (data.isActive()) {
