@@ -39,7 +39,7 @@
             android:id="@+id/ringer"
             android:layout_width="@dimen/volume_dialog_panel_width"
             android:layout_height="@dimen/volume_dialog_panel_width"
-            android:background="@drawable/rounded_volume_background"
+            android:background="@drawable/volume_seekbar_background"
             android:elevation="@dimen/volume_dialog_elevation">
 
             <com.android.keyguard.AlphaOptimizedImageButton
@@ -47,8 +47,7 @@
                 style="@style/VolumeButtons"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="16dp"
-                android:tint="?android:attr/colorPrimary" />
+                android:padding="16dp" />
 
             <include
                 layout="@layout/volume_dnd_icon"
@@ -83,7 +82,7 @@
             android:id="@+id/media_output_scroller"
             android:layout_width="@dimen/volume_dialog_media_width"
             android:layout_height="match_parent"
-            android:background="@drawable/rounded_volume_background"
+            android:background="@drawable/volume_seekbar_background"
             android:clickable="false"
             android:clipChildren="false"
             android:clipToPadding="false"
@@ -155,7 +154,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/volume_dialog_spacer"
-            android:background="@drawable/rounded_volume_background"
+            android:background="@drawable/volume_seekbar_background"
             android:elevation="@dimen/volume_dialog_elevation"
             android:orientation="vertical">
 
@@ -173,7 +172,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/volume_dialog_spacer"
-            android:background="@drawable/rounded_volume_background"
+            android:background="@drawable/volume_seekbar_background"
             android:elevation="@dimen/volume_dialog_elevation"
             android:orientation="vertical"
             android:visibility="gone">
@@ -181,7 +180,6 @@
             <com.android.keyguard.AlphaOptimizedImageButton
                 android:id="@+id/media_button"
                 style="@style/VolumeButtons"
-		android:tint="?android:attr/colorPrimary"
                 android:layout_width="@dimen/volume_dialog_panel_width"
                 android:layout_height="@dimen/volume_dialog_button_height"
                 android:background="@drawable/ripple_drawable_20dp"
@@ -199,7 +197,7 @@
                 android:id="@+id/odi_captions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_volume_background"
+                android:background="@drawable/volume_seekbar_background"
                 android:elevation="@dimen/volume_dialog_elevation"
                 android:orientation="vertical"
                 android:visibility="gone">

@@ -17,7 +17,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/volume_dialog_row_spacer"
-    android:background="@drawable/rounded_volume_background_custom"
+    android:background="@drawable/volume_seekbar_background"
     android:elevation="@dimen/volume_dialog_elevation"
     android:tag="row"
     android:theme="@style/qs_theme">
@@ -59,7 +59,7 @@
                 android:layoutDirection="ltr"
                 android:scaleType="fitCenter"
                 android:soundEffectsEnabled="false"
-                android:tint="?android:attr/colorPrimary" />
+                android:tint="?android:attr/colorAccent" />
 
             <com.android.keyguard.AlphaOptimizedImageButton
                 android:id="@+id/volume_row_app_icon"
@@ -85,7 +85,7 @@
                 android:maxLength="10"
                 android:maxLines="1"
                 android:textAppearance="@style/TextAppearance.Volume.Header"
-                android:textColor="?android:attr/colorPrimary"
+                android:textColor="?android:attr/colorAccent"
                 android:textStyle="bold" />
         </LinearLayout>
     </FrameLayout>
