@@ -63,7 +63,7 @@
 
             <com.android.keyguard.AlphaOptimizedImageButton
                 android:id="@+id/volume_row_app_icon"
-                style="@style/VolumeButtons"
+                style="@style/AppVolume"
                 android:visibility="gone"
                 android:layout_width="@dimen/volume_dialog_tap_target_size"
                 android:layout_height="@dimen/volume_dialog_tap_target_size"

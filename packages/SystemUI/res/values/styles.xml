@@ -497,6 +497,16 @@
         <item name="android:tint">?android:attr/colorAccent</item>
     </style>
 
+    <style name="AppVolume" parent="@android:style/Widget.Material.Button.Borderless">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:padding">@dimen/volume_dialog_icon_padding</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:soundEffectsEnabled">false</item>
+    </style>
+
     <style name="DockedDividerBackground">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">10dp</item>
