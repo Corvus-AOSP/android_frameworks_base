@@ -76,14 +76,14 @@ public final class DogbinUtils {
                         if (!key.isEmpty()) {
                             callback.onSuccess(getUrl(key));
                         } else {
-                            String msg = "Failed to upload to dogbin: No key retrieved";
+                            String msg = "Failed to upload to hastebin: No key retrieved";
                             callback.onFail(msg, new DogbinException(msg));
                         }
                     } finally {
                         urlConnection.disconnect();
                     }
                 } catch (Exception e) {
-                    callback.onFail("Failed to upload to dogbin", e);
+                    callback.onFail("Failed to upload to Hastebin", e);
                 }
             }
         });
