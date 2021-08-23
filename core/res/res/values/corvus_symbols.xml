@@ -49,8 +49,6 @@
     <!-- Toast animation -->
     <java-symbol type="style" name="Animation.Toast.Material" />
 
-   <!-- Device has OnePlus haptic motor -->
-   <java-symbol type="bool" name="config_hasOnePlusHapticMotor" />
 
    <!-- Whether device has dash charging support -->
    <java-symbol type="bool" name="config_hasDashCharger" />
