@@ -336,7 +336,6 @@ import com.android.internal.util.FastPrintWriter;
 import com.android.internal.util.FrameworkStatsLog;
 import com.android.internal.util.MemInfoReader;
 import com.android.internal.util.Preconditions;
-import com.android.internal.util.custom.GamingModeController;
 import com.android.internal.util.function.HeptFunction;
 import com.android.internal.util.function.QuadFunction;
 import com.android.internal.util.function.TriFunction;
@@ -1693,8 +1692,6 @@ public class ActivityManagerService extends IActivityManager.Stub
 
     final SwipeToScreenshotObserver mSwipeToScreenshotObserver;
     private boolean mIsSwipeToScreenshotEnabled;
-
-    private GamingModeController mGamingModeController;
 
     /**
      * Used to notify activity lifecycle events.
@@ -7981,9 +7978,6 @@ public class ActivityManagerService extends IActivityManager.Stub
         RescueParty.onSettingsProviderPublished(mContext);
 
         //mUsageStatsService.monitorPackages();
-
-        // Gaming mode provider
-        mGamingModeController = new GamingModeController(mContext);
 
         // Force full screen for devices with cutout
         mCutoutFullscreenController = new CutoutFullscreenController(mContext);
@@ -16269,9 +16263,6 @@ public class ActivityManagerService extends IActivityManager.Stub
                                         mServices.forceStopPackageLocked(ssp, userId);
                                         mAtmInternal.onPackageUninstalled(ssp);
                                         mBatteryStatsService.notePackageUninstalled(ssp);
-                                        if (mGamingModeController != null) {
-                                             mGamingModeController.notePackageUninstalled(ssp);
-                                        }
                                     }
                                 } else {
                                     if (killProcess) {
@@ -18009,16 +18000,6 @@ public class ActivityManagerService extends IActivityManager.Stub
                 Binder.restoreCallingIdentity(identity);
             }
 
-            if (mCurResumedPackage != null && mGamingModeController != null && mGamingModeController.isGamingModeEnabled()) {
-                if (mGamingModeController.topAppChanged(mCurResumedPackage) && !mGamingModeController.isGamingModeActivated()) {
-                    Settings.System.putInt(mContext.getContentResolver(),
-                        Settings.System.GAMING_MODE_ACTIVE, 1);
-                } else if (!mGamingModeController.topAppChanged(mCurResumedPackage) &&
-                        mGamingModeController.isGamingModeActivated()) {
-                    Settings.System.putInt(mContext.getContentResolver(),
-                        Settings.System.GAMING_MODE_ACTIVE, 0);
-                }
-           }
         }
         return r;
     }

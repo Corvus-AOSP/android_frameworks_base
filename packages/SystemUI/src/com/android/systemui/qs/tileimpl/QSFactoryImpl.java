@@ -42,7 +42,6 @@ import com.android.systemui.qs.tiles.DataSwitchTile;
 import com.android.systemui.qs.tiles.DndTile;
 import com.android.systemui.qs.tiles.FlashlightTile;
 import com.android.systemui.qs.tiles.HeadphonesBuddyTile;
-import com.android.systemui.qs.tiles.GamingModeTile;
 import com.android.systemui.qs.tiles.FPSInfoTile;
 import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.HotspotTile;
@@ -117,7 +116,6 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<AODTile> mAODTileProvider;
     private final Provider<ThemeTile> mThemeTileProvider;
     private final Provider<VolumeTile> mVolumeTileProvider;
-    private final Provider<GamingModeTile> mGamingModeTileProvider;
     private final Provider<VpnTile> mVpnTileProvider;
     private final Provider<ScreenshotTile> mScreenshotTileProvider;
 
@@ -163,7 +161,6 @@ public class QSFactoryImpl implements QSFactory {
             Provider<AODTile> aodTileProvider,
             Provider<ThemeTile> themeTileProvider,
             Provider<VolumeTile> volumeTileProvider,
-            Provider<GamingModeTile> gamingModeTileProvider,
             Provider<VpnTile> vpnTileProvider,
             Provider<ScreenshotTile> screenshotTileProvider) {
         mQsHostLazy = qsHostLazy;
@@ -205,7 +202,6 @@ public class QSFactoryImpl implements QSFactory {
         mAODTileProvider = aodTileProvider;
         mThemeTileProvider = themeTileProvider;
         mVolumeTileProvider = volumeTileProvider;
-        mGamingModeTileProvider = gamingModeTileProvider;
         mVpnTileProvider = vpnTileProvider;
         mScreenshotTileProvider = screenshotTileProvider;
     }
@@ -295,8 +291,6 @@ public class QSFactoryImpl implements QSFactory {
                 return mThemeTileProvider.get();
             case "volume_panel":
                 return mVolumeTileProvider.get();
-            case "gaming":
-                return mGamingModeTileProvider.get();
             case "vpn":
                 return mVpnTileProvider.get();
             case "screenshot":
