@@ -5644,6 +5644,11 @@ public final class Settings {
         public static final String SCREENSHOT_SHUTTER_SOUND = "screenshot_shutter_sound";
 
         /**
+         * @hide
+         */
+        public static final String RECENTS_LOCKED_TASKS = "recents_locked_tasks";
+
+        /**
          * Whether auto brightness is applied one shot when screen is turned on.
          * Default 0
          * @hide
