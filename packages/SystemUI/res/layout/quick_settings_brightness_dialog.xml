@@ -32,7 +32,7 @@
         android:importantForAccessibility="no"
         systemui:text="@string/status_bar_settings_auto_brightness_label" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/brightness_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,7 +41,6 @@
         android:paddingRight="29dp"
         android:src="@drawable/ic_qs_brightness_auto_off"
         android:tint="?android:attr/colorForeground"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
         android:contentDescription="@null"
         android:visibility="gone" />
 

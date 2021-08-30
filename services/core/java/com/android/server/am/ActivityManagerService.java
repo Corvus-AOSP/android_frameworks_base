@@ -414,7 +414,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiFunction;
 
-import com.android.internal.util.corvus.CutoutFullscreenController;
+import com.android.internal.util.custom.cutout.CutoutFullscreenController;
 
 public class ActivityManagerService extends IActivityManager.Stub
         implements Watchdog.Monitor, BatteryStatsImpl.BatteryCallback {
@@ -1687,10 +1687,9 @@ public class ActivityManagerService extends IActivityManager.Stub
 
     private ParcelFileDescriptor[] mLifeMonitorFds;
 
-    private CutoutFullscreenController mCutoutFullscreenController;
-
     static final HostingRecord sNullHostingRecord = new HostingRecord(null);
 
+    private CutoutFullscreenController mCutoutFullscreenController;
     final SwipeToScreenshotObserver mSwipeToScreenshotObserver;
     private boolean mIsSwipeToScreenshotEnabled;
 
@@ -7982,11 +7981,11 @@ public class ActivityManagerService extends IActivityManager.Stub
 
         //mUsageStatsService.monitorPackages();
 
-        // Gaming mode provider
-        mGamingModeController = new GamingModeController(mContext);
-
         // Force full screen for devices with cutout
         mCutoutFullscreenController = new CutoutFullscreenController(mContext);
+
+        // Gaming mode provider
+        mGamingModeController = new GamingModeController(mContext);
     }
 
     void startPersistentApps(int matchFlags) {
@@ -20522,6 +20521,13 @@ public class ActivityManagerService extends IActivityManager.Stub
     }
 
     @Override
+    public boolean shouldForceCutoutFullscreen(String packageName) {
+        synchronized (this) {
+            return mCutoutFullscreenController.shouldForceCutoutFullscreen(packageName);
+        }
+    }
+
+    @Override
     public boolean enableAppFreezer(boolean enable) {
         int callerUid = Binder.getCallingUid();
 
@@ -20530,13 +20536,6 @@ public class ActivityManagerService extends IActivityManager.Stub
             return mOomAdjuster.mCachedAppOptimizer.enableFreezer(enable);
         } else {
             throw new SecurityException("Caller uid " + callerUid + " cannot set freezer state ");
-        }
-    }
-
-    @Override
-    public boolean shouldForceCutoutFullscreen(String packageName) {
-        synchronized (this) {
-            return mCutoutFullscreenController.shouldForceCutoutFullscreen(packageName);
         }
     }
 }

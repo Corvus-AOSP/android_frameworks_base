@@ -685,6 +685,11 @@ interface IActivityManager {
     void killUidForPermissionChange(int appId, int userId, String reason);
 
     /**
+     *  Force full screen for devices with cutout
+     */
+    boolean shouldForceCutoutFullscreen(in String packageName);
+
+    /**
      *  Should disable touch if three fingers to screen shot is active?
      */
     boolean isSwipeToScreenshotGestureActive();
@@ -698,9 +703,4 @@ interface IActivityManager {
      * @param enable set it to true to enable the app freezer, false to disable it.
      */
     boolean enableAppFreezer(in boolean enable);
-
-    /**
-     *  Force full screen for devices with cutout
-     */
-    boolean shouldForceCutoutFullscreen(in String packageName);
 }

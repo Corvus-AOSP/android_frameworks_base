@@ -5101,6 +5101,12 @@ public final class Settings {
                public static final String ROAMING_INDICATOR_ICON = "roaming_indicator_icon";
 
         /**
+         * Force full screen for devices with cutout
+         * @hide
+         */
+        public static final String FORCE_FULLSCREEN_CUTOUT_APPS = "force_full_screen_cutout_apps";
+
+        /**
          * Whether to show qs footer text
          * @hide
          */
@@ -5804,12 +5810,6 @@ public final class Settings {
         public static final String PULSE_BRIGHTNESS = "pulse_brightness";
 
         /**
-         * Force full screen for devices with cutout
-         * @hide
-         */
-        public static final String FORCE_FULLSCREEN_CUTOUT_APPS = "force_full_screen_cutout_apps";
-
-        /**
          * User definable value of aod screen brightness
          * @hide
          */
@@ -5834,10 +5834,6 @@ public final class Settings {
          * @hide
          */
         public static final String STATUS_BAR_CUSTOM_HEADER = "status_bar_custom_header";
-
-        /** reTicker **/
-        public static final String RETICKER_STATUS = "reticker_status";
-        public static final String RETICKER_COLORED = "reticker_colored";
 
         /**
          * Whether to apply a shadow on top of the header image
@@ -6159,7 +6155,6 @@ public final class Settings {
             PRIVATE_SETTINGS.add(ANIM_TILE_DURATION);
             PRIVATE_SETTINGS.add(BACK_GESTURE_HAPTIC);
             PRIVATE_SETTINGS.add(QS_TILE_STYLE);
-            PRIVATE_SETTINGS.add(FORCE_FULLSCREEN_CUTOUT_APPS);
             PRIVATE_SETTINGS.add(DISPLAY_CUTOUT_MODE);
             PRIVATE_SETTINGS.add(STOCK_STATUSBAR_IN_HIDE);
 	    PRIVATE_SETTINGS.add(OMNIJAWS_WEATHER_ICON_PACK);

@@ -21,7 +21,6 @@ import static android.view.View.GONE;
 import static com.android.systemui.classifier.Classifier.QUICK_SETTINGS;
 import static com.android.systemui.statusbar.notification.ActivityLaunchAnimator.ExpandAnimationParameters;
 import static com.android.systemui.statusbar.notification.stack.NotificationStackScrollLayout.ROWS_ALL;
-import static com.android.systemui.statusbar.notification.stack.NotificationStackScrollLayout.ROWS_HIGH_PRIORITY;
 
 import static java.lang.Float.isNaN;
 
@@ -43,7 +42,6 @@ import android.database.ContentObserver;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
@@ -72,8 +70,6 @@ import android.view.WindowInsets;
 import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.internal.annotations.VisibleForTesting;
@@ -87,11 +83,9 @@ import com.android.keyguard.KeyguardUpdateMonitor;
 import com.android.keyguard.KeyguardUpdateMonitorCallback;
 import com.android.systemui.DejankUtils;
 import com.android.systemui.Dependency;
-import com.android.systemui.CorvusSystemUIUtils;
 import com.android.systemui.Interpolators;
 import com.android.systemui.R;
 import com.android.systemui.classifier.Classifier;
-import com.android.systemui.RetickerAnimations;
 import com.android.systemui.ScreenDecorations;
 import com.android.systemui.dagger.qualifiers.DisplayId;
 import com.android.systemui.doze.DozeLog;
@@ -365,8 +359,6 @@ public class NotificationPanelViewController extends PanelViewController {
 
     private boolean mShowEmptyShadeView;
 
-    private String[] mAppExceptions;
-
     private boolean mQsScrimEnabled = true;
     private boolean mQsTouchAboveFalsingThreshold;
     private int mQsFalsingThreshold;
@@ -510,11 +502,6 @@ public class NotificationPanelViewController extends PanelViewController {
 
     private boolean mAnimatingQS;
     private int mOldLayoutDirection;
-
-    /*Reticker*/
-    private LinearLayout mReTickerComeback;
-    private ImageView mReTickerComebackIcon;
-    private TextView mReTickerContentTV;
 
     private View.AccessibilityDelegate mAccessibilityDelegate = new View.AccessibilityDelegate() {
         @Override
@@ -684,9 +671,6 @@ public class NotificationPanelViewController extends PanelViewController {
         mLastOrientation = mResources.getConfiguration().orientation;
         mPulseLightsView = mView.findViewById(R.id.lights_container);
 
-        mReTickerComeback = mView.findViewById(R.id.ticker_comeback);
-        mReTickerComebackIcon = mView.findViewById(R.id.ticker_comeback_icon);
-        mReTickerContentTV = mView.findViewById(R.id.ticker_content);
         initBottomArea();
 
         mWakeUpCoordinator.setStackScroller(mNotificationStackScroller);
@@ -1865,7 +1849,6 @@ public class NotificationPanelViewController extends PanelViewController {
         mQs.setQsExpansion(qsExpansionFraction, getHeaderTranslation());
         mMediaHierarchyManager.setQsExpansion(qsExpansionFraction);
         mNotificationStackScroller.setQsExpansionFraction(qsExpansionFraction);
-        reTickerViewVisibility();
     }
 
     private String determineAccessibilityPaneTitle() {
@@ -3106,13 +3089,13 @@ public class NotificationPanelViewController extends PanelViewController {
                 animatePulse =
                 !mDozeParameters.getDisplayNeedsBlanking() && mDozeParameters.getAlwaysOn();
         ContentResolver resolver = mView.getContext().getContentResolver();
-	ExpandableNotificationRow row = mNotificationStackScroller.getFirstActiveClearableNotifications(ROWS_HIGH_PRIORITY);
         boolean pulseLights = Settings.System.getIntForUser(resolver,
                 Settings.System.NOTIFICATION_PULSE, 0, UserHandle.USER_CURRENT) != 0;
         boolean ambientLights = Settings.System.getIntForUser(resolver,
                 Settings.System.AOD_NOTIFICATION_PULSE, 0, UserHandle.USER_CURRENT) != 0;
         boolean aodEnabled = Settings.Secure.getIntForUser(resolver,
                 Settings.Secure.DOZE_ALWAYS_ON, 0, UserHandle.USER_CURRENT) == 1;
+        ExpandableNotificationRow row = mNotificationStackScroller.getFirstActiveClearableNotifications(ROWS_ALL);
         boolean activeNotif = row != null;
         int pulseReason = Settings.System.getIntForUser(resolver,
                 Settings.System.PULSE_TRIGGER_REASON, DozeLog.PULSE_REASON_NONE, UserHandle.USER_CURRENT);
@@ -4181,86 +4164,5 @@ public class NotificationPanelViewController extends PanelViewController {
         PendingIntent sender = PendingIntent.getBroadcast(mView.getContext(),
                 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         alarmManager.cancel(sender);
-    }
-
-    /* Descendant reTicker */
-
-    public void reTickerView(boolean visibility) {
-        if (!CorvusSystemUIUtils.settingStatusBoolean("reticker_status", mView.getContext())) return;
-        if (visibility && mReTickerComeback.getVisibility() == View.VISIBLE) {
-            reTickerDismissal();
-        }
-        String reTickerContent = "";
-        boolean debug = true;
-        if (visibility && getExpandedFraction() != 1) {
-            mNotificationStackScroller.setVisibility(GONE);
-            ExpandableNotificationRow row = mHeadsUpManager.getTopEntry().getRow();
-            String pkgname = row.getEntry().getSbn().getPackageName();
-            Drawable icon = null;
-            try {
-                if (pkgname.contains("systemui")) {
-                    icon = mView.getContext().getDrawable(row.getEntry().getSbn().getNotification().icon);
-                } else {
-                    icon = mView.getContext().getPackageManager().getApplicationIcon(pkgname);
-                }
-            } catch (android.content.pm.PackageManager.NameNotFoundException e) {
-            }
-            if (row.getEntry().getSbn().getNotification().extras.getString("android.text") != null) {
-                reTickerContent = row.getEntry().getSbn().getNotification().extras.getString("android.text");
-            }
-            String reTickerAppName = row.getEntry().getSbn().getNotification().extras.getString("android.title");
-            PendingIntent reTickerIntent = row.getEntry().getSbn().getNotification().contentIntent;
-            String mergedContentText = reTickerAppName + " " + reTickerContent;
-            mReTickerComebackIcon.setImageDrawable(icon);
-            if (CorvusSystemUIUtils.settingStatusBoolean("reticker_colored", mView.getContext())) {
-                int col;
-                col = row.getEntry().getSbn().getNotification().color;
-                mAppExceptions = mView.getContext().getResources().getStringArray(R.array.app_exceptions);
-                //check if we need to override the color
-                for (int i=0; i < mAppExceptions.length; i++) {
-                    if (mAppExceptions[i].contains(pkgname)) {
-                        col = Color.parseColor(mAppExceptions[i+=1]);
-                    }
-                }
-                Drawable dw = mView.getContext().getDrawable(R.drawable.reticker_background);
-                dw.setTint(col);
-                mReTickerComeback.setBackground(dw);
-            }
-            mReTickerContentTV.setText(mergedContentText);
-            mReTickerContentTV.setSelected(true);
-            RetickerAnimations.doBounceAnimationIn(mReTickerComeback);
-            mReTickerComeback.setOnClickListener(v -> {
-                try {
-                    if (reTickerIntent != null)
-                        reTickerIntent.send();
-                } catch (PendingIntent.CanceledException e) {
-                }
-                if (reTickerIntent != null) {
-                    RetickerAnimations.doBounceAnimationOut(mReTickerComeback, mNotificationStackScroller);
-                    reTickerViewVisibility();
-                }
-            });
-        } else {
-            reTickerDismissal();
-        }
-    }
-
-    private void reTickerViewVisibility() {
-        if (!CorvusSystemUIUtils.settingStatusBoolean("reticker_status", mView.getContext())) {
-            reTickerDismissal();
-            return;
-        }
-        mNotificationStackScroller.setVisibility(getExpandedFraction() == 0 ? View.GONE : View.VISIBLE);
-        if (getExpandedFraction() > 0) mReTickerComeback.setVisibility(View.GONE);
-    }
-
-    public void reTickerViewUpdate() {
-        if (CorvusSystemUIUtils.settingStatusBoolean("reticker_status", mView.getContext())) return;
-        if (mReTickerComeback != null) mReTickerComeback.setBackground(mView.getContext().getDrawable(R.drawable.reticker_background));
-        if (mReTickerContentTV != null) mReTickerContentTV.setTextAppearance(mView.getContext(), R.style.TextAppearance_Notifications_reTicker);
-    }
-
-    public void reTickerDismissal() {
-        RetickerAnimations.doBounceAnimationOut(mReTickerComeback, mNotificationStackScroller);
     }
 }
