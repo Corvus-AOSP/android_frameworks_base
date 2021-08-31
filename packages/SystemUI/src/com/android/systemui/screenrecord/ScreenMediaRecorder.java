@@ -135,8 +135,8 @@ public class ScreenMediaRecorder {
                 * VIDEO_FRAME_RATE_TO_RESOLUTION_RATIO;
         mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
         mMediaRecorder.setVideoEncodingProfileLevel(
-                MediaCodecInfo.CodecProfileLevel.AVCProfileMain,
-                MediaCodecInfo.CodecProfileLevel.AVCLevel3);
+                MediaCodecInfo.CodecProfileLevel.AVCProfileHigh,
+                MediaCodecInfo.CodecProfileLevel.AVCLevel42);
         mMediaRecorder.setVideoSize(screenWidth, screenHeight);
         mMediaRecorder.setVideoFrameRate(refereshRate);
         mMediaRecorder.setVideoEncodingBitRate(vidBitRate);
