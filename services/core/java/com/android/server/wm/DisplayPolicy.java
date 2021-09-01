@@ -132,6 +132,7 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.os.UserHandle;
+import android.provider.Settings;
 import android.util.ArraySet;
 import android.util.PrintWriterPrinter;
 import android.util.Slog;
@@ -2248,10 +2249,12 @@ public class DisplayPolicy {
         // Height of the navigation bar frame when presented horizontally at bottom
         mNavigationBarFrameHeightForRotationDefault[portraitRotation] =
         mNavigationBarFrameHeightForRotationDefault[upsideDownRotation] =
-                res.getDimensionPixelSize(R.dimen.navigation_bar_frame_height);
+                getShowIMESpace() || !isGesturalMode() ? res.getDimensionPixelSize(R.dimen.navigation_bar_frame_height) :
+                        !isNavBarHidden() ? res.getDimensionPixelSize(R.dimen.navigation_bar_frame_height_hide_ime) : 0;
         mNavigationBarFrameHeightForRotationDefault[landscapeRotation] =
         mNavigationBarFrameHeightForRotationDefault[seascapeRotation] =
-                res.getDimensionPixelSize(R.dimen.navigation_bar_frame_height_landscape);
+                getShowIMESpace() || !isGesturalMode() ? res.getDimensionPixelSize(R.dimen.navigation_bar_frame_height_landscape) :
+                        !isNavBarHidden() ? res.getDimensionPixelSize(R.dimen.navigation_bar_frame_height_landscape_hide_ime) : 0;
 
         // Width of the navigation bar when presented vertically along one side
         mNavigationBarWidthForRotationDefault[portraitRotation] =
@@ -3406,5 +3409,20 @@ public class DisplayPolicy {
      */
     boolean shouldAttachNavBarToAppDuringTransition() {
         return mShouldAttachNavBarToAppDuringTransition && mNavigationBar != null;
+    }
+
+    private boolean getShowIMESpace() {
+        return Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.NAVIGATION_BAR_IME_SPACE, 1, UserHandle.USER_CURRENT) == 1;
+    }
+
+    private boolean isGesturalMode() {
+        return Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                Settings.Secure.NAVIGATION_MODE, 2, UserHandle.USER_CURRENT) == 2;
+    }
+
+    private boolean isNavBarHidden() {
+        return Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.FULLSCREEN_GESTURES, 1, UserHandle.USER_CURRENT) == 1;
     }
 }
