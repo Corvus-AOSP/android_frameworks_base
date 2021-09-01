@@ -681,6 +681,8 @@ public class NavigationBarView extends FrameLayout implements
 
         updateRecentsIcon();
 
+        final boolean mShowIMESpace = getShowIMESpace();
+
         // Update arrow buttons
         if (showDpadArrowKeys()) {
             getKeyButtonViewById(R.id.dpad_left).setImageDrawable(mArrowLeftIcon);
@@ -709,8 +711,8 @@ public class NavigationBarView extends FrameLayout implements
         boolean disableHomeHandle = disableRecent
                 && ((mDisabledFlags & View.STATUS_BAR_DISABLE_HOME) != 0);
 
-        boolean disableBack = !useAltBack && (mEdgeBackGestureHandler.isHandlingGestures()
-                || ((mDisabledFlags & View.STATUS_BAR_DISABLE_BACK) != 0));
+        boolean disableBack = (isGesturalMode(mNavBarMode) && !mShowIMESpace) || (!useAltBack && (mEdgeBackGestureHandler.isHandlingGestures()
+                || ((mDisabledFlags & View.STATUS_BAR_DISABLE_BACK) != 0)));
 
         // When screen pinning, don't hide back and home when connected service or back and
         // recents buttons when disconnected from launcher service in screen pinning mode,
@@ -1356,5 +1358,11 @@ public class NavigationBarView extends FrameLayout implements
     private boolean showDpadArrowKeys() {
         return Settings.System.getIntForUser(getContext().getContentResolver(),
                 Settings.System.NAVIGATION_BAR_ARROW_KEYS, 0, UserHandle.USER_CURRENT) != 0;
+    }
+    
+    private boolean getShowIMESpace() {
+        return Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.NAVIGATION_BAR_IME_SPACE, 1,
+                UserHandle.USER_CURRENT) == 1;
     }
 }

@@ -6076,6 +6076,13 @@ public final class Settings {
         public static final String BATTERY_LEVEL_COLORS = "battery_level_colors";
 
         /**
+         * Whether to show IME space
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_IME_SPACE = "navigation_bar_ime_space";
+
+        /**
+         * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
          * All settings in {@link LEGACY_RESTORE_SETTINGS} array *must* have a non-null validator,
