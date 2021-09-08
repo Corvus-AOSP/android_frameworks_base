@@ -23,7 +23,6 @@ import static java.lang.Float.isNaN;
 import android.annotation.Nullable;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.RemoteException;
 import android.provider.Settings;
