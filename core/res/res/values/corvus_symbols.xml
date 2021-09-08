@@ -102,14 +102,6 @@
    <!-- Whether device has turbo power charging support -->
    <java-symbol type="bool" name="config_hasTurboPowerCharger" />
 
-    <!-- Gaming mode -->
-    <java-symbol type="drawable" name="ic_gaming_notif" />
-    <java-symbol type="string" name="notification_channel_gaming" />
-    <java-symbol type="string" name="gaming_mode_notification_title" />
-    <java-symbol type="string" name="gaming_mode_notification_content" />
-    <java-symbol type="string" name="gaming_mode_enabled_toast" />
-    <java-symbol type="string" name="gaming_mode_disabled_toast" />
-
     <!-- Alert Slider -->
     <java-symbol type="string" name="alert_slider_state_path" />
     <java-symbol type="string" name="alert_slider_uevent_match_path" />
@@ -204,4 +196,5 @@
 
     <!-- App Lock -->
     <java-symbol type="string" name="lockscreen_pattern_instructions" />
+
 </resources>

@@ -5721,67 +5721,11 @@ public final class Settings {
          */
         public static final String QS_RUNNING_SERVICES_TOGGLE = "qs_running_services_toggle";
 
-       /**
-         * Gaming mode master switch
-         * @hide
-         */
-        public static final String GAMING_MODE_ENABLED = "gaming_mode_enabled";
-
         /**
          * Screen off fod
          * @hide
          */
         public static final String FOD_GESTURE = "fod_gesture";
-
-        /**
-         * Gaming mode active state - to disable via notification / tile
-         * @hide
-         */
-        public static final String GAMING_MODE_ACTIVE = "gaming_mode_active";
-
-        /**
-         * Package name of apps for enabling Gaming mode
-         * @hide
-         */
-        public static final String GAMING_MODE_VALUES = "gaming_mode_values";
-        public static final String GAMING_MODE_DUMMY = "gaming_mode_dummy";
-
-        /**
-         * Whether to disable hardware keys in gaming mode
-         * @hide
-         */
-        public static final String GAMING_MODE_HW_KEYS_TOGGLE = "gaming_mode_hw_keys_toggle";
-
-        /**
-         * Whether to disable heads up gaming mode
-         * @hide
-         */
-        public static final String GAMING_MODE_HEADSUP_TOGGLE = "gaming_mode_headsup_toggle";
-
-        /**
-         * Ringer in gaming mode (0:OFF, 1:Vibrate, 2:DND, 3:Silent)
-         * @hide
-         */
-        public static final String GAMING_MODE_RINGER_MODE = "gaming_mode_ringer_mode";
-
-        /**
-         * Whether to show notifications/toasts (0:OFF, 1:notifications, 2:toasts, 3: all)
-         * @hide
-         */
-        public static final String GAMING_MODE_NOTIFICATIONS = "gaming_mode_notifications";
-
-        /**
-         * Whether to lock brightness in gaming mode
-         * @hide
-         */
-        public static final String GAMING_MODE_MANUAL_BRIGHTNESS_TOGGLE = "gaming_mode_manual_brightness_toggle";
-
-        /**
-         * Whether to automatically enable the gaming mode
-         * if the launched app is a game
-         * @hide
-         */
-        public static final String GAMING_MODE_DYNAMIC_STATE = "gaming_mode_dynamic_state";
 
         /**
          * Applications list where heasdup should't show
@@ -5992,6 +5936,130 @@ public final class Settings {
          */
         public static final String SYSTEMUI_PLUGIN_VOLUME = "systemui_plugin_volume";
 
+        /**          
+          * Setting to enable/disable gaming mode
+          * @hide
+          */
+        public static final String GAMING_MODE_ENABLED = "gaming_mode_enabled";
+
+        /**
+          * 0 - user is not in gaming mode
+          * 1 - user is in gaming mode
+          * @hide
+          */
+        public static final String GAMING_MODE_ACTIVE = "gaming_mode_active";
+
+        /**
+          * Dynamically identify the top application and add it to the list
+          * @hide
+          */
+        public static final String GAMING_MODE_DYNAMIC_ADD = "gaming_mode_dynamic_add";
+
+        /**
+          * @hide
+          */
+        public static final String GAMING_MODE_APP_LIST = "gaming_mode_app_list";
+
+        /**
+          * @hide
+          */
+        public static final String GAMING_MODE_REMOVED_APP_LIST = "gaming_mode_removed_app_list";
+
+        /**
+          * Opacity adjustment for the GamingMode's menu
+          * @hide
+          */
+        public static final String GAMING_MODE_MENU_OPACITY = "gaming_mode_menu_opacity";
+
+        /**
+          * Auto answer call in gaming mode
+          * @hide
+          */
+        public static final String GAMING_MODE_AUTO_ANSWER_CALL = "gaming_mode_auto_answer_call";
+
+        /**
+          * @hide
+          */
+        public static final String GAMING_MODE_DISABLE_AUTO_BRIGHTNESS = "gaming_mode_disable_auto_brightness";
+
+        /**
+          * @hide
+          */
+        public static final String GAMING_MODE_DISABLE_NOTIFICATION_ALERT = "gaming_mode_disable_notification_alert";
+
+        /**
+         * @hide
+         */
+        public static final String OMNI_CUSTOM_FP_ICON = "custom_fingerprint_icon";
+
+        /**
+          * @hide
+          */
+        public static final String GAMING_MODE_DISABLE_RINGTONE = "gaming_mode_disable_ringtone";
+
+        /**
+          * @hide
+          */
+        public static final String GAMING_MODE_DISABLE_GESTURE = "gaming_mode_disable_gesture";
+
+        /**
+          * Change performance level in gaming mode
+          * @hide
+          */
+        public static final String GAMING_MODE_CHANGE_PERFORMANCE_LEVEL = "gaming_mode_change_performance_level";
+
+        /**
+          * Prefermance level
+          * 0 - 6 : Powersave - Performance
+          * @hide
+          */
+        public static final String GAMING_MODE_PERFORMANCE_LEVEL = "gaming_mode_performance_level";
+
+        /**
+          * @hide
+          */
+        public static final String GAMING_MODE_QS_APP_LIST = "gaming_mode_qs_app_list";
+
+        /**
+          * @hide
+          */
+        public static final String GAMING_MODE_SHOW_DANMAKU = "gaming_mode_show_danmaku";
+
+        /**
+          * @hide
+          */
+        public static final String GAMING_MODE_DANMAKU_SPEED_HORIZONTAL = "gaming_mode_danmaku_speed_horizontal";
+
+        /**
+          * @hide
+          */
+        public static final String GAMING_MODE_DANMAKU_SPEED_VERTICAL = "gaming_mode_danmaku_speed_vertical";
+
+        /**
+          * @hide
+          */
+        public static final String GAMING_MODE_DANMAKU_SIZE_HORIZONTAL = "gaming_mode_danmaku_size_horizontal";
+
+        /**
+          * @hide
+          */
+        public static final String GAMING_MODE_DANMAKU_SIZE_VERTICAL = "gaming_mode_danmaku_size_vertical";
+
+        /**
+          * @hide
+          */
+        public static final String GAMING_MODE_DANMAKU_DYNAMIC_NOTIFICATION_FILTER = "gaming_mode_danmaku_dynamic_notification_filter";
+
+        /**
+          * @hide
+          */
+        public static final String GAMING_MODE_DANMAKU_APP_BLACKLIST = "gaming_mode_danmaku_app_blacklist";
+
+        /**
+          * @hide
+          */
+        public static final String GAMING_MODE_USE_GAME_DRIVER = "gaming_mode_use_game_driver";
+
         /**
          * Statusbar padding Start
          *
@@ -6183,6 +6251,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(SYSTEMUI_PLUGIN_VOLUME);
             PRIVATE_SETTINGS.add(CUSTOM_STATUSBAR_PADDING_START);
             PRIVATE_SETTINGS.add(CUSTOM_STATUSBAR_PADDING_END);
+            PRIVATE_SETTINGS.add(OMNI_CUSTOM_FP_ICON);
         }
 
         /**
@@ -15906,6 +15975,19 @@ public final class Settings {
          */
         public static final String NR_NSA_TRACKING_SCREEN_OFF_MODE =
                 "nr_nsa_tracking_screen_off_mode";
+
+        /**
+         * The amount of time in milliseconds before wifi is turned off
+         * @hide
+         */
+        public static final String WIFI_OFF_TIMEOUT = "wifi_off_timeout";
+
+        /**
+         * The amount of time in milliseconds before bluetooth is turned off
+         * @hide
+         */
+        public static final String BLUETOOTH_OFF_TIMEOUT = "bluetooth_off_timeout";
+
     }
 
     /**

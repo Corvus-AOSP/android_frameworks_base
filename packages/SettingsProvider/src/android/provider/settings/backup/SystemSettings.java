@@ -96,5 +96,15 @@ public class SystemSettings {
         Settings.System.NOTIFICATION_HEADERS,
         Settings.System.CUSTOM_STATUSBAR_PADDING_START,
         Settings.System.CUSTOM_STATUSBAR_PADDING_END,
+        Settings.System.QS_FOOTER_TEXT_SHOW,
+        Settings.System.QS_FOOTER_TEXT_STRING,
+        Settings.System.TORCH_LONG_PRESS_POWER_GESTURE,
+        Settings.System.TORCH_LONG_PRESS_POWER_TIMEOUT,
+        Settings.System.NAVIGATION_BAR_ARROW_KEYS,
+        Settings.System.NAVIGATION_BAR_INVERSE,
+        Settings.System.NAVBAR_LAYOUT_VIEWS,
+	Settings.System.QS_STATUS_ICON_BACKGROUND,
+        Settings.System.QS_HEADER_DATE_LOCATION,
+        Settings.System.OMNI_CUSTOM_FP_ICON,
     };
 }
