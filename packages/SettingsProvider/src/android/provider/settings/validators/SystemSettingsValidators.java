@@ -249,8 +249,6 @@ public class SystemSettingsValidators {
                         return true;
                     }
                 });
-        VALIDATORS.put(System.CUSTOM_STATUSBAR_PADDING_START, ANY_INTEGER_VALIDATOR);
-        VALIDATORS.put(System.CUSTOM_STATUSBAR_PADDING_END, ANY_INTEGER_VALIDATOR);
 	    VALIDATORS.put(System.FORCE_FULLSCREEN_CUTOUT_APPS, ANY_STRING_VALIDATOR);
         VALIDATORS.put(System.PROXIMITY_ON_WAKE, BOOLEAN_VALIDATOR);
     }
