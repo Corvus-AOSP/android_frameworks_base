@@ -5988,11 +5988,6 @@ public final class Settings {
         public static final String GAMING_MODE_DISABLE_NOTIFICATION_ALERT = "gaming_mode_disable_notification_alert";
 
         /**
-         * @hide
-         */
-        public static final String OMNI_CUSTOM_FP_ICON = "custom_fingerprint_icon";
-
-        /**
           * @hide
           */
         public static final String GAMING_MODE_DISABLE_RINGTONE = "gaming_mode_disable_ringtone";
@@ -6256,7 +6251,6 @@ public final class Settings {
             PRIVATE_SETTINGS.add(SYSTEMUI_PLUGIN_VOLUME);
             PRIVATE_SETTINGS.add(CUSTOM_STATUSBAR_PADDING_START);
             PRIVATE_SETTINGS.add(CUSTOM_STATUSBAR_PADDING_END);
-            PRIVATE_SETTINGS.add(OMNI_CUSTOM_FP_ICON);
             PRIVATE_SETTINGS.add(PROXIMITY_ON_WAKE);
         }
 
