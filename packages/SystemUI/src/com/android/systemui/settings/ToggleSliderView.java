@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -66,6 +67,12 @@ public class ToggleSliderView extends RelativeLayout implements ToggleSlider {
 
         mSlider = findViewById(R.id.slider);
         mSlider.setOnSeekBarChangeListener(mSeekListener);
+
+        if (a.getDrawable(R.styleable.ToggleSliderView_progressDrawable)!= null) {
+            mSlider.setProgressDrawable(a.getDrawable(R.styleable.ToggleSliderView_progressDrawable));
+            mSlider.setBackground(null);
+            mSlider.setThumb(null);
+        }
 
         mLabel = findViewById(R.id.label);
         mLabel.setText(a.getString(R.styleable.ToggleSliderView_text));

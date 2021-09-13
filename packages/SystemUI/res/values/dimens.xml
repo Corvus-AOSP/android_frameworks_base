@@ -567,6 +567,7 @@
     <dimen name="qs_footer_dialog_subtitle_padding">20dp</dimen>
 
     <dimen name="seek_bar_height">3dp</dimen>
+    <dimen name="corvus_seek_bar_height">32dp</dimen>
     <dimen name="seek_bar_corner_radius">3dp</dimen>
 
     <!-- Zen mode panel: condition item button padding -->

@@ -251,5 +251,6 @@ public class SystemSettingsValidators {
                 });
 	    VALIDATORS.put(System.FORCE_FULLSCREEN_CUTOUT_APPS, ANY_STRING_VALIDATOR);
         VALIDATORS.put(System.PROXIMITY_ON_WAKE, BOOLEAN_VALIDATOR);
+        VALIDATORS.put(System.QS_BRIGHTNESS_SLIDER_STYLE, BOOLEAN_VALIDATOR);
     }
 }

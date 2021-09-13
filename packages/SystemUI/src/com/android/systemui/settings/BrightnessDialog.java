@@ -18,6 +18,9 @@ package com.android.systemui.settings;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.UserHandle;
+import android.provider.Settings;
+import android.content.Context;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -38,10 +41,12 @@ public class BrightnessDialog extends Activity {
 
     private BrightnessController mBrightnessController;
     private final BroadcastDispatcher mBroadcastDispatcher;
+    private final Context mContext;
 
     @Inject
-    public BrightnessDialog(BroadcastDispatcher broadcastDispatcher) {
+    public BrightnessDialog(BroadcastDispatcher broadcastDispatcher, Context context) {
         mBroadcastDispatcher = broadcastDispatcher;
+        mContext = context;
     }
 
 
@@ -55,9 +60,18 @@ public class BrightnessDialog extends Activity {
         window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         window.requestFeature(Window.FEATURE_NO_TITLE);
 
+        boolean brightnessSliderStyle = Settings.System.getIntForUser(mContext.getContentResolver(),
+                    Settings.System.QS_BRIGHTNESS_SLIDER_STYLE, 0, UserHandle.USER_CURRENT) == 1;
+
+        if(brightnessSliderStyle) {
+        View v = LayoutInflater.from(this).inflate(
+                R.layout.quick_settings_brightness_dialog_corvus, null);
+                setContentView(v);
+        } else {
         View v = LayoutInflater.from(this).inflate(
                 R.layout.quick_settings_brightness_dialog, null);
-        setContentView(v);
+                setContentView(v);
+        }
 
         final ImageView icon = findViewById(R.id.brightness_icon);
         final ToggleSliderView slider = findViewById(R.id.brightness_slider);

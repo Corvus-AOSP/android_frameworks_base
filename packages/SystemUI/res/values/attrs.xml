@@ -24,6 +24,7 @@
     </declare-styleable>
     <declare-styleable name="ToggleSliderView">
         <attr name="text" format="string" />
+        <attr name="progressDrawable" format="reference"/>
     </declare-styleable>
     <declare-styleable name="NotificationLinearLayout">
         <attr name="insetLeft" format="dimension" />

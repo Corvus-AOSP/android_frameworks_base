@@ -447,10 +447,19 @@ public class BrightnessController implements ToggleSlider.Listener {
     }
 
     private void updateIcon(boolean automatic) {
+        boolean brightnessSliderStyle = Settings.System.getIntForUser(mContext.getContentResolver(),
+                    Settings.System.QS_BRIGHTNESS_SLIDER_STYLE, 0, UserHandle.USER_CURRENT) == 1;
+
         if (mIcon != null) {
-            mIcon.setImageResource(mAutomatic ?
+            if(brightnessSliderStyle) {
+                mIcon.setImageResource(mAutomatic ?
+                    com.android.systemui.R.drawable.ic_auto_brightness_on_custom :
+                    com.android.systemui.R.drawable.ic_auto_brightness_off_custom);
+            } else {
+                mIcon.setImageResource(mAutomatic ?
                     com.android.systemui.R.drawable.ic_qs_brightness_auto_on :
                     com.android.systemui.R.drawable.ic_qs_brightness_auto_off);
+            }
         }
     }
 

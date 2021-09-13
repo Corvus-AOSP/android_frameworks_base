@@ -64,6 +64,14 @@
 	    android:layout_marginBottom="10dp"
         android:visibility="gone" />
 
+    <include layout="@layout/quick_settings_brightness_dialog_corvus"
+        android:id="@+id/quick_qs_brightness_bar_corvus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+	    android:layout_marginTop="-15dp"
+	    android:layout_marginBottom="10dp"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/header_debug_info"
         android:layout_width="wrap_content"

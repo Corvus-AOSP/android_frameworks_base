@@ -250,8 +250,16 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     }
 
     protected void addViewsAboveTiles() {
-        mBrightnessView = LayoutInflater.from(mContext).inflate(
+        boolean brightnessSliderStyle = Settings.System.getIntForUser(getContext().getContentResolver(),
+                    Settings.System.QS_BRIGHTNESS_SLIDER_STYLE, 0, UserHandle.USER_CURRENT) == 1;
+
+        if(brightnessSliderStyle) {
+            mBrightnessView = LayoutInflater.from(mContext).inflate(
+            R.layout.quick_settings_brightness_dialog_corvus, this, false);
+        } else {
+            mBrightnessView = LayoutInflater.from(mContext).inflate(
             R.layout.quick_settings_brightness_dialog, this, false);
+        }
         addView(mBrightnessView);
         mBrightnessController = new BrightnessController(getContext(),
                 findViewById(R.id.brightness_icon),

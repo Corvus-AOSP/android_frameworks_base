@@ -33,6 +33,8 @@ import com.android.systemui.statusbar.phone.NotificationPanelViewController;
 import com.android.systemui.statusbar.phone.NotificationShadeWindowView;
 import com.android.systemui.tuner.TunerService;
 
+import android.content.Context;
+
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -179,9 +181,17 @@ public class BrightnessMirrorController
                     Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL,
                     UserHandle.USER_CURRENT);
             boolean isAutomatic = automatic != Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL;
+            boolean brightnessSliderStyle = Settings.System.getIntForUser(mBrightnessMirror.getContext().getContentResolver(),
+                    Settings.System.QS_BRIGHTNESS_SLIDER_STYLE, 0, UserHandle.USER_CURRENT) == 1;
+            if(brightnessSliderStyle) {
+            iv.setImageResource(isAutomatic
+                    ? com.android.systemui.R.drawable.ic_auto_brightness_on_custom
+                    : com.android.systemui.R.drawable.ic_auto_brightness_off_custom);  
+            } else {
             iv.setImageResource(isAutomatic
                     ? com.android.systemui.R.drawable.ic_qs_brightness_auto_on
                     : com.android.systemui.R.drawable.ic_qs_brightness_auto_off);
+            }
             iv.setVisibility(View.VISIBLE);
         } else {
             iv.setVisibility(View.GONE);
