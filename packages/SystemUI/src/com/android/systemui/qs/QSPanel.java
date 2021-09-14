@@ -168,11 +168,9 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     protected QSTileLayout mTileLayout;
     private int mLastOrientation = -1;
     private int mMediaTotalBottomMargin;
-    private int mMediaTotalTopMargin;
     private int mFooterMarginStartHorizontal;
     private Consumer<Boolean> mMediaVisibilityChangedListener;
 
-    private boolean mIsLandscape;
     // custom
     private boolean mBrightnessBottom;
 
@@ -190,8 +188,6 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         mUsingMediaPlayer = useQsMediaPlayer(context);
         mMediaTotalBottomMargin = getResources().getDimensionPixelSize(
                 R.dimen.quick_settings_bottom_margin_media);
-        mMediaTotalTopMargin = getResources().getDimensionPixelSize(
-                R.dimen.quick_settings_top_margin_media);
         mMediaHost = mediaHost;
         mMediaHost.addVisibilityChangeListener((visible) -> {
             onMediaVisibilityChanged(visible);
@@ -586,18 +582,9 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
 
         updateBrightnessMirror();
 
-        mIsLandscape = mContext.getResources().getConfiguration().orientation
-                == Configuration.ORIENTATION_LANDSCAPE ? true : false;
         if (newConfig.orientation != mLastOrientation) {
             mLastOrientation = newConfig.orientation;
             switchTileLayout();
-        }
-        if (mIsLandscape && mUsingMediaPlayer) {
-            LinearLayout.LayoutParams layoutParams = (LayoutParams) mMediaHost.getHostView().getLayoutParams();
-            layoutParams.topMargin = 0;
-        } else if (mUsingMediaPlayer) {
-            LinearLayout.LayoutParams layoutParams = (LayoutParams) mMediaHost.getHostView().getLayoutParams();
-            layoutParams.topMargin = mMediaTotalTopMargin;
         }
     }
 
@@ -760,7 +747,6 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
             // carried in the parent of this view (to ensure correct vertical alignment)
             layoutParams.bottomMargin = !horizontal || displayMediaMarginsOnMedia()
                     ? mMediaTotalBottomMargin - getPaddingBottom() : 0;
-            layoutParams.topMargin = mMediaTotalTopMargin;
         }
     }
 
