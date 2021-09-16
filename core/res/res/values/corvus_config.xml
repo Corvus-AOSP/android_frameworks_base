@@ -19,12 +19,6 @@
     <!-- Whether to cleanup fingerprints upon connection to the daemon and when user switches -->
     <bool name="config_cleanupUnusedFingerprints">true</bool>
 
-    <!-- HBM type of UDFPS overlay.
-            0 - GLOBAL HBM
-            1 - LOCAL HBM
-    -->
-    <integer name="config_udfps_hbm_type">1</integer>
-
     <!-- Whether or not we should show vendor mismatch message -->
     <bool name="config_show_vendor_mismatch_message">false</bool>
 
