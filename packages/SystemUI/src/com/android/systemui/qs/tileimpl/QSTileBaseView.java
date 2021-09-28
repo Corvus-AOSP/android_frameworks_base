@@ -73,6 +73,7 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
     private final ImageView mBg;
     private int mColorActive;
     private int mColorActiveAlpha;
+    private int mTransparent;
     private final int mColorInactive;
     private final int mColorDisabled;
     private int mCircleColor;
@@ -313,16 +314,28 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
     }
 
     private int getCircleColor(int state) {
-	boolean setQsUseNewTint = Settings.System.getIntForUser(mContext.getContentResolver(),
-                    Settings.System.QS_PANEL_BG_USE_NEW_TINT, 0, UserHandle.USER_CURRENT) == 1;
+	    int setQsTintStyle = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.QS_PANEL_BG_USE_NEW_TINT, 1, UserHandle.USER_CURRENT);
+
         switch (state) {
             case Tile.STATE_ACTIVE:
-		    return mColorActive;
+            if (setQsTintStyle == 1 || setQsTintStyle == 3) {
+                return mColorActiveAlpha;
+            } else if (setQsTintStyle == 4) {
+                return Utils.getColorAttrDefaultColor(mContext, android.R.attr.colorForeground);
+            } else if (setQsTintStyle == 5) {
+                return Utils.getColorAttrDefaultColor(mContext, android.R.color.transparent);
+            } else {
+             return mColorActive;   
+            }
             case Tile.STATE_INACTIVE:
-		if (setQsUseNewTint)
-		    return mColorActiveAlpha;
-		else
-		    return mColorInactive;
+            if (setQsTintStyle == 2 ) {
+                return mColorActiveAlpha;
+            } else if (setQsTintStyle == 3 || setQsTintStyle == 5) {
+                return Utils.getColorAttrDefaultColor(mContext, android.R.color.transparent);
+            } else {
+                return mColorInactive;
+            }
             case Tile.STATE_UNAVAILABLE:
                 return mColorDisabled;
             default:
