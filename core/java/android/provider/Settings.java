@@ -6069,6 +6069,12 @@ public final class Settings {
         public static final String QS_BRIGHTNESS_SLIDER_STYLE = "qs_brightness_slider_style";
 
         /**
+         * Toggle between stock and custom QS brightness slider
+         * @hide
+         */
+        public static final String BATTERY_LEVEL_COLORS = "battery_level_colors";
+
+        /**
          * process when restoring historical backup datasets.
          *
          * All settings in {@link LEGACY_RESTORE_SETTINGS} array *must* have a non-null validator,
@@ -6244,6 +6250,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(SYSTEMUI_PLUGIN_VOLUME);
             PRIVATE_SETTINGS.add(PROXIMITY_ON_WAKE);
             PRIVATE_SETTINGS.add(QS_BRIGHTNESS_SLIDER_STYLE);
+            PRIVATE_SETTINGS.add(BATTERY_LEVEL_COLORS);
         }
 
         /**

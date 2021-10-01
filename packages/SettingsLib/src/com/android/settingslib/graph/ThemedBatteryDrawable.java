@@ -37,6 +37,9 @@ import android.graphics.drawable.Drawable;
 import android.util.PathParser;
 import android.util.TypedValue;
 
+import android.provider.Settings.System;
+import android.os.UserHandle;
+
 import com.android.settingslib.R;
 import com.android.settingslib.Utils;
 
@@ -104,6 +107,26 @@ public class ThemedBatteryDrawable extends Drawable {
         intrinsicWidth = (int) (mWidthDp * f);
         Resources res = mContext.getResources();
 
+        boolean setCustomBatteryLevelTint = System.getIntForUser(mContext.getContentResolver(),
+                     System.BATTERY_LEVEL_COLORS, 0, UserHandle.USER_CURRENT) == 1;
+
+        if(setCustomBatteryLevelTint) {
+        TypedArray levels = res.obtainTypedArray(R.array.corvus_batterymeter_color_levels);
+        TypedArray colors = res.obtainTypedArray(R.array.corvus_batterymeter_color_values);
+
+        final int N = levels.length();
+        colorLevels = new int[7 * N];
+        for (int i = 0; i < N; i++) {
+            colorLevels[7 * i] = levels.getInt(i, 0);
+            if (colors.getType(i) == TypedValue.TYPE_ATTRIBUTE) {
+                colorLevels[7 * i + 1] = Utils.getColorAttrDefaultColor(mContext, colors.getThemeAttributeId(i, 0));
+            } else {
+                colorLevels[7 * i + 1] = colors.getColor(i, 0);
+            }
+        }
+        levels.recycle();
+        colors.recycle();
+        } else {
         TypedArray levels = res.obtainTypedArray(R.array.batterymeter_color_levels);
         TypedArray colors = res.obtainTypedArray(R.array.batterymeter_color_values);
 
@@ -119,6 +142,7 @@ public class ThemedBatteryDrawable extends Drawable {
         }
         levels.recycle();
         colors.recycle();
+        }
         
         setCriticalLevel(res.getInteger(
                 com.android.internal.R.integer.config_criticalBatteryWarningLevel));

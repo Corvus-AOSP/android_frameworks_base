@@ -104,5 +104,6 @@ public class SystemSettings {
         Settings.System.QS_HEADER_DATE_LOCATION,
         Settings.System.PROXIMITY_ON_WAKE,
         Settings.System.QS_BRIGHTNESS_SLIDER_STYLE,
+        Settings.System.BATTERY_LEVEL_COLORS,
     };
 }
