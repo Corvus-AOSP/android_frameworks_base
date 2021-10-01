@@ -5542,6 +5542,12 @@ public final class Settings {
          * @hide
          */
         public static final String QS_SHOW_BATTERY_ESTIMATE = "qs_show_battery_estimate";
+        
+        /**
+         * Toggle between stock and custom QS brightness slider
+         * @hide
+         */
+        public static final String BATTERY_LEVEL_COLORS = "battery_level_colors";
 
         /**
          * Keys we no longer back up under the current schema, but want to continue to
@@ -5674,6 +5680,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(STATUSBAR_CLOCK_DATE_STYLE);
             PRIVATE_SETTINGS.add(STATUSBAR_CLOCK_DATE_FORMAT);
             PRIVATE_SETTINGS.add(STATUSBAR_CLOCK_DATE_POSITION);
+            PRIVATE_SETTINGS.add(BATTERY_LEVEL_COLORS);
         }
 
         /**
