@@ -225,6 +225,7 @@ import com.android.systemui.statusbar.phone.ongoingcall.OngoingCallController;
 import com.android.systemui.statusbar.phone.panelstate.PanelExpansionStateManager;
 import com.android.systemui.statusbar.policy.BatteryController;
 import com.android.systemui.statusbar.policy.BrightnessMirrorController;
+import com.android.systemui.statusbar.policy.BurnInProtectionController;
 import com.android.systemui.statusbar.policy.ConfigurationController;
 import com.android.systemui.statusbar.policy.ConfigurationController.ConfigurationListener;
 import com.android.systemui.statusbar.policy.DeviceProvisionedController;
@@ -682,6 +683,7 @@ public class StatusBar extends SystemUI implements
             (extractor, which) -> updateTheme();
 
     private final WiredChargingRippleController mWiredChargingRippleController;
+    private final BurnInProtectionController mBurnInProtectionController;
 
     /**
      * Public constructor for StatusBar.
@@ -792,7 +794,8 @@ public class StatusBar extends SystemUI implements
             TunerService tunerService,
             DumpManager dumpManager,
             ActivityLaunchAnimator activityLaunchAnimator,
-            WiredChargingRippleController wiredChargingRippleController) {
+            WiredChargingRippleController wiredChargingRippleController,
+            BurnInProtectionController burnInProtectionController) {
         super(context);
         mNotificationsController = notificationsController;
         mFragmentService = fragmentService;
@@ -892,6 +895,7 @@ public class StatusBar extends SystemUI implements
         mLockscreenShadeTransitionController = lockscreenShadeTransitionController;
         mStartingSurfaceOptional = startingSurfaceOptional;
         mWiredChargingRippleController = wiredChargingRippleController;
+        mBurnInProtectionController = burnInProtectionController;
         lockscreenShadeTransitionController.setStatusbar(this);
 
         mPanelExpansionStateManager.addExpansionListener(this::onPanelExpansionChanged);
@@ -919,6 +923,7 @@ public class StatusBar extends SystemUI implements
                 data -> mCommandQueueCallbacks.animateExpandSettingsPanel(data.mSubpanel));
         mMessageRouter.subscribeTo(MSG_LAUNCH_TRANSITION_TIMEOUT,
                 id -> onLaunchTransitionTimeout());
+        mBurnInProtectionController.setStatusBar(this);
     }
 
     @Override
@@ -1169,6 +1174,7 @@ public class StatusBar extends SystemUI implements
                             mStatusBarView.findViewById(R.id.notification_lights_out));
                     mNotificationShadeWindowViewController.setStatusBarView(mStatusBarView);
                     checkBarModes();
+                    mBurnInProtectionController.setPhoneStatusBarView(mStatusBarView);
                 }).getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.status_bar_container,
@@ -3538,6 +3544,10 @@ public class StatusBar extends SystemUI implements
 
             updateNotificationPanelTouchState();
             mNotificationShadeWindowViewController.cancelCurrentTouch();
+
+            if (mBurnInProtectionController != null) {
+                mBurnInProtectionController.stopShiftTimer();
+            }
             if (mLaunchCameraOnFinishedGoingToSleep) {
                 mLaunchCameraOnFinishedGoingToSleep = false;
 
@@ -3627,6 +3637,9 @@ public class StatusBar extends SystemUI implements
                 }
             }
             updateScrimController();
+            if (mBurnInProtectionController != null) {
+                mBurnInProtectionController.startShiftTimer();
+            }
         }
     };
 
