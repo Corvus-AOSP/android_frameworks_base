@@ -71,6 +71,7 @@ import com.android.systemui.util.leak.GarbageMonitor;
 import com.android.systemui.qs.tiles.CaffeineTile;
 import com.android.systemui.qs.tiles.AmbientDisplayTile;
 import com.android.systemui.qs.tiles.UsbTetherTile;
+import com.android.systemui.qs.tiles.CorvusZenTile;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -127,6 +128,7 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<MusicTile> mMusicTileProvider;
     private final Provider<SoundSearchTile> mSoundSearchTileProvider;
     private final Provider<CompassTile> mCompassTileProvider;
+    private final Provider<CorvusZenTile> mCorvusZenTileProvider;
 
     private final Lazy<QSHost> mQsHostLazy;
     private final Provider<CustomTile.Builder> mCustomTileBuilderProvider;
@@ -179,7 +181,8 @@ public class QSFactoryImpl implements QSFactory {
             Provider<MonoToggleTile> monoToggleTileProvider,
             Provider<SoundSearchTile> soundSearchTileProvider,
             Provider<MusicTile> musicTileProvider,
-            Provider<CompassTile> compassTileProvider) {
+            Provider<CompassTile> compassTileProvider,
+            Provider<CorvusZenTile> corvuszenTileProvider) {
         mQsHostLazy = qsHostLazy;
         mCustomTileBuilderProvider = customTileBuilderProvider;
 
@@ -228,6 +231,7 @@ public class QSFactoryImpl implements QSFactory {
         mMusicTileProvider = musicTileProvider;
         mSoundSearchTileProvider = soundSearchTileProvider;
         mCompassTileProvider = compassTileProvider;
+        mCorvusZenTileProvider = corvuszenTileProvider;
     }
 
     public QSTile createTile(String tileSpec) {
@@ -330,6 +334,8 @@ public class QSFactoryImpl implements QSFactory {
                 return mMusicTileProvider.get();
             case "compass":
                 return mCompassTileProvider.get();
+            case "corvuszen":
+                return mCorvusZenTileProvider.get();
         }
 
         // Custom tiles
