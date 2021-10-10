@@ -53,6 +53,7 @@ import com.android.systemui.qs.tiles.RebootTile;
 import com.android.systemui.qs.tiles.ReadingModeTile;
 import com.android.systemui.qs.tiles.RotationLockTile;
 import com.android.systemui.qs.tiles.ThemeTile;
+import com.android.systemui.qs.tiles.CorvusZenTile;
 import com.android.systemui.qs.tiles.ScreenRecordTile;
 import com.android.systemui.qs.tiles.SoundSearchTile;
 import com.android.systemui.qs.tiles.SoundTile;
@@ -115,6 +116,7 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<SyncTile> mSyncTileProvider;
     private final Provider<AODTile> mAODTileProvider;
     private final Provider<ThemeTile> mThemeTileProvider;
+    private final Provider<CorvusZenTile> mCorvusZenTileProvider;
     private final Provider<VolumeTile> mVolumeTileProvider;
     private final Provider<VpnTile> mVpnTileProvider;
     private final Provider<ScreenshotTile> mScreenshotTileProvider;
@@ -160,6 +162,7 @@ public class QSFactoryImpl implements QSFactory {
             Provider<SyncTile> syncTileProvider,
             Provider<AODTile> aodTileProvider,
             Provider<ThemeTile> themeTileProvider,
+            Provider<CorvusZenTile> corvuszenTileProvider,
             Provider<VolumeTile> volumeTileProvider,
             Provider<VpnTile> vpnTileProvider,
             Provider<ScreenshotTile> screenshotTileProvider) {
@@ -201,6 +204,7 @@ public class QSFactoryImpl implements QSFactory {
         mSyncTileProvider = syncTileProvider;
         mAODTileProvider = aodTileProvider;
         mThemeTileProvider = themeTileProvider;
+        mCorvusZenTileProvider = corvuszenTileProvider;
         mVolumeTileProvider = volumeTileProvider;
         mVpnTileProvider = vpnTileProvider;
         mScreenshotTileProvider = screenshotTileProvider;
@@ -289,6 +293,8 @@ public class QSFactoryImpl implements QSFactory {
                 return mAODTileProvider.get();
             case "theme":
                 return mThemeTileProvider.get();
+            case "corvuszen":
+                return mCorvusZenTileProvider.get();
             case "volume_panel":
                 return mVolumeTileProvider.get();
             case "vpn":
