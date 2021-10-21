@@ -30,6 +30,9 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import android.os.UserHandle;
+import android.provider.Settings;
+
 import com.android.settingslib.RestrictedLockUtils;
 import com.android.systemui.R;
 import com.android.systemui.statusbar.policy.BrightnessMirrorController;
@@ -68,10 +71,22 @@ public class ToggleSliderView extends RelativeLayout implements ToggleSlider {
         mSlider = findViewById(R.id.slider);
         mSlider.setOnSeekBarChangeListener(mSeekListener);
 
-        if (a.getDrawable(R.styleable.ToggleSliderView_progressDrawable)!= null) {
-            mSlider.setProgressDrawable(a.getDrawable(R.styleable.ToggleSliderView_progressDrawable));
-            mSlider.setBackground(null);
-            mSlider.setThumb(null);
+        int brightnessSliderStyle = Settings.System.getIntForUser(context.getContentResolver(),
+                    Settings.System.QS_BRIGHTNESS_SLIDER_STYLE, 1, UserHandle.USER_CURRENT);
+
+        if (brightnessSliderStyle == 1) {
+            if (a.getDrawable(R.styleable.ToggleSliderView_progressDrawable)!= null) {
+                mSlider.setProgressDrawable(a.getDrawable(R.styleable.ToggleSliderView_progressDrawable));
+                mSlider.setBackground(null);
+                mSlider.setThumb(null);
+            }
+        } else if (brightnessSliderStyle == 2) {
+            if (a.getDrawable(R.styleable.ToggleSliderView_progressDrawable)!= null) {
+                mSlider.setProgressDrawable(a.getDrawable(R.styleable.ToggleSliderView_progressDrawable));
+                mSlider.setBackground(null);
+                mSlider.setThumb(res.getDrawable(R.drawable.type2_seekbar_thumb));
+                mSlider.setThumbOffset(0);
+            }
         }
 
         mLabel = findViewById(R.id.label);

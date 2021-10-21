@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <shape android:shape="line">
+            <stroke
+                android:width="4dp"
+                android:color="@drawable/brightness_slider_progress" />
+        </shape>
+    </item>
+    <item android:id="@android:id/progress">
+        <scale
+            android:scaleWidth="100%"
+            android:useIntrinsicSizeAsMinimum="true">
+            <shape android:shape="rectangle">
+                <corners android:radius="25dp" />
+                <size
+                    android:width="@dimen/slider_type2_height"
+                    android:height="@dimen/slider_type2_height" />
+                <stroke
+                    android:width="1dp"
+                    android:color="@drawable/brightness_slider_progress" />
+                <solid android:color="?android:attr/colorAccent" />
+            </shape>
+        </scale>
+    </item>
+</layer-list>

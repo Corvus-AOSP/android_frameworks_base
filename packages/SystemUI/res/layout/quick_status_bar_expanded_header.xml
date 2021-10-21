@@ -72,6 +72,14 @@
 	    android:layout_marginBottom="10dp"
         android:visibility="gone" />
 
+    <include layout="@layout/qsb_slider_type2"
+        android:id="@+id/quick_qs_brightness_bar_type2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+	    android:layout_marginTop="-15dp"
+	    android:layout_marginBottom="10dp"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/header_debug_info"
         android:layout_width="wrap_content"

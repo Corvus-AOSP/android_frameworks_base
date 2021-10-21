@@ -322,11 +322,13 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mDataUsageLayout = findViewById(R.id.daily_data_usage_layout);
         mDataUsageImage = findViewById(R.id.daily_data_usage_icon);
 
-        boolean brightnessSliderStyle = Settings.System.getIntForUser(getContext().getContentResolver(),
-                    Settings.System.QS_BRIGHTNESS_SLIDER_STYLE, 0, UserHandle.USER_CURRENT) == 1;
+        int brightnessSliderStyle = Settings.System.getIntForUser(getContext().getContentResolver(),
+                    Settings.System.QS_BRIGHTNESS_SLIDER_STYLE, 1, UserHandle.USER_CURRENT);
 
-        if(brightnessSliderStyle){
+        if (brightnessSliderStyle == 1){
             mQuickQsBrightness = findViewById(R.id.quick_qs_brightness_bar_corvus);
+        } else if (brightnessSliderStyle == 2) {
+            mQuickQsBrightness = findViewById(R.id.quick_qs_brightness_bar_type2);
         } else {
             mQuickQsBrightness = findViewById(R.id.quick_qs_brightness_bar);
         }

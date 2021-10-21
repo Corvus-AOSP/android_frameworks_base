@@ -181,9 +181,9 @@ public class BrightnessMirrorController
                     Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL,
                     UserHandle.USER_CURRENT);
             boolean isAutomatic = automatic != Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL;
-            boolean brightnessSliderStyle = Settings.System.getIntForUser(mBrightnessMirror.getContext().getContentResolver(),
-                    Settings.System.QS_BRIGHTNESS_SLIDER_STYLE, 0, UserHandle.USER_CURRENT) == 1;
-            if(brightnessSliderStyle) {
+            int brightnessSliderStyle = Settings.System.getIntForUser(mBrightnessMirror.getContext().getContentResolver(),
+                    Settings.System.QS_BRIGHTNESS_SLIDER_STYLE, 1, UserHandle.USER_CURRENT);
+            if(brightnessSliderStyle == 1 || brightnessSliderStyle == 2) {
             iv.setImageResource(isAutomatic
                     ? com.android.systemui.R.drawable.ic_auto_brightness_on_custom
                     : com.android.systemui.R.drawable.ic_auto_brightness_off_custom);  

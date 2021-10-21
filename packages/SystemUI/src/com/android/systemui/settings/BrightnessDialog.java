@@ -60,12 +60,16 @@ public class BrightnessDialog extends Activity {
         window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         window.requestFeature(Window.FEATURE_NO_TITLE);
 
-        boolean brightnessSliderStyle = Settings.System.getIntForUser(mContext.getContentResolver(),
-                    Settings.System.QS_BRIGHTNESS_SLIDER_STYLE, 0, UserHandle.USER_CURRENT) == 1;
+        int brightnessSliderStyle = Settings.System.getIntForUser(mContext.getContentResolver(),
+                    Settings.System.QS_BRIGHTNESS_SLIDER_STYLE, 1, UserHandle.USER_CURRENT);
 
-        if(brightnessSliderStyle) {
+        if (brightnessSliderStyle == 1) {
         View v = LayoutInflater.from(this).inflate(
                 R.layout.quick_settings_brightness_dialog_corvus, null);
+                setContentView(v);
+        } else if (brightnessSliderStyle == 2) {
+        View v = LayoutInflater.from(this).inflate(
+                R.layout.qsb_slider_type2, null);
                 setContentView(v);
         } else {
         View v = LayoutInflater.from(this).inflate(

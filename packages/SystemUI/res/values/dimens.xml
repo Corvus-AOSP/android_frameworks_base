@@ -568,6 +568,7 @@
 
     <dimen name="seek_bar_height">3dp</dimen>
     <dimen name="corvus_seek_bar_height">32dp</dimen>
+    <dimen name="slider_type2_height">35dp</dimen>
     <dimen name="seek_bar_corner_radius">3dp</dimen>
 
     <!-- Zen mode panel: condition item button padding -->
