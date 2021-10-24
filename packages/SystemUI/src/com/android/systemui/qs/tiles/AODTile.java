@@ -63,7 +63,13 @@ public class AODTile extends QSTileImpl<BooleanState> {
 
     @Override
     public Intent getLongClickIntent() {
-        return null;
+        mHost.collapsePanels();
+        Intent nIntent = new Intent(Intent.ACTION_MAIN);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        nIntent.setClassName("com.custom.ambient.display",
+                "com.custom.ambient.display.DozeSettings");
+            mActivityStarter.startActivity(nIntent, false);
+            return nIntent;
     }
 
     @Override
