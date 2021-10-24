@@ -5608,6 +5608,12 @@ public final class Settings {
                 "double_tap_sleep_lockscreen";
 
         /**
+         * Enable statusbar double tap gesture to put device to sleep
+         * @hide
+         */
+        public static final String DOUBLE_TAP_SLEEP_GESTURE = "double_tap_sleep_gesture";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
@@ -5741,6 +5747,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(VIBRATE_ON_DISCONNECT);
             PRIVATE_SETTINGS.add(BACK_GESTURE_HAPTIC);
             PRIVATE_SETTINGS.add(DOUBLE_TAP_SLEEP_LOCKSCREEN);
+            PRIVATE_SETTINGS.add(DOUBLE_TAP_SLEEP_GESTURE);
         }
 
         /**
@@ -11147,7 +11154,6 @@ public final class Settings {
                 "launcher_taskbar_education_showing";
 
         /**
-<<<<<<< HEAD
          * Whether or not adaptive charging feature is enabled by user.
          * Type: int (0 for false, 1 for true)
          * Default: 1
@@ -11163,14 +11169,14 @@ public final class Settings {
          */
         public static final String EXTRA_AUTOMATIC_POWER_SAVE_MODE =
                 "extra_automatic_power_save_mode";
-=======
+                
+        /**
          * Gesture navbar length mode.
          * Supported modes: 0 for normal length, 1 for medium and 2 for long.
          * Default 0.
          * @hide
          */
         public static final String GESTURE_NAVBAR_LENGTH_MODE = "gesture_navbar_length_mode";
->>>>>>> e062189fc5b0 (SystemUI: allow changing the length of gesture navbar [1/2])
 
         /**
          * These entries are considered common between the personal and the managed profile,
