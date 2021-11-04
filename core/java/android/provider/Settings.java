@@ -5440,6 +5440,11 @@ public final class Settings {
         /**
          * @hide
          */
+        public static final String WFD_LEGACY_VIDEO_MODE = "wfd_legacy_video_mode";
+
+        /**
+         * @hide
+         */
         public static final String USE_OLD_MOBILETYPE = "use_old_mobiletype";
 
         /**
