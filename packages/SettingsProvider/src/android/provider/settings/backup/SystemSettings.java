@@ -85,5 +85,6 @@ public class SystemSettings {
         Settings.System.ALARM_ALERT,
         Settings.System.NOTIFICATION_LIGHT_PULSE,
         Settings.System.OMNI_ADVANCED_REBOOT,
+        Settings.System.FULLSCREEN_GESTURES,
     };
 }
