@@ -45,6 +45,8 @@ public abstract class InternalEnumerateClient<T> extends HalClientMonitor<T>
     private List<BiometricAuthenticator.Identifier> mUnknownHALTemplates = new ArrayList<>();
     final boolean mNocleanup = android.os.SystemProperties.getBoolean("fingerprint.nocleanup", false);
 
+    private boolean mCleanup;
+
     protected InternalEnumerateClient(@NonNull Context context, @NonNull LazyDaemon<T> lazyDaemon,
             @NonNull IBinder token, int userId, @NonNull String owner,
             @NonNull List<? extends BiometricAuthenticator.Identifier> enrolledList,
@@ -56,6 +58,8 @@ public abstract class InternalEnumerateClient<T> extends HalClientMonitor<T>
                 BiometricsProtoEnums.CLIENT_UNKNOWN);
         mEnrolledList = enrolledList;
         mUtils = utils;
+        mCleanup = context.getResources().getBoolean(
+                 com.android.internal.R.bool.config_cleanupUnusedFingerprints);
     }
 
     @Override
@@ -115,9 +119,9 @@ public abstract class InternalEnumerateClient<T> extends HalClientMonitor<T>
             BiometricAuthenticator.Identifier identifier = mEnrolledList.get(i);
             Slog.e(TAG, "doTemplateCleanup(): Removing dangling template from framework: "
                     + identifier.getBiometricId() + " " + identifier.getName());
-           if (!mNocleanup) {
-              mUtils.removeBiometricForUser(getContext(),
-                       getTargetUserId(), identifier.getBiometricId());
+            if (mCleanup) {
+               mUtils.removeBiometricForUser(getContext(),
+                        getTargetUserId(), identifier.getBiometricId());
             }
             FrameworkStatsLog.write(FrameworkStatsLog.BIOMETRIC_SYSTEM_HEALTH_ISSUE_DETECTED,
                     mStatsModality,
