@@ -46,6 +46,8 @@ public abstract class InternalEnumerateClient<T> extends HalClientMonitor<T>
 
     private boolean mCleanup;
 
+    private boolean mCleanup;
+
     protected InternalEnumerateClient(@NonNull Context context, @NonNull LazyDaemon<T> lazyDaemon,
             @NonNull IBinder token, int userId, @NonNull String owner,
             @NonNull List<? extends BiometricAuthenticator.Identifier> enrolledList,
