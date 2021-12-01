@@ -25,6 +25,7 @@ import android.content.IntentFilter;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.PowerManager;
+import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.service.quicksettings.Tile;
