@@ -613,6 +613,10 @@ public class StatusBarCommandQueueCallbacks implements CommandQueue.Callbacks {
             mFlashlightController.setFlashlight(!mFlashlightController.isEnabled());
         }
     }
+    
+    public void setBlockedGesturalNavigation(boolean blocked) {
+        mStatusBar.setBlockedGesturalNavigation(blocked);
+    }
 
     private boolean isGoingToSleep() {
         return mWakefulnessLifecycle.getWakefulness()
