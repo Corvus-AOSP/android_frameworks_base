@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.internal.util.arrow;
+package com.android.internal.util.corvus;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -34,7 +34,7 @@ import com.android.internal.statusbar.IStatusBarService;
 /**
  * Some custom utilities
  */
-public class ArrowUtils {
+public class CorvusUtils {
 
     public static void switchScreenOff(Context ctx) {
         PowerManager pm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
