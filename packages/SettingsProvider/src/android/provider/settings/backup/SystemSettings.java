@@ -88,6 +88,5 @@ public class SystemSettings {
         Settings.System.ALARM_ALERT,
         Settings.System.NOTIFICATION_LIGHT_PULSE,
         Settings.System.AUTO_BRIGHTNESS_ONE_SHOT,
-        Settings.System.FULLSCREEN_GESTURES,
     };
 }
