@@ -10,6 +10,7 @@ import com.android.systemui.dagger.SystemUIModule;
 import com.corvus.systemui.keyguard.CorvusKeyguardSliceProvider;
 import com.corvus.systemui.smartspace.KeyguardSmartspaceController;
 import com.corvus.systemui.columbus.ColumbusModule;
+import com.corvus.systemui.elmyra.ElmyraModule;
 
 import dagger.Subcomponent;
 
@@ -19,6 +20,7 @@ import dagger.Subcomponent;
         DefaultComponentBinder.class,
         DependencyProvider.class,
         CorvusSystemUIBinder.class,
+        ElmyraModule.class,
         SystemUIModule.class,
         CorvusSystemUIModule.class})
 public interface CorvusSysUIComponent extends SysUIComponent {

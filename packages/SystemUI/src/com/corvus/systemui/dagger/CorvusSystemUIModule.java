@@ -138,6 +138,7 @@ import com.google.android.systemui.assist.uihints.input.NgaInputHandler;
 import com.google.android.systemui.assist.uihints.input.TouchActionRegion;
 import com.google.android.systemui.assist.uihints.input.TouchInsideRegion;
 import com.google.android.systemui.columbus.ColumbusServiceWrapper;
+import com.google.android.systemui.elmyra.ServiceConfigurationGoogle;
 import com.google.android.systemui.smartspace.BcSmartspaceDataProvider;
 import com.google.android.systemui.smartspace.KeyguardMediaViewController;
 import com.google.android.systemui.smartspace.KeyguardZenAlarmViewController;
@@ -297,8 +298,8 @@ public abstract class CorvusSystemUIModule {
 
     @Provides
     @SysUISingleton
-    static CorvusServices provideCorvusServices(Context context, UiEventLogger uiEventLogger, Lazy<ColumbusServiceWrapper> lazyB) {
-        return new CorvusServices(context, uiEventLogger, lazyB);
+    static CorvusServices provideSyberiaServices(Context context, UiEventLogger uiEventLogger, Lazy<ServiceConfigurationGoogle> lazy, Lazy<ColumbusServiceWrapper> lazyB) {
+        return new SyberiaServices(context, uiEventLogger, lazy, lazyB);
     }
 
     // Google
