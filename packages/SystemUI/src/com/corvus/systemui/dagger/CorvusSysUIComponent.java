@@ -9,14 +9,16 @@ import com.android.systemui.dagger.SystemUIModule;
 
 import com.corvus.systemui.keyguard.CorvusKeyguardSliceProvider;
 import com.corvus.systemui.smartspace.KeyguardSmartspaceController;
+import com.corvus.systemui.columbus.ColumbusModule;
 
 import dagger.Subcomponent;
 
 @SysUISingleton
 @Subcomponent(modules = {
+        ColumbusModule.class,
         DefaultComponentBinder.class,
         DependencyProvider.class,
-        SystemUIBinder.class,
+        CorvusSystemUIBinder.class,
         SystemUIModule.class,
         CorvusSystemUIModule.class})
 public interface CorvusSysUIComponent extends SysUIComponent {

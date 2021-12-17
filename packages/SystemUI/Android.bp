@@ -81,10 +81,12 @@ android_library {
         },
     },
     resource_dirs: [
+        "res",
         "res-product",
         "res-keyguard",
-        "res",
         "res-blur",
+        "res-columbus",
+        "res-assist",
     ],
     static_libs: [
         "WindowManager-Shell",
@@ -125,11 +127,14 @@ android_library {
         "monet",
         "themelib",
         "bcsmartspace-res",
+        "assistmanager-google",
         "backgesture-google",
+        "columbus-sysui-google",
         "smartspace-google",
         "tensorflowlite_java",
         "faceunlock_framework",
         "AndroidSystemBlur-platform",
+        "vendor-pixelatoms-java",
     ],
     manifest: "AndroidManifest.xml",
 
