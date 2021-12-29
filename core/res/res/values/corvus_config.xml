@@ -167,4 +167,7 @@
     -->
     <integer name="config_deviceSupportsKeyboardBrightnessControl">0</integer>
     <dimen name="config_keyboardBrightnessSettingDefaultFloat">1.0</dimen>
+
+    <!-- Whether to cancel fingerprint operation if not idle -->
+    <bool name="config_fpCancelIfNotIdle">false</bool>
 </resources>
