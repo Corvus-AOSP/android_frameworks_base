@@ -71,12 +71,14 @@ import com.android.systemui.statusbar.policy.SensorPrivacyControllerImpl;
 import com.android.systemui.statusbar.policy.ZenModeController;
 import com.android.systemui.util.concurrency.DelayableExecutor;
 import com.android.systemui.volume.dagger.VolumeModule;
+import com.android.systemui.theme.ThemeOverlayController;
 
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 
 import javax.inject.Named;
+import org.protonaosp.systemui.theme.CustomThemeOverlayController;
 
 @Module(includes = {
         MediaModule.class,
@@ -246,4 +248,8 @@ public abstract class CorvusSystemUIModule {
     static BcSmartspaceDataPlugin provideBcSmartspaceDataPlugin() {
         return new BcSmartspaceDataProvider();
     }
+    
+    @Binds
+    abstract ThemeOverlayController provideThemeOverlayController(CustomThemeOverlayController themeOverlayController);
+
 }
