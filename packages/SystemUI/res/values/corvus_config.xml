@@ -39,6 +39,9 @@
     <!-- FPSInfoService FPS node file path -->
     <string name="config_fpsInfoSysNode" translatable="false"></string>
 
+    <!-- FPS measure interval in milliseconds, default 1000 -->
+    <integer name="config_fpsReadInterval">1000</integer>
+
     <!-- Whether alertslider is on the left edge of the device -->
     <bool name="config_alertSliderOnLeft">false</bool>
 
