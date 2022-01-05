@@ -45,6 +45,8 @@ import com.android.systemui.plugins.FalsingManager;
 import com.android.systemui.plugins.statusbar.StatusBarStateController;
 import com.android.systemui.qs.logging.QSLogger;
 
+import java.io.File;
+
 import javax.inject.Inject;
 
 public class FPSInfoTile extends QSTileImpl<BooleanState> {
