@@ -31,6 +31,7 @@ import com.android.systemui.qs.tileimpl.QSTileImpl;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Process;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -74,6 +75,8 @@ public class RebootTile extends QSTileImpl<BooleanState> {
             mRebootToRecovery = 1;
         } else if (mRebootToRecovery == 1) {
             mRebootToRecovery = 2;
+        } else if (mRebootToRecovery == 2) {
+            mRebootToRecovery = 3;
         } else {
             mRebootToRecovery = 0;
         }
@@ -92,6 +95,8 @@ public class RebootTile extends QSTileImpl<BooleanState> {
                     pm.reboot(PowerManager.REBOOT_RECOVERY);
                 } else if (mRebootToRecovery == 2) {
                     pm.shutdown(false, pm.SHUTDOWN_USER_REQUESTED, false);
+                } else if (mRebootToRecovery == 3) {
+                    Process.killProcess(Process.myPid());
                 } else {
                     pm.reboot("");
                 }
@@ -122,6 +127,9 @@ public class RebootTile extends QSTileImpl<BooleanState> {
         } else if (mRebootToRecovery == 2) {
             state.label = mContext.getString(R.string.quick_settings_poweroff_label);
             state.icon = ResourceIcon.get(R.drawable.ic_qs_poweroff);
+        } else if (mRebootToRecovery == 3) {
+            state.label = mContext.getString(R.string.global_action_restart_systemui);
+            state.icon = ResourceIcon.get(R.drawable.ic_restart_systemui);
         } else {
             state.label = mContext.getString(R.string.quick_settings_reboot_label);
             state.icon = ResourceIcon.get(R.drawable.ic_qs_reboot);
