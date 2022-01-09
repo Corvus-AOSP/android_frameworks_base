@@ -122,4 +122,7 @@
 
     <!-- Switch USB controller on Asus ROG devices-->
     <java-symbol type="bool" name="config_switchUsbController" />
+
+    <!-- Whether to force enable multi resolution configuration for camera -->
+    <java-symbol type="bool" name="config_forceMultiResolution" />
 </resources>
