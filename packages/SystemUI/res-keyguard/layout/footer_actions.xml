@@ -84,7 +84,7 @@
             android:layout_height="@dimen/qs_footer_action_button_size"
             android:layout_gravity="center"
             android:contentDescription="@string/accessibility_quick_settings_settings"
-            android:background="@drawable/qs_footer_action_chip_background_borderless"
+            android:background="@android:color/transparent"
             android:padding="@dimen/qs_footer_icon_padding"
             android:scaleType="centerInside"
             android:src="@drawable/ic_settings"
