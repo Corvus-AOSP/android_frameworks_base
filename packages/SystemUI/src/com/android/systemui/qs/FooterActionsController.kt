@@ -159,6 +159,10 @@ class FooterActionsController @Inject constructor(
             powerMenuLite.visibility = View.GONE
         }
         settingsButton.setOnClickListener(onClickListener)
+        settingsButton.setOnLongClickListener {
+            settingsButton.startContinuousSpin()
+            true
+        }
         editButton.setOnClickListener(View.OnClickListener { view: View? ->
             if (falsingManager.isFalseTap(FalsingManager.LOW_PENALTY)) {
                 return@OnClickListener
