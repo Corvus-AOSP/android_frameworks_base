@@ -695,7 +695,8 @@ public class BatteryStatsHelper {
         }
         try {
             clearAllStats();
-            mBatteryInfo.resetStatistics();
+            IBatteryStats.Stub.asInterface(
+                ServiceManager.getService(BatteryStats.SERVICE_NAME)).resetStatistics();
         } catch (RemoteException e) {
             Log.e(TAG, "RemoteException:", e);
         }
