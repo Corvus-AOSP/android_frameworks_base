@@ -22,6 +22,7 @@ import android.app.ActivityManager;
 import android.app.KeyguardManager;
 import android.content.ComponentName;
 import android.content.ContentResolver;
+import android.app.Notification;
 import android.content.Context;
 import android.os.RemoteException;
 import android.os.ServiceManager;
@@ -563,7 +564,13 @@ public class StatusBarNotificationPresenter implements NotificationPresenter,
 
         @Override
         public boolean suppressAwakeInterruptions(NotificationEntry entry) {
-            return isDeviceInVrMode();
+            final StatusBarNotification sbn = entry.getSbn();
+            if (sbn.getIsContentSecure()) {
+                return true;
+            } else {
+                final Notification notification = entry.getSbn().getNotification();
+                return isDeviceInVrMode();
+            }
         }
 
         @Override
