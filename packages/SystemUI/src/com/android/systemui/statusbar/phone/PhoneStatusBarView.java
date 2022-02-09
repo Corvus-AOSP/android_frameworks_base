@@ -33,6 +33,7 @@ import android.view.Display;
 import android.view.DisplayCutout;
 import android.view.IWindowManager;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
@@ -364,6 +365,15 @@ public class PhoneStatusBarView extends FrameLayout implements Callbacks {
                 getPaddingTop(),
                 insets.second,
                 getPaddingBottom());
+
+        // Apply negative paddings to centered area layout so that we'll actually be on the center.
+        final int winRotation = getDisplay().getRotation();
+        LayoutParams centeredAreaParams =
+                (LayoutParams) findViewById(R.id.center_clock_layout).getLayoutParams();
+        centeredAreaParams.leftMargin =
+                winRotation == Surface.ROTATION_0 ? -insets.first : 0;
+        centeredAreaParams.rightMargin =
+                winRotation == Surface.ROTATION_0 ? -insets.second : 0;
     }
 
     /**
