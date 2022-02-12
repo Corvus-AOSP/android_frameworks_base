@@ -393,8 +393,7 @@ public class MediaControlPanel {
         seamlessView.setOnClickListener(
                 v -> {
                     if (!mFalsingManager.isFalseTap(FalsingManager.LOW_PENALTY)) {
-                        mMediaOutputDialogFactory.create(data.getPackageName(), true,
-                                mPlayerViewHolder.getSeamlessButton());
+                        mMediaOutputDialogFactory.create(data.getPackageName(), true, null);
                     }
                 });
 

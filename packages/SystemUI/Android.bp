@@ -85,6 +85,7 @@ android_library {
         "res-keyguard",
         "res-smartspace",
         "res",
+        "res-blur",
     ],
     static_libs: [
         "WindowManager-Shell",
@@ -127,6 +128,7 @@ android_library {
         "smartspace-google",
         "tensorflowlite_java",
         "faceunlock_framework",
+        "AndroidSystemBlur-platform",
     ],
     manifest: "AndroidManifest.xml",
 
