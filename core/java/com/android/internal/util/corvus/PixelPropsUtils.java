@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.android.internal.util.evolution;
+package com.android.internal.util.corvus;
 
 import android.os.Build;
 import android.os.SystemProperties;
@@ -143,6 +143,11 @@ public class PixelPropsUtils {
                 }
                 if (DEBUG) Log.d(TAG, "Defining " + key + " prop for: " + packageName);
                 setPropValue(key, value);
+            }
+        }
+        if (isPixelDevice){
+            if (packageName.equals("com.google.android.gms")){
+                setPropValue("MODEL", Build.MODEL + " ");
             }
         }
         // Set proper indexing fingerprint
