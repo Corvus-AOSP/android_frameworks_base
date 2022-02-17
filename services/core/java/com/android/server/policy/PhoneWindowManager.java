@@ -399,8 +399,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private boolean mHasFeatureLeanback;
     private boolean mHasFeatureHdmiCec;
     
-    boolean mVolumeRockerWake;
-
     // Double-tap-to-doze
     private boolean mDoubleTapToWake;
     private boolean mDoubleTapToDoze;
