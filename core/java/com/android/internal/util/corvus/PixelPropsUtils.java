@@ -69,6 +69,7 @@ public class PixelPropsUtils {
 
     private static final String[] packagesToKeep = {
         "com.google.android.GoogleCamera",
+        "com.google.android.GoogleCameraGood",
         "com.google.android.GoogleCamera.Cameight",
         "com.google.android.GoogleCamera.Go",
         "com.google.android.GoogleCamera.Urnyx",
