@@ -2,7 +2,6 @@ package com.corvus.systemui;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.os.Handler;
 
 import com.corvus.systemui.dagger.CorvusGlobalRootComponent;
 import com.corvus.systemui.dagger.DaggerCorvusGlobalRootComponent;
