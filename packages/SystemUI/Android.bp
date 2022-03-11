@@ -87,6 +87,7 @@ android_library {
         "res-blur",
         "res-columbus",
         "res-assist",
+        "res-elmyra",
     ],
     static_libs: [
         "WindowManager-Shell",
