@@ -131,6 +131,7 @@ public class UdfpsController implements DozeReceiver, UdfpsHbmProvider {
     @NonNull private final LockscreenShadeTransitionController mLockscreenShadeTransitionController;
     @Nullable private final UdfpsHbmProvider mHbmProvider;
     @NonNull private final KeyguardBypassController mKeyguardBypassController;
+    @NonNull private final Handler mMainHandler;
     @NonNull private final ConfigurationController mConfigurationController;
     @NonNull private final SystemClock mSystemClock;
     @VisibleForTesting @NonNull final BiometricDisplayListener mOrientationListener;
@@ -336,7 +337,7 @@ public class UdfpsController implements DozeReceiver, UdfpsHbmProvider {
             mFgExecutor.execute(() -> {
                 if (acquiredInfo == 6 && (mStatusBarStateController.isDozing() || !mScreenOn)) {
                     if (vendorCode == mUdfpsVendorCode) {
-                        mPowerManager.wakeUp(SystemClock.uptimeMillis(),
+                        mPowerManager.wakeUp(mSystemClock.uptimeMillis(),
                                 PowerManager.WAKE_REASON_GESTURE, TAG);
                         onAodInterrupt(0, 0, 0, 0); // To-Do pass proper values
                     }
@@ -633,6 +634,7 @@ public class UdfpsController implements DozeReceiver, UdfpsHbmProvider {
         screenLifecycle.addObserver(mScreenObserver);
         mScreenOn = screenLifecycle.getScreenState() == ScreenLifecycle.SCREEN_ON;
         mKeyguardBypassController = keyguardBypassController;
+        mMainHandler = mainHandler;
         mConfigurationController = configurationController;
         mSystemClock = systemClock;
         mUnlockedScreenOffAnimationController = unlockedScreenOffAnimationController;
