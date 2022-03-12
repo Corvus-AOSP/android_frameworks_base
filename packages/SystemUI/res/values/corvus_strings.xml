@@ -133,4 +133,6 @@
     <string name="dlg_cancel">@android:string/cancel</string>
     <string name="guts_force_close_app">Close App</string>
 
+    <!-- Sb Call Strength icon -->
+    <string name="status_bar_call_strength">Call strength</string>
 </resources>

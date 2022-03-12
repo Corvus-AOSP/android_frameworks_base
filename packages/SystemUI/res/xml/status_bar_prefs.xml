@@ -74,6 +74,11 @@
         android:icon="@drawable/ic_statusbar_mobile_network" />
 
     <com.android.systemui.tuner.StatusBarSwitch
+        android:icon="@drawable/ic_statusbar_call_strength"
+        android:key="call_strength"
+        android:title="@string/status_bar_call_strength" />
+
+    <com.android.systemui.tuner.StatusBarSwitch
         android:key="airplane"
         android:title="@string/status_bar_airplane"
         android:icon="@drawable/ic_statusbar_airplane" />
