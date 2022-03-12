@@ -152,8 +152,9 @@
     <string name="navigation_bar_inverse_title">Swap buttons</string>
     <string name="navigation_bar_inverse_summary">Swap the order of recents and back buttons</string>
 
-    <!-- Name of the VPN status bar icon. -->
+    <!-- Name of status bar icons. -->
     <string name="status_bar_vpn">VPN</string>
+    <string name="status_bar_call_strength">Call strength</string>
 
     <!-- AlertSlider -->
     <string name="alert_slider_mode_priority_text">Priority</string>
