@@ -105,7 +105,8 @@ class FingerprintAuthenticationClient extends AuthenticationClient<IBiometricsFi
     public void onAcquired(int acquiredInfo, int vendorCode) {
         super.onAcquired(acquiredInfo, vendorCode);
         try {
-            mUdfpsOverlayController.onAcquired(getSensorId(), acquiredInfo, vendorCode);
+        mSensorOverlays.ifUdfps(udfpsOverlayController ->
+            udfpsOverlayController.onAcquired(getSensorId(), acquiredInfo, vendorCode));
         } catch (Exception e) {
         }
     }
