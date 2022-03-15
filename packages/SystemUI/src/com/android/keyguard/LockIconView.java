@@ -96,7 +96,7 @@ public class LockIconView extends FrameLayout implements Dumpable {
                     Utils.getColorAttrDefaultColor(getContext(), R.attr.wallpaperTextColorAccent),
                     Color.WHITE,
                     mDozeAmount);
-            mBgView.setVisibility(View.GONE);
+            mBgView.setVisibility(View.VISIBLE);
         }
 
         mLockIcon.setImageTintList(ColorStateList.valueOf(mLockIconColor));
