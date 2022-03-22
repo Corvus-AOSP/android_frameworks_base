@@ -128,7 +128,7 @@ public class RebootTile extends QSTileImpl<BooleanState> {
             state.label = mContext.getString(R.string.quick_settings_poweroff_label);
             state.icon = ResourceIcon.get(R.drawable.ic_qs_poweroff);
         } else if (mRebootToRecovery == 3) {
-            state.label = mContext.getString(R.string.global_action_restart_systemui);
+            state.label = mContext.getString(R.string.global_action_reboot_systemui);
             state.icon = ResourceIcon.get(R.drawable.ic_restart_systemui);
         } else {
             state.label = mContext.getString(R.string.quick_settings_reboot_label);
