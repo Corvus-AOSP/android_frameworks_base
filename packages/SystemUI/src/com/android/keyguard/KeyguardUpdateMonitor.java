@@ -1978,7 +1978,7 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener, Dumpab
                         handleRequireUnlockForNfc();
                         break;
                     case MSG_POCKET_STATE_CHANGED:
-                        updateBiometricListeningState();
+                        updateBiometricListeningState(BIOMETRIC_ACTION_UPDATE);
                         break;
                     default:
                         super.handleMessage(msg);
