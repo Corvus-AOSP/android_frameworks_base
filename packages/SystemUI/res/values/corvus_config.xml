@@ -28,9 +28,6 @@
 
     <!-- Udfps vendor code -->
     <integer name="config_udfps_vendor_code">22</integer>
-
-    <!-- If not zero, limits the internal screen recorder's framerate to the set value. -->
-    <integer name="config_screenRecorderMaxFramerate">0</integer>
     
     <!-- FPSInfoService FPS node file path -->
     <string name="config_fpsInfoSysNode" translatable="false"></string>
