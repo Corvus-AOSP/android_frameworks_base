@@ -31,7 +31,7 @@ import java.util.Map;
 public class PixelPropsUtils {
 
     public static final String PACKAGE_GMS = "com.google.android.gms";
-    private static final String DEVICE = "org.evolution.device";
+    private static final String DEVICE = "ro.corvus.device";
     private static final String TAG = PixelPropsUtils.class.getSimpleName();
     private static final boolean DEBUG = false;
 
