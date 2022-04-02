@@ -709,7 +709,7 @@ public class ApplicationPackageManager extends PackageManager {
                 }
             };
 
-    private static final String DEVICE = "org.evolution.device";
+    private static final String DEVICE = "ro.corvus.device";
 
     private static final String[] pixel6Codenames = {
             "oriole",
