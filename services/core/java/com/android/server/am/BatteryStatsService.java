@@ -1983,7 +1983,7 @@ public final class BatteryStatsService extends IBatteryStats.Stub
             mHandler.post(() -> {
                 synchronized (mStats) {
                     mStats.noteBluetoothScanStoppedFromSourceLocked(localWs, isUnoptimized,
-                            uptime, elapsedRealtime);
+                            elapsedRealtime, uptime);
                 }
             });
         }
