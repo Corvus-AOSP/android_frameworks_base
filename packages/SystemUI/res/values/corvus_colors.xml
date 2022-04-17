@@ -16,4 +16,6 @@
     <!-- Color of the UDFPS pressed view -->
     <color name="config_udfpsColor">#ffffffff</color>
 
+    <color name="volume_row_bg">@android:color/system_accent2_200</color>
+
 </resources>
