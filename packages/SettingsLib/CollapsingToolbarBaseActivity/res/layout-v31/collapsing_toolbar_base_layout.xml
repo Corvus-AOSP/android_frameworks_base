@@ -45,7 +45,7 @@
             app:scrimAnimationDuration="50"
             app:scrimVisibleHeightTrigger="@dimen/settingslib_scrim_visible_height_trigger"
             app:statusBarScrim="@null"
-            app:titleCollapseMode="fade"
+            app:titleCollapseMode="scale"
             app:collapsedTitleTextAppearance="@style/CollapsingToolbarTitle.Collapsed"
             app:expandedTitleTextAppearance="@style/CollapsingToolbarTitle.Expanded"
             app:expandedTitleMarginStart="@dimen/expanded_title_margin_start"
@@ -57,6 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:theme="?android:attr/actionBarTheme"
+                android:navigationIcon="@drawable/ic_back_arrow"
                 android:transitionName="shared_element_view"
                 app:layout_collapseMode="pin"/>
 
