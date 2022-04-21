@@ -122,6 +122,7 @@ android_library {
         "jsr330",
         "lottie",
         "colorkt",
+        "monet",
         "themelib",
         "bcsmartspace-res",
         "backgesture-google",
