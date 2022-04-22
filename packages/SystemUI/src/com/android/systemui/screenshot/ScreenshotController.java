@@ -182,6 +182,7 @@ public class ScreenshotController {
      */
     static class SavedImageData {
         public Uri uri;
+        public Supplier<ActionTransition> viewTransition;
         public Supplier<ActionTransition> shareTransition;
         public Supplier<ActionTransition> editTransition;
         public Notification.Action deleteAction;
@@ -248,6 +249,7 @@ public class ScreenshotController {
     // ScreenshotNotificationSmartActionsProvider.
     static final String EXTRA_ACTION_TYPE = "android:screenshot_action_type";
     static final String EXTRA_ID = "android:screenshot_id";
+    static final String ACTION_TYPE_VIEW = "View";
     static final String ACTION_TYPE_DELETE = "Delete";
     static final String ACTION_TYPE_SHARE = "Share";
     static final String ACTION_TYPE_EDIT = "Edit";
@@ -1144,11 +1146,11 @@ public class ScreenshotController {
             mSaveInBgTask.setActionsReadyListener(this::logSuccessOnActionsReady);
         }
 
-        mSaveInBgTask = new SaveImageInBackgroundTask(mContext, mImageExporter,
-                mScreenshotSmartActions, data, getActionTransitionSupplier());
+        mSaveInBgTask = new SaveImageInBackgroundTask(mContext, mFlags, mImageExporter,
+                mScreenshotSmartActions, data, getActionTransitionSupplier(),
+                mScreenshotNotificationSmartActionsProvider);
         mSaveInBgTask.execute(getForegroundAppLabel());
     }
-
 
     /**
      * Sets up the action shade and its entrance animation, once we get the screenshot URI.
