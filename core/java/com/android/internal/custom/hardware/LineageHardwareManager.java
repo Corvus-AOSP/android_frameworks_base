@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.android.internal.corvus.hardware;
+package com.android.internal.custom.hardware;
 
 import android.content.Context;
 import android.hidl.base.V1_0.IBase;
@@ -28,7 +28,7 @@ import android.util.Range;
 import com.android.internal.annotations.VisibleForTesting;
 import com.android.internal.util.ArrayUtils;
 
-import com.android.internal.corvus.hardware.HIDLHelper;
+import com.android.internal.custom.hardware.HIDLHelper;
 
 import vendor.lineage.touch.V1_0.IGloveMode;
 import vendor.lineage.touch.V1_0.IHighTouchPollingRate;

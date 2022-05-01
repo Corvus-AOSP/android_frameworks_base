@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.internal.corvus.hardware;
+package com.android.internal.custom.hardware;
 
 import android.util.Range;
 
