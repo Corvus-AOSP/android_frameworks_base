@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="background_blur_radius">65</integer>
-    <item name="background_blur_colour_opacity" format="float" type="dimen">0.65</item>
+    <integer name="background_blur_radius">44</integer>
+    <item name="background_blur_colour_opacity" format="float" type="dimen">0.44</item>
 </resources> 
