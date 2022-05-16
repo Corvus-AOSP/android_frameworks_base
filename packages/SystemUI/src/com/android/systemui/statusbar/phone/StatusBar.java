@@ -242,7 +242,6 @@ import com.android.systemui.util.DumpUtilsKt;
 import com.android.systemui.util.WallpaperController;
 import com.android.systemui.util.concurrency.DelayableExecutor;
 import com.android.systemui.util.concurrency.MessageRouter;
-import com.android.systemui.util.settings.SystemSettings;
 import com.android.systemui.volume.VolumeComponent;
 import com.android.systemui.wmshell.BubblesManager;
 import com.android.wm.shell.bubbles.Bubbles;
@@ -688,8 +687,6 @@ public class StatusBar extends SystemUI implements
     private final WiredChargingRippleController mWiredChargingRippleController;
     private final BurnInProtectionController mBurnInProtectionController;
 
-    private final SystemSettings mSystemSettings;
-
     /**
      * Public constructor for StatusBar.
      *
@@ -799,9 +796,14 @@ public class StatusBar extends SystemUI implements
             TunerService tunerService,
             DumpManager dumpManager,
             ActivityLaunchAnimator activityLaunchAnimator,
+<<<<<<< HEAD
             WiredChargingRippleController wiredChargingRippleController,
             BurnInProtectionController burnInProtectionController,
             SystemSettings systemSettings) {
+=======
+            BurnInProtectionController burnInProtectionController,
+            WiredChargingRippleController wiredChargingRippleController) {
+>>>>>>> f75d7e0116b4 (Revert "[SQUASH]base: Add GamingMode support [1/3]")
         super(context);
         mNotificationsController = notificationsController;
         mFragmentService = fragmentService;
@@ -902,7 +904,6 @@ public class StatusBar extends SystemUI implements
         mStartingSurfaceOptional = startingSurfaceOptional;
         mWiredChargingRippleController = wiredChargingRippleController;
         mBurnInProtectionController = burnInProtectionController;
-        mSystemSettings = systemSettings;
         lockscreenShadeTransitionController.setStatusbar(this);
 
         mPanelExpansionStateManager.addExpansionListener(this::onPanelExpansionChanged);
@@ -1473,8 +1474,7 @@ public class StatusBar extends SystemUI implements
                 mInitController,
                 mNotificationInterruptStateProvider,
                 mRemoteInputManager,
-                mConfigurationController,
-                mSystemSettings);
+                mConfigurationController);
 
         mNotificationShelfController.setOnActivatedListener(mPresenter);
         mRemoteInputManager.addControllerCallback(mNotificationShadeWindowController);
