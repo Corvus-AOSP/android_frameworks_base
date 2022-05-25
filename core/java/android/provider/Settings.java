@@ -5895,16 +5895,22 @@ public final class Settings {
         public static final String BATTERY_LEVEL_COLORS = "battery_level_colors";
 
         /**
-         * Whether to show VoLTE icon or not
+         * Whether to display VoLTE icon when VoLTE present
          * @hide
          */
-        public static final String SHOW_VOLTE_ICON = "show_volte_icon";
+        public static final String VOLTE_ICON_STYLE = "volte_icon_style";
         
         /**
-         * Whether to show VoWiFi icon or not
+         * VoWiFi icon style
          * @hide
          */
-        public static final String SHOW_VOWIFI_ICON = "show_vowifi_icon";
+        public static final String VOWIFI_ICON_STYLE = "vowifi_icon_style";
+
+        /**
+         * Whether VoWiFi icon should override VoLTE icon
+         * @hide
+         */
+        public static final String VOLTE_VOWIFI_OVERRIDE = "volte_vowifi_override";
 
         /**
          * reTicker Status
@@ -6129,6 +6135,9 @@ public final class Settings {
             PRIVATE_SETTINGS.add(HIGH_TOUCH_POLLING_RATE_ENABLE);
             PRIVATE_SETTINGS.add(HIGH_TOUCH_SENSITIVITY_ENABLE);
             PRIVATE_SETTINGS.add(FORCE_FULLSCREEN_CUTOUT_APPS);
+            PRIVATE_SETTINGS.add(VOLTE_ICON_STYLE);
+            PRIVATE_SETTINGS.add(VOWIFI_ICON_STYLE);
+            PRIVATE_SETTINGS.add(VOLTE_VOWIFI_OVERRIDE);
         }
 
 
