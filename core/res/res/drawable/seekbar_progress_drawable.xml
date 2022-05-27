@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2021 The AospExtended Project
+  ~ Copyright (C) 2022 CorvusOS
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,18 +15,23 @@
   ~ limitations under the License.
   -->
 <layer-list
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:gravity="fill_horizontal|center" android:id="@android:id/background">
-        <shape android:tint="?android:attr/colorAccent" android:shape="rectangle" android:alpha="0.8">
-            <size android:height="20dp" />
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <shape android:tint="?android:attr/colorAccent" android:shape="rectangle" android:alpha="0.6">
+            <size android:height="15dp" />
             <solid android:color="#80626161" />
-            <corners android:radius="10dp" />
+            <corners android:radius="69dp" />
         </shape>
     </item>
-    <item android:gravity="fill_horizontal|center" android:id="@android:id/progress">
-        <com.android.internal.graphics.drawable.RoundedCornerProgressDrawable
-            android:drawable="@drawable/seekbar_progress"
-        />
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape android:tint="?android:attr/colorAccent" android:shape="rectangle">
+                <size android:height="15dp" />
+                <stroke android:width="1dp" android:color="#ffffffff" />
+                <solid android:color="#ffffffff" />
+                <corners android:radius="69dp" />
+            </shape>
+        </clip>
     </item>
 </layer-list>
 
