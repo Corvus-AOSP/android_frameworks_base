@@ -1,6 +1,5 @@
 /*
  * Copyright (C) 2018 The OmniROM Project
- *               2020 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +16,8 @@
 
 package com.android.systemui.qs.tiles;
 
+import android.annotation.Nullable;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
@@ -24,64 +25,40 @@ import android.provider.Settings;
 import android.service.quicksettings.Tile;
 import android.view.View;
 
-import androidx.annotation.Nullable;
-
-import com.android.internal.logging.MetricsLogger;
-
 import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
-import com.android.systemui.R;
-import com.android.systemui.plugins.qs.QSTile.BooleanState;
-import com.android.systemui.qs.QSHost;
-import com.android.systemui.qs.SecureSetting;
-import com.android.systemui.qs.tileimpl.QSTileImpl;
-import com.android.systemui.statusbar.policy.BatteryController;
+import com.android.internal.logging.MetricsLogger;
 import com.android.systemui.dagger.qualifiers.Background;
 import com.android.systemui.dagger.qualifiers.Main;
 import com.android.systemui.plugins.ActivityStarter;
 import com.android.systemui.plugins.FalsingManager;
+import com.android.systemui.plugins.qs.QSTile.BooleanState;
 import com.android.systemui.plugins.statusbar.StatusBarStateController;
 import com.android.systemui.qs.logging.QSLogger;
-import com.android.systemui.util.settings.SecureSettings;
+import com.android.systemui.qs.tileimpl.QSTileImpl;
+import com.android.systemui.qs.QSHost;
+import com.android.systemui.R;
 
 import javax.inject.Inject;
 
-public class AODTile extends QSTileImpl<BooleanState> implements
-        BatteryController.BatteryStateChangeCallback {
-
+public class AODTile extends QSTileImpl<BooleanState> {
+    private boolean mAodDisabled;
     private final Icon mIcon = ResourceIcon.get(R.drawable.ic_qs_aod);
-    private final BatteryController mBatteryController;
-
-    private final SecureSetting mSetting;
 
     @Inject
     public AODTile(
-            QSHost host,
-            @Background Looper backgroundLooper,
-            @Main Handler mainHandler,
-            FalsingManager falsingManager,
-            MetricsLogger metricsLogger,
-            StatusBarStateController statusBarStateController,
-            ActivityStarter activityStarter,
-            QSLogger qsLogger,
-            BatteryController batteryController,
-            SecureSettings secureSettings
+        QSHost host,
+        @Background Looper backgroundLooper,
+        @Main Handler mainHandler,
+        FalsingManager falsingManager,
+        MetricsLogger metricsLogger,
+        StatusBarStateController statusBarStateController,
+        ActivityStarter activityStarter,
+        QSLogger qsLogger
     ) {
         super(host, backgroundLooper, mainHandler, falsingManager, metricsLogger,
                 statusBarStateController, activityStarter, qsLogger);
-        mSetting = new SecureSetting(secureSettings, mHandler, Settings.Secure.DOZE_ALWAYS_ON) {
-            @Override
-            protected void handleValueChanged(int value, boolean observedChange) {
-                handleRefreshState(value);
-            }
-        };
-
-        mBatteryController = batteryController;
-        batteryController.observe(getLifecycle(), this);
-    }
-
-    @Override
-    public void onPowerSaveChanged(boolean isPowerSave) {
-        refreshState();
+        mAodDisabled = Settings.Secure.getInt(mContext.getContentResolver(),
+                Settings.Secure.DOZE_ALWAYS_ON, 1) == 0;
     }
 
     @Override
@@ -92,14 +69,15 @@ public class AODTile extends QSTileImpl<BooleanState> implements
 
     @Override
     public BooleanState newTileState() {
-        BooleanState state = new BooleanState();
-        state.handlesLongClick = false;
-        return state;
+        return new BooleanState();
     }
 
     @Override
-    protected void handleClick(@Nullable View view) {
-        setEnabled(!mState.value);
+    public void handleClick(@Nullable View view) {
+        mAodDisabled = !mAodDisabled;
+        Settings.Secure.putInt(mContext.getContentResolver(),
+                Settings.Secure.DOZE_ALWAYS_ON,
+                mAodDisabled ? 0 : 1);
         refreshState();
     }
 
@@ -108,35 +86,24 @@ public class AODTile extends QSTileImpl<BooleanState> implements
         return null;
     }
 
-    private void setEnabled(boolean enabled) {
-        Settings.Secure.putInt(mContext.getContentResolver(),
-                Settings.Secure.DOZE_ALWAYS_ON,
-                enabled ? 1 : 0);
-    }
-
     @Override
     public CharSequence getTileLabel() {
-        if (mBatteryController.isAodPowerSave()) {
-            return mContext.getString(R.string.quick_settings_aod_off_powersave_label);
-        }
         return mContext.getString(R.string.quick_settings_aod_label);
     }
 
     @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
-        final int value = arg instanceof Integer ? (Integer) arg : mSetting.getValue();
-        final boolean enable = value != 0;
         if (state.slash == null) {
             state.slash = new SlashState();
         }
         state.icon = mIcon;
-        state.value = enable;
+        state.value = mAodDisabled;
         state.slash.isSlashed = state.value;
         state.label = mContext.getString(R.string.quick_settings_aod_label);
-        if (mBatteryController.isAodPowerSave()) {
-            state.state = Tile.STATE_UNAVAILABLE;
+        if (mAodDisabled) {
+            state.state = Tile.STATE_INACTIVE;
         } else {
-            state.state = enable ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE;
+            state.state = Tile.STATE_ACTIVE;
         }
     }
 
@@ -147,5 +114,6 @@ public class AODTile extends QSTileImpl<BooleanState> implements
 
     @Override
     public void handleSetListening(boolean listening) {
+        // Do nothing
     }
 }
