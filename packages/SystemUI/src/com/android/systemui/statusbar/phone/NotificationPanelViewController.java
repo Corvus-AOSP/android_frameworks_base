@@ -652,14 +652,10 @@ public class NotificationPanelViewController extends PanelViewController {
 
     private Optional<KeyguardUnfoldTransition> mKeyguardUnfoldTransition;
 
-<<<<<<< HEAD
     private String[] mAppExceptions;
-=======
+    
     private NotificationStackScrollLayout mStackScrollLayout;
     private KeyguardStatusView mKeyguardStatusView;
-
-    private boolean mBlockedGesturalNavigation;
->>>>>>> e3c03276c553 (base: Support using notification color for pulse light)
 
     /*Reticker*/
     private LinearLayout mReTickerComeback;
