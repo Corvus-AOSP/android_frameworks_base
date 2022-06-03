@@ -81,4 +81,9 @@
 
     <!-- Preferred max refresh rate at AOD & Ambient Display, if supported by the display. -->
     <integer name="config_aodMaxRefreshRate">-1</integer>
+    
+    <!-- QuickSettings configs -->
+    <bool name="qs_tile_vertical_layout">false</bool>
+    <integer name="quick_qs_panel_max_columns">4</integer>
+
 </resources>
