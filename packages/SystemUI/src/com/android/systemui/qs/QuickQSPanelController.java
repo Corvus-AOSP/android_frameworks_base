@@ -153,7 +153,7 @@ public class QuickQSPanelController extends QSPanelControllerBase<QuickQSPanel> 
         setTiles();
     }
 
-    @Override
+     @Override
     public void refreshAllTiles() {
         mBrightnessController.checkRestrictionAndSetEnabled();
         super.refreshAllTiles();

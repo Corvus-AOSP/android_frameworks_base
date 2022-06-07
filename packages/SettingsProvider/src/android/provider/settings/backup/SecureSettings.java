@@ -198,5 +198,6 @@ public class SecureSettings {
         Settings.Secure.LOCKSCREEN_USE_DOUBLE_LINE_CLOCK,
         Settings.Secure.GESTURE_NAVBAR_LENGTH_MODE,
         Settings.Secure.ENABLE_LOCATION_PRIVACY_INDICATOR,
+        Settings.Secure.STATUS_BAR_SHOW_VIBRATE_ICON,
     };
 }

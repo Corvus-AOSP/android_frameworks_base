@@ -128,7 +128,7 @@ class QuickQSPanelControllerTest : SysuiTestCase() {
     }
 
     @Test
-    fun testBrightnessAndFooterVisibilityRefreshedWhenConfigurationChanged() {
+     fun testBrightnessAndFooterVisibilityRefreshedWhenConfigurationChanged() {
         // times(2) because both controller and base controller are registering their listeners
         verify(quickQSPanel, times(2)).addOnConfigurationChangedListener(captor.capture())
 
