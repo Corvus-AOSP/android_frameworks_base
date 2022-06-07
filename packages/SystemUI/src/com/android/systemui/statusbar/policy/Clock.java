@@ -114,9 +114,13 @@ public class Clock extends TextView implements
     public static final int STYLE_DATE_LEFT = 0;
     public static final int STYLE_DATE_RIGHT = 1;
 
+    public static final int DEFAULT_CLOCK_SIZE = 14;
+
     protected int mClockDateDisplay = CLOCK_DATE_DISPLAY_GONE;
     protected int mClockDateStyle = CLOCK_DATE_STYLE_REGULAR;
     protected int mClockStyle = STYLE_CLOCK_LEFT;
+    protected int mClockSize = 14;
+    protected int mClockSizeQsHeader = 14;
     protected String mClockDateFormat = null;
     protected int mClockDatePosition;
     protected boolean mShowClock = true;
@@ -164,12 +168,19 @@ public class Clock extends TextView implements
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUSBAR_CLOCK_DATE_POSITION),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_CLOCK_SIZE),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_HEADER_CLOCK_SIZE),
+                    false, this, UserHandle.USER_ALL);
             updateSettings();
         }
 
         @Override
         public void onChange(boolean selfChange) {
             updateSettings();
+            updateClockSize();
         }
     }
 
@@ -272,6 +283,7 @@ public class Clock extends TextView implements
         mSettingsObserver.observe();
         updateSettings();
         updateShowSeconds();
+        updateClockSize();
     }
 
     @Override
@@ -622,6 +634,7 @@ public class Clock extends TextView implements
             updateClockVisibility();
             updateClock();
             updateShowSeconds();
+            updateClockSize();
         }
     }
 
@@ -696,4 +709,19 @@ public class Clock extends TextView implements
             mSecondsHandler.postAtTime(this, SystemClock.uptimeMillis() / 1000 * 1000 + 1000);
         }
     };
+
+    public void updateClockSize() {
+        mClockSize = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.STATUS_BAR_CLOCK_SIZE, DEFAULT_CLOCK_SIZE,
+                UserHandle.USER_CURRENT);
+        mClockSizeQsHeader = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.QS_HEADER_CLOCK_SIZE, DEFAULT_CLOCK_SIZE,
+        UserHandle.USER_CURRENT);
+	    if(mQsHeader) {
+            setTextSize(mClockSizeQsHeader);
+        } else {
+            setTextSize(mClockSize);
+        }
+            updateClock();
+    }
 }
