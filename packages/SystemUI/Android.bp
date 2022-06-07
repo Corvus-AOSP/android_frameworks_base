@@ -83,7 +83,6 @@ android_library {
     resource_dirs: [
         "res-product",
         "res-keyguard",
-        "res-smartspace",
         "res",
         "res-blur",
     ],
@@ -124,6 +123,7 @@ android_library {
         "lottie",
         "colorkt",
         "themelib",
+        "bcsmartspace-res",
         "backgesture-google",
         "smartspace-google",
         "tensorflowlite_java",
