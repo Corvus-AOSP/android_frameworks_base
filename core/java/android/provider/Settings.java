@@ -5636,6 +5636,12 @@ public final class Settings {
         public static final String DATA_DISABLED_ICON = "data_disabled_icon";
 
         /**
+         * Whether to combine wifi and signal icons
+         * @hide
+         */
+        public static final String COMBINED_STATUS_BAR_SIGNAL_ICONS = "combined_status_bar_signal_icons";
+
+        /**
          * Whether to enable status and navigation bar color in battery saver mode.
          * Heads up timeout configuration
          * @hide
@@ -11361,11 +11367,6 @@ public final class Settings {
          * @hide
          */
         public static final String ENABLE_LOCATION_PRIVACY_INDICATOR = "enable_location_privacy_indicator";
-        
-        /**
-         * @hide
-         */
-        public static final String SHOW_COMBINED_STATUS_BAR_SIGNAL_ICONS = "show_combined_status_bar_signal_icons";
 
         /**
          * Whether tethering is allowed to use VPN upstreams
