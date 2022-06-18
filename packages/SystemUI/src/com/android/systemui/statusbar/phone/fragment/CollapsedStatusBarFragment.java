@@ -749,6 +749,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
             mRightClock.setBackgroundResource(0);
             mRightClock.setPadding(0,0,0,0);
         }
+        
         updateClockStyle(animate);
     }
 
