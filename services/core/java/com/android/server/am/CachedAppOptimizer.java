@@ -1112,6 +1112,7 @@ public final class CachedAppOptimizer {
         }
     }
 
+    @GuardedBy("mProcLock")
     void onWakefulnessChanged(int wakefulness) {
         if(wakefulness == PowerManagerInternal.WAKEFULNESS_AWAKE) {
             // Remove any pending compaction we may have scheduled to happen while screen was off
