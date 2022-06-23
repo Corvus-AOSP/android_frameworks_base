@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:minHeight="48dp"
+            android:minHeight="@dimen/brightness_mirror_height"
             android:thumb="@null"
             android:background="@null"
             android:paddingStart="0dp"
