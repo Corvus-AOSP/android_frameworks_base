@@ -41,16 +41,23 @@ public class QuickQSPanel extends QSPanel implements TunerService.Tunable {
     // A fallback value for max tiles number when setting via Tuner (parseNumTiles)
     public static final int TUNER_MAX_TILES_FALLBACK = 6;
     // A default value so that we never return 0.
-    public static final int DEFAULT_MAX_TILES = 42;
     public static final int DEFAULT_MIN_TILES = 4;
+    public static final int DEFAULT_MIN_TILES_TWO = 3;
 
     private boolean mDisabledByPolicy;
     private int mMaxTiles;
 
     public QuickQSPanel(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mMaxTiles = Math.min(DEFAULT_MAX_TILES, Math.max(DEFAULT_MIN_TILES,
-                getResources().getInteger(R.integer.quick_qs_panel_max_columns)));
+    	boolean isLandscape = getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_LANDSCAPE;
+	    int portraitValue = Math.max(2, getResources().getInteger(R.integer.quick_settings_num_columns));
+	    portraitValue = CorvusUtils.getQuickQSColumnsPortrait(mContext, portraitValue);
+        if (!isLandscape && portraitValue == 2) {
+            mMaxTiles = Math.max(DEFAULT_MIN_TILES, getResources().getInteger(R.integer.quick_qs_panel_max_tiles));
+	    } else {
+            mMaxTiles = Math.max(DEFAULT_MIN_TILES_TWO, getResources().getInteger(R.integer.quick_qs_panel_max_tiles));
+        }
     }
 
     @Override
@@ -141,7 +148,15 @@ public class QuickQSPanel extends QSPanel implements TunerService.Tunable {
     }
 
     public void setMaxTiles(int maxTiles) {
-        mMaxTiles = Math.min(DEFAULT_MAX_TILES, Math.max(DEFAULT_MIN_TILES, maxTiles));
+    	boolean isLandscape = getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_LANDSCAPE;
+	    int portraitValue = Math.max(2, getResources().getInteger(R.integer.quick_settings_num_columns));
+	    portraitValue = CorvusUtils.getQuickQSColumnsPortrait(mContext, portraitValue);
+        if (!isLandscape && portraitValue == 2) {
+            mMaxTiles = Math.max(DEFAULT_MIN_TILES, maxTiles);
+	    } else {
+	        mMaxTiles = Math.max(DEFAULT_MIN_TILES_TWO, maxTiles);
+        }
     }
 
     @Override
@@ -258,7 +273,13 @@ public class QuickQSPanel extends QSPanel implements TunerService.Tunable {
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
                     LayoutParams.WRAP_CONTENT);
             setLayoutParams(lp);
-            setMaxColumns(getResourceColumns());
+            boolean isLandscape = getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_LANDSCAPE;
+            if (isLandscape) {
+            setMaxColumns(getResourceColumnsLand());
+            } else {
+            setMaxColumns(getResourceColumnsPortrait());
+            }
         }
 
         @Override
@@ -273,6 +294,12 @@ public class QuickQSPanel extends QSPanel implements TunerService.Tunable {
         protected void onConfigurationChanged(Configuration newConfig) {
             super.onConfigurationChanged(newConfig);
             updateResources();
+            boolean isLandscape = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE;
+             if (isLandscape) {
+            	mQSPanel.setMaxTiles(getResourceColumnsLand());
+             } else {
+                mQSPanel.setMaxTiles(getResourceColumnsPortrait());
+             }
         }
 
         @Override
@@ -322,16 +349,27 @@ public class QuickQSPanel extends QSPanel implements TunerService.Tunable {
         }
 
         @Override
-        public int getResourceColumns() {
-            int columns = Math.min(DEFAULT_MAX_TILES,
-                    getResources().getInteger(R.integer.quick_qs_panel_max_columns));
-            return CorvusUtils.getQuickQSColumnsCount(mContext, columns);
-        }
+    	public int getResourceColumnsPortrait() {
+        	int resourceColumns = Math.max(2, getResources().getInteger(R.integer.quick_settings_num_columns));
+        	return CorvusUtils.getQuickQSColumnsPortrait(mContext, resourceColumns);
+    	}
+    
+        @Override
+    	public int getResourceColumnsLand() {
+        	int resourceColumnsLand = Math.max(4, getResources().getInteger(R.integer.quick_settings_num_columns_landscape));
+        	return CorvusUtils.getQuickQSColumnsLandscape(mContext, resourceColumnsLand);
+    	}
 
         @Override
         public void updateSettings() {
-            mQSPanel.setMaxTiles(getResourceColumns());
-            super.updateSettings();
+    	boolean isLandscape = getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_LANDSCAPE;
+        if (isLandscape) {
+            mQSPanel.setMaxTiles(getResourceColumnsLand());
+        } else {
+            mQSPanel.setMaxTiles(getResourceColumnsPortrait());
+        }
+        super.updateSettings();
         }
     }
 }

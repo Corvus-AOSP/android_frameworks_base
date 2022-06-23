@@ -379,24 +379,30 @@ public class CorvusUtils {
         }
     }
 
-    public static int getQSColumnsCount(Context context, int resourceCount) {
+    public static int getQSColumnsPortrait(Context context, int resourceCount) {
         final int QS_COLUMNS_MIN = 2;
-        final Resources res = context.getResources();
         int value = QS_COLUMNS_MIN;
-        if (res.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             value = Settings.System.getIntForUser(
                     context.getContentResolver(), "qs_layout_columns",
                     resourceCount, UserHandle.USER_CURRENT);
-        } else {
+        return Math.max(QS_COLUMNS_MIN, value);
+    }
+    
+    public static int getQSColumnsLandscape(Context context, int resourceCount) {
+        final int QS_COLUMNS_MIN = 4;
+        int value = QS_COLUMNS_MIN;
             value = Settings.System.getIntForUser(
                     context.getContentResolver(), "qs_layout_columns_landscape",
                     resourceCount, UserHandle.USER_CURRENT);
-        }
         return Math.max(QS_COLUMNS_MIN, value);
     }
 
-    public static int getQuickQSColumnsCount(Context context, int resourceCount) {
-        return getQSColumnsCount(context, resourceCount);
+    public static int getQuickQSColumnsPortrait(Context context, int resourceCount) {
+        return getQSColumnsPortrait(context, resourceCount);
+    }
+
+    public static int getQuickQSColumnsLandscape(Context context, int resourceCount) {
+        return getQSColumnsLandscape(context, resourceCount);
     }
 
     public static boolean getQSTileLabelHide(Context context) {

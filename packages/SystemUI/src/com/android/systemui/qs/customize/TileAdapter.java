@@ -17,6 +17,7 @@ package com.android.systemui.qs.customize;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -120,9 +121,8 @@ public class TileAdapter extends RecyclerView.Adapter<Holder> implements TileSta
         mDecoration = new TileItemDecoration(context);
         mMarginDecoration = new MarginTileDecoration();
         mMinNumTiles = context.getResources().getInteger(R.integer.quick_settings_min_num_tiles);
-        mNumColumns = context.getResources().getInteger(NUM_COLUMNS_ID);
+        mNumColumns = 2;
         //mAccessibilityDelegate = new TileAdapterDelegate();
-        mNumColumns = CorvusUtils.getQSColumnsCount(mContext, mNumColumns);
         mSizeLookup.setSpanIndexCacheEnabled(true);
     }
 
@@ -142,14 +142,7 @@ public class TileAdapter extends RecyclerView.Adapter<Holder> implements TileSta
      * @return {@code true} if the number of columns changed, {@code false} otherwise
      */
     public boolean updateNumColumns() {
-        int numColumns = mContext.getResources().getInteger(NUM_COLUMNS_ID);
-        numColumns = CorvusUtils.getQSColumnsCount(mContext, numColumns);
-        if (numColumns != mNumColumns) {
-            mNumColumns = numColumns;
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
 
     public int getNumColumns() {
@@ -654,7 +647,7 @@ public class TileAdapter extends RecyclerView.Adapter<Holder> implements TileSta
         public int getSpanSize(int position) {
             final int type = getItemViewType(position);
             if (type == TYPE_EDIT || type == TYPE_DIVIDER || type == TYPE_HEADER) {
-                return mNumColumns;
+                return 2;
             } else {
                 return 1;
             }

@@ -4,6 +4,7 @@ import static com.android.systemui.util.Utils.useQsMediaPlayer;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.Configuration;
 import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.View;
@@ -138,7 +139,13 @@ public class TileLayout extends ViewGroup implements QSTileLayout {
 
     private boolean updateColumns() {
         int oldColumns = mColumns;
-        mColumns = Math.min(getResourceColumns(), mMaxColumns);
+    	boolean isPortrait = getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_PORTRAIT;
+	if (isPortrait) {
+        mColumns = Math.min(getResourceColumnsPortrait(), mMaxColumns);
+        } else {
+        mColumns = Math.min(getResourceColumnsLand(), mMaxColumns);
+        }
         return oldColumns != mColumns;
     }
 
@@ -301,14 +308,25 @@ public class TileLayout extends ViewGroup implements QSTileLayout {
     }
 
     @Override
-    public int getResourceColumns() {
+    public int getResourceColumnsPortrait() {
         int resourceColumns = Math.max(2, getResources().getInteger(R.integer.quick_settings_num_columns));
-        return CorvusUtils.getQSColumnsCount(mContext, resourceColumns);
+        return CorvusUtils.getQSColumnsPortrait(mContext, resourceColumns);
+    }
+    
+    public int getResourceColumnsLand() {
+        int resourceColumnsLand = Math.max(4, getResources().getInteger(R.integer.quick_settings_num_columns_landscape));
+        return CorvusUtils.getQSColumnsLandscape(mContext, resourceColumnsLand);
     }
 
     @Override
     public void updateSettings() {
-        setMaxColumns(getResourceColumns());
+    	boolean isPortrait = getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_PORTRAIT;
+	if (isPortrait) {
+        setMaxColumns(getResourceColumnsPortrait());
+        } else {
+        setMaxColumns(getResourceColumnsLand());
+        }
         requestLayout();
     }
 }
