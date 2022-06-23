@@ -30,28 +30,34 @@
         android:id="@+id/clock_container"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
+        android:minHeight="@dimen/qs_header_row_min_height"
+        android:layout_marginTop="2dp"
+        android:orientation="vertical"
         android:layout_gravity="center_vertical|start"
         android:gravity="center_vertical|start"
         >
 
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
         <com.android.systemui.statusbar.policy.Clock
             android:id="@+id/clock"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:minHeight="@dimen/qs_header_row_min_height"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical|start"
-            android:paddingStart="@dimen/status_bar_left_clock_starting_padding"
-            android:paddingEnd="@dimen/status_bar_left_clock_end_padding"
             android:singleLine="true"
+            android:layout_marginStart="2dp"
             android:textAppearance="@style/TextAppearance.QS.Status" />
+
+        </FrameLayout>
 
         <com.android.systemui.statusbar.policy.VariableDateView
             android:id="@+id/date_clock"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/status_bar_left_clock_end_padding"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical|start"
+            android:layout_marginStart="2dp"
             android:singleLine="true"
             android:textAppearance="@style/TextAppearance.QS.Status"
             systemui:longDatePattern="@string/abbrev_wday_month_day_no_year_alarm"

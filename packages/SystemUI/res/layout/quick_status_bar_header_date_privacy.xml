@@ -32,6 +32,7 @@
         android:id="@+id/date_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_marginStart="2dp"
         android:minHeight="48dp"
         android:layout_weight="1"
         android:gravity="center_vertical|start" >
@@ -41,6 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="2dp"
             android:gravity="center_vertical"
             android:singleLine="true"
             android:textAppearance="@style/TextAppearance.QS.Status"
