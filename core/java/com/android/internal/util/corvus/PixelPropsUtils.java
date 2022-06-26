@@ -56,6 +56,8 @@ public class PixelPropsUtils {
             "com.google.android.apps.wallpaper.pixel",
             "com.google.pixel.dynamicwallpapers",
             "com.google.pixel.livewallpaper",
+            "com.google.android.as",
+	        "com.google.android.inputmethod.latin",
             PACKAGE_GMS
     };
 
