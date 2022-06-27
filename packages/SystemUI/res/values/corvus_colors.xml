@@ -20,4 +20,6 @@
 
     <color name="reticker_background_color">?android:attr/colorBackgroundFloating</color>
 
+    <color name="qs_ripple_color">@android:color/system_accent1_400</color>
+
 </resources>
