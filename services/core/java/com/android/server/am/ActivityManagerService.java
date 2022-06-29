@@ -7520,6 +7520,7 @@ public class ActivityManagerService extends IActivityManager.Stub
                 NETWORK_ACCESS_TIMEOUT_MS, NETWORK_ACCESS_TIMEOUT_DEFAULT_MS);
         mHiddenApiBlacklist.registerObserver();
         mPlatformCompat.registerContentObserver();
+        mOomAdjuster.registerContentObserver();
 
         mAppProfiler.retrieveSettings();
 
@@ -17310,6 +17311,17 @@ public class ActivityManagerService extends IActivityManager.Stub
             return mOomAdjuster.mCachedAppOptimizer.enableFreezer(enable);
         } else {
             throw new SecurityException("Caller uid " + callerUid + " cannot set freezer state ");
+        }
+    }
+
+    @Override
+    public boolean isAppFreezerEnabled() {
+        final long token = Binder.clearCallingIdentity();
+
+        try {
+            return mOomAdjuster.mCachedAppOptimizer.useFreezer();
+        } finally {
+            Binder.restoreCallingIdentity(token);
         }
     }
 
