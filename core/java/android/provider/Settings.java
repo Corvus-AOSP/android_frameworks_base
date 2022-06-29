@@ -5535,6 +5535,12 @@ public final class Settings {
         public static final String DESKTOP_MODE = "desktop_mode";
         
         /**
+         * Whether to enable fingerprint wake-and-unlock.
+         * @hide
+         */
+        public static final String FINGERPRINT_WAKE_UNLOCK = "fingerprint_wake_unlock";
+
+        /**
          * Whether the phone ringtone should be played in an increasing manner
          * @hide
          */
