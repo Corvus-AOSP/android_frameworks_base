@@ -31,7 +31,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:minHeight="@dimen/qs_header_row_min_height"
-        android:layout_marginTop="2dp"
         android:orientation="vertical"
         android:layout_gravity="center_vertical|start"
         android:gravity="center_vertical|start"
