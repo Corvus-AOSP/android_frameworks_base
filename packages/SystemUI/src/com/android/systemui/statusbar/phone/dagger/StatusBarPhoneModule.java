@@ -244,18 +244,8 @@ public interface StatusBarPhoneModule {
             TunerService tunerService,
             DumpManager dumpManager,
             ActivityLaunchAnimator activityLaunchAnimator,
-<<<<<<< HEAD
             WiredChargingRippleController wiredChargingRippleController,
             BurnInProtectionController burnInProtectionController) {
-=======
-            BurnInProtectionController burnInProtectionController,
-<<<<<<< HEAD
-            WiredChargingRippleController wiredChargingRippleController,
-            SystemSettings systemSettings) {
->>>>>>> 5ca2c492aa38 ([SQUASH]base: Add GamingMode support [1/3])
-=======
-            WiredChargingRippleController wiredChargingRippleController) {
->>>>>>> f75d7e0116b4 (Revert "[SQUASH]base: Add GamingMode support [1/3]")
         return new StatusBar(
                 context,
                 notificationsController,

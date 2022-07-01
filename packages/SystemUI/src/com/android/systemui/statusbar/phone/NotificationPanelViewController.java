@@ -1357,11 +1357,8 @@ public class NotificationPanelViewController extends PanelViewController {
         int userSwitcherPreferredY = mStatusBarHeaderHeightKeyguard;
         boolean bypassEnabled = mKeyguardBypassController.getBypassEnabled();
         final boolean hasVisibleNotifications = mNotificationStackScrollLayoutController
-<<<<<<< HEAD
                 .getVisibleNotificationCount() != 0
-                || mMediaDataManager.hasActiveMediaOrRecommendation();
-=======
-                .getVisibleNotificationCount() != 0 || mMediaDataManager.hasActiveMedia();
+                || mMediaDataManager.hasActiveMediaOrRecommendation();                
         boolean splitShadeWithActiveMedia =
                 mShouldUseSplitNotificationShade
                         && mMediaDataManager.hasActiveMediaOrRecommendation();
