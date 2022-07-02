@@ -43,8 +43,8 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottie_view"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_width="@dimen/settingslib_illustration_width"
+            android:layout_height="@dimen/settingslib_illustration_height"
             android:layout_gravity="center" />
 
         <FrameLayout
