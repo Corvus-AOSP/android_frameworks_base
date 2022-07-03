@@ -176,9 +176,6 @@ public class UdfpsController implements DozeReceiver, UdfpsHbmProvider {
     private int mStatusbarHeight;
     private UdfpsAnimation mUdfpsAnimation;
 
-    private boolean mCutoutMasked;
-    private int mStatusbarHeight;
-
     @VisibleForTesting
     public static final AudioAttributes VIBRATION_SONIFICATION_ATTRIBUTES =
             new AudioAttributes.Builder()
