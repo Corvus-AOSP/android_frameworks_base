@@ -127,7 +127,7 @@ import com.android.systemui.unfold.SysUIUnfoldComponent;
 import com.android.systemui.unfold.UnfoldLightRevealOverlayAnimation;
 import com.android.systemui.util.DeviceConfigProxy;
 
-import com.android.internal.util.evolution.udfps.UdfpsUtils;
+import com.android.internal.util.corvus.udfps.UdfpsUtils;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;

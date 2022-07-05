@@ -146,9 +146,9 @@ public class ScreenMediaRecorder {
         DisplayMetrics metrics = new DisplayMetrics();
         WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
         wm.getDefaultDisplay().getRealMetrics(metrics);
-        if (mMaxRefreshRate != 0 && refreshRate > mMaxRefreshRate) refreshRate = mMaxRefreshRate;
         int refreshRate = mLowQuality ? LOW_FRAME_RATE
                 : (int) wm.getDefaultDisplay().getRefreshRate();
+        if (mMaxRefreshRate != 0 && refreshRate > mMaxRefreshRate) refreshRate = mMaxRefreshRate;
         int[] dimens = getSupportedSize(metrics.widthPixels, metrics.heightPixels, refreshRate);
         int width = dimens[0];
         int height = dimens[1];
