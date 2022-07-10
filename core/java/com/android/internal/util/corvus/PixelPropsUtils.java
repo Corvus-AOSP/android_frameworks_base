@@ -134,6 +134,7 @@ public class PixelPropsUtils {
     };
 
     private static final String[] packagesToChangeMI11 = {
+            "com.ea.gp.apexlegendsmobilefps",
             "com.mobile.legends",
             "com.tencent.tmgp.sgame"
     };
