@@ -214,6 +214,11 @@ public class SystemSettingsValidators {
         VALIDATORS.put(System.VIBRATE_ON_CONNECT, BOOLEAN_VALIDATOR);
         VALIDATORS.put(System.VIBRATE_ON_CALLWAITING, BOOLEAN_VALIDATOR);
         VALIDATORS.put(System.VIBRATE_ON_DISCONNECT, BOOLEAN_VALIDATOR);
+        VALIDATORS.put(System.ARTWORK_MEDIA_BACKGROUND, BOOLEAN_VALIDATOR);
+        VALIDATORS.put(System.ARTWORK_MEDIA_BACKGROUND_ENABLE_BLUR, BOOLEAN_VALIDATOR);
+        VALIDATORS.put(System.ARTWORK_MEDIA_BACKGROUND_BLUR_RADIUS, new InclusiveFloatRangeValidator(1f, 25f));
+        VALIDATORS.put(System.ARTWORK_MEDIA_BACKGROUND_FADE_PERCENT, new InclusiveIntegerRangeValidator(1, 50));
+        VALIDATORS.put(System.ARTWORK_MEDIA_BACKGROUND_ALPHA, new InclusiveIntegerRangeValidator(0, 255));
         VALIDATORS.put(System.RINGTONE_VIBRATION_PATTERN, new InclusiveIntegerRangeValidator(0, 5));
         VALIDATORS.put(System.CUSTOM_RINGTONE_VIBRATION_PATTERN,
                 new Validator() {
