@@ -104,10 +104,9 @@ public class SystemSettings {
         Settings.System.AOD_NOTIFICATION_PULSE_TIMEOUT,
         Settings.System.NOTIFICATION_PULSE_DURATION,
         Settings.System.ENABLE_RIPPLE_EFFECT,
-        Settings.System.ARTWORK_MEDIA_BACKGROUND,
-        Settings.System.ARTWORK_MEDIA_BACKGROUND_ENABLE_BLUR,
-        Settings.System.ARTWORK_MEDIA_BACKGROUND_BLUR_RADIUS,
-        Settings.System.ARTWORK_MEDIA_BACKGROUND_FADE_PERCENT,
-        Settings.System.ARTWORK_MEDIA_BACKGROUND_ALPHA,
+        Settings.System.MEDIA_ARTWORK_ENABLED,
+        Settings.System.MEDIA_ARTWORK_BLUR_ENABLED,
+        Settings.System.MEDIA_ARTWORK_BLUR_RADIUS,
+        Settings.System.MEDIA_ARTWORK_FADE_PERCENT
     };
 }
