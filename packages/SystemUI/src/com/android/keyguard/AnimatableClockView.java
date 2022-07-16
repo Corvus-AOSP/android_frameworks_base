@@ -41,6 +41,8 @@ import kotlin.Unit;
 public class AnimatableClockView extends TextView {
     private static final CharSequence DOUBLE_LINE_FORMAT_12_HOUR = "hh\nmm";
     private static final CharSequence DOUBLE_LINE_FORMAT_24_HOUR = "HH\nmm";
+    private static final CharSequence NOTHING_DOUBLE_LINE_FORMAT_12_HOUR = "hh:mm";
+    private static final CharSequence NOTHING_DOUBLE_LINE_FORMAT_24_HOUR = "HH:mm";
     private static final long DOZE_ANIM_DURATION = 300;
     private static final long APPEAR_ANIM_DURATION = 350;
     private static final long CHARGE_ANIM_DURATION_PHASE_0 = 500;
@@ -267,7 +269,8 @@ public class AnimatableClockView extends TextView {
 
     void refreshFormat() {
         Patterns.update(mContext);
-
+	
+	String font = mContext.getString(com.android.internal.R.string.config_headlineFontFamily);
         final boolean use24HourFormat = DateFormat.is24HourFormat(getContext());
         if (mIsSingleLine && use24HourFormat) {
             mFormat = Patterns.sClockView24;
@@ -275,6 +278,10 @@ public class AnimatableClockView extends TextView {
             mFormat = DOUBLE_LINE_FORMAT_24_HOUR;
         } else if (mIsSingleLine && !use24HourFormat) {
             mFormat = Patterns.sClockView12;
+        } else if (!mIsSingleLine && use24HourFormat && font.equalsIgnoreCase("nothingdot57")) {
+            mFormat = NOTHING_DOUBLE_LINE_FORMAT_24_HOUR;
+        } else if (!mIsSingleLine && font.equalsIgnoreCase("nothingdot57")) {
+            mFormat = NOTHING_DOUBLE_LINE_FORMAT_12_HOUR;
         } else {
             mFormat = DOUBLE_LINE_FORMAT_12_HOUR;
         }
