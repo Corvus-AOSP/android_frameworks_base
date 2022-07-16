@@ -191,10 +191,12 @@ public class KeyguardClockSwitch extends RelativeLayout {
              || font.equalsIgnoreCase("jtleonor-bold")
              || font.equalsIgnoreCase("linotte-bold")
              || font.equalsIgnoreCase("nokiapure-regular")) {
-        Typeface fallback = Typeface.create("googlesans-regular", Typeface.NORMAL);
                 
-        mClockView.setTypeface(fallback);
-        mLargeClockView.setTypeface(fallback);
+        mClockView.setIncludeFontPadding(false);
+        mLargeClockView.setIncludeFontPadding(false);
+        } else { 
+        mClockView.setIncludeFontPadding(true);
+        mLargeClockView.setIncludeFontPadding(true);
         }
     }
 
