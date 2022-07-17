@@ -25,6 +25,8 @@ import android.graphics.Color;
 import android.graphics.drawable.Animatable2;
 import android.graphics.drawable.Animatable2.AnimationCallback;
 import android.graphics.drawable.Drawable;
+import android.os.UserHandle;
+import android.provider.Settings.System;
 import android.service.quicksettings.Tile;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +39,8 @@ import com.android.systemui.plugins.qs.QSIconView;
 import com.android.systemui.plugins.qs.QSTile;
 import com.android.systemui.plugins.qs.QSTile.State;
 import com.android.systemui.qs.AlphaControlledSignalTileView.AlphaControlledSlashImageView;
+
+import android.provider.Settings.System;
 
 import java.util.Objects;
 
@@ -189,6 +193,10 @@ public class QSIconViewImpl extends QSIconView {
             ((AlphaControlledSlashImageView)iv)
                     .setFinalImageTintList(ColorStateList.valueOf(toColor));
         }
+
+        int qsPanelStyle = System.getIntForUser(getContext().getContentResolver(),
+                     System.QS_PANEL_STYLE, 0, UserHandle.USER_CURRENT);
+
         if (mAnimationEnabled && ValueAnimator.areAnimatorsEnabled()) {
             final float fromAlpha = Color.alpha(fromColor);
             final float toAlpha = Color.alpha(toColor);
@@ -201,8 +209,12 @@ public class QSIconViewImpl extends QSIconView {
                 float fraction = animation.getAnimatedFraction();
                 int alpha = (int) (fromAlpha + (toAlpha - fromAlpha) * fraction);
                 int channel = (int) (fromChannel + (toChannel - fromChannel) * fraction);
-
-                setTint(iv, Color.argb(alpha, channel, channel, channel));
+                
+                if(qsPanelStyle > 1) {
+                    setTint(iv, toColor);
+                } else {
+                    setTint(iv, Color.argb(alpha, channel, channel, channel));
+                }
             });
             anim.addListener(new AnimatorListenerAdapter() {
                 @Override
@@ -245,6 +257,9 @@ public class QSIconViewImpl extends QSIconView {
      * Color to tint the tile icon based on state
      */
     public static int getIconColorForState(Context context, int state) {
+        int qsPanelStyle = System.getIntForUser(context.getContentResolver(),
+                     System.QS_PANEL_STYLE, 0, UserHandle.USER_CURRENT);
+
         switch (state) {
             case Tile.STATE_UNAVAILABLE:
                 return Utils.applyAlpha(QSTileViewImpl.UNAVAILABLE_ALPHA,
@@ -252,6 +267,10 @@ public class QSIconViewImpl extends QSIconView {
             case Tile.STATE_INACTIVE:
                 return Utils.getColorAttrDefaultColor(context, android.R.attr.textColorPrimary);
             case Tile.STATE_ACTIVE:
+                if(qsPanelStyle == 3)
+                return Utils.getColorAttrDefaultColor(context,
+                        android.R.attr.colorAccent);
+                else
                 return Utils.getColorAttrDefaultColor(context,
                         android.R.attr.textColorPrimaryInverse);
             default:
