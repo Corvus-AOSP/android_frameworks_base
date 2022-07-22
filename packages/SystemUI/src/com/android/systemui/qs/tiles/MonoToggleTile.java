@@ -105,11 +105,13 @@ public class MonoToggleTile extends QSTileImpl<BooleanState> {
             state.icon = ResourceIcon.get(R.drawable.ic_mono_toggle_on);
             state.contentDescription =  mContext.getString(
                     R.string.quick_settings_monotoggle_tile_mono);
+            state.state = Tile.STATE_ACTIVE;
         } else {
             state.label = mContext.getString(R.string.quick_settings_monotoggle_tile_stereo);
             state.icon = ResourceIcon.get(R.drawable.ic_mono_toggle_off);
             state.contentDescription =  mContext.getString(
                     R.string.quick_settings_monotoggle_tile_stereo);
+            state.state = Tile.STATE_INACTIVE;
         }
     }
 }
