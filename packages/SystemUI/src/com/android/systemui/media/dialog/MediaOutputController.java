@@ -482,7 +482,7 @@ public class MediaOutputController implements LocalMediaManager.DeviceCallback {
                 mDialogManager);
         MediaOutputGroupDialog dialog = new MediaOutputGroupDialog(mContext, mAboveStatusbar,
                 controller, mDialogManager);
-        dialog.show();
+        mDialogLaunchAnimator.showFromView(dialog, mediaOutputDialog);
     }
 
     boolean isActiveRemoteDevice(@NonNull MediaDevice device) {
