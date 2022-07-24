@@ -28,6 +28,7 @@ LOCAL_REQUIRED_MODULES := \
 	NavigationBarMode2ButtonOverlay \
 	NoCutoutOverlay \
 	AvoidAppsInCutoutOverlay \
+	NotchBarKillerOverlay \
 	NavigationBarMode3ButtonOverlay \
 	NavigationBarModeGesturalOverlay \
 	NavigationBarModeGesturalOverlayNarrowBack \
