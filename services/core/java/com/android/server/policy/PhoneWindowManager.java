@@ -3686,7 +3686,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             // to the application but preserve its wake key status to make sure we still move
             // from dozing to fully interactive if we would normally go from off to fully
             // interactive.
-            result = ACTION_PASS_TO_USER;
+            if (!mVolumeMusicControl || (keyCode != KeyEvent.KEYCODE_VOLUME_DOWN &&
+                    keyCode != KeyEvent.KEYCODE_VOLUME_UP))
+                result = ACTION_PASS_TO_USER;
+            else result = 0;
             // Since we're dispatching the input, reset the pending key
             mPendingWakeKey = PENDING_KEY_NULL;
         } else {
@@ -3779,16 +3782,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     // On TVs volume keys never go to the foreground app
                     result &= ~ACTION_PASS_TO_USER;
                 }
-                if (!interactive && isWakeKey && down) {
-                    mVolumeWakeActive = true;
-                    break;
-                }
-                if (!down && mVolumeWakeActive) {
-                    isWakeKey = false;
-                    result &= ~ACTION_PASS_TO_USER;
-                    mVolumeWakeActive = false;
-                    break;
-                }
                 // we come back from a handled music control event - ignore the up event
                 if (!interactive && !down && mVolumeMusicControlActive) {
                     isWakeKey = false;
@@ -3849,12 +3842,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     // {@link interceptKeyBeforeDispatching()}.
                     result |= ACTION_PASS_TO_USER;
                 } else if ((result & ACTION_PASS_TO_USER) == 0) {
-                    // If we aren't passing to the user and no one else
-                    // handled it send it to the session manager to
-                    // figure out.
-                    MediaSessionLegacyHelper.getHelper(mContext).sendVolumeKeyEvent(
-                            event, AudioManager.USE_DEFAULT_STREAM_TYPE, true);
-
                     boolean notHandledMusicControl = false;
                     if (!interactive && mVolumeMusicControl && isMusicActive()) {
                         if (down) {
