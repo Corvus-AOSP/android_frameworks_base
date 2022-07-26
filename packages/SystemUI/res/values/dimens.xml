@@ -957,7 +957,7 @@
     <dimen name="qs_media_padding">16dp</dimen>
     <dimen name="qs_media_album_size_small">72dp</dimen>
     <dimen name="qs_media_album_size">84dp</dimen>
-    <dimen name="qs_media_album_radius">14dp</dimen>
+    <dimen name="qs_media_album_radius">69dp</dimen>
     <dimen name="qs_media_album_device_padding">26dp</dimen>
     <dimen name="qs_media_info_margin">12dp</dimen>
     <dimen name="qs_media_info_spacing">8dp</dimen>

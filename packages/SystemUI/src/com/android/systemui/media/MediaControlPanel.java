@@ -48,6 +48,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.provider.Settings;
 import android.view.ViewOutlineProvider;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -406,6 +409,21 @@ public class MediaControlPanel {
             deviceIcon.setTintList(ColorStateList.valueOf(mBackgroundColor));
             albumView.setPadding(mDevicePadding, mDevicePadding, mDevicePadding, mDevicePadding);
             albumView.setImageDrawable(deviceIcon);
+        }
+
+        if(isPlaying()) {
+        // Animate small media art when full bg media art is disabled and only when media is playing
+        RotateAnimation rotate = new RotateAnimation(0,
+                360,
+                Animation.RELATIVE_TO_SELF,
+                0.5f,
+                Animation.RELATIVE_TO_SELF,
+                0.5f);
+        rotate.setDuration(5000);
+        rotate.setRepeatCount(Animation.INFINITE);
+        rotate.setRepeatMode(Animation.RESTART);
+        rotate.setInterpolator(new LinearInterpolator());
+        albumView.startAnimation(rotate);
         }
 
         boolean useBgAlbumArt = hasArtwork && mArtworkSettings.getEnabled();
