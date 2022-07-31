@@ -29,7 +29,6 @@ import android.graphics.Color
 import android.os.UserHandle
 import android.service.quicksettings.Tile
 import android.text.TextUtils
-import android.os.UserHandle
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -97,6 +96,12 @@ open class QSTileViewImpl @JvmOverloads constructor(
             context.contentResolver,
             System.QS_PANEL_STYLE, UserHandle.USER_CURRENT
         )
+
+    private val isTileVertical: Boolean = System.getInt(
+            context.contentResolver,
+            System.QS_TILE_VERTICAL_LAYOUT,
+            0
+        ) == 1
 
     private val colorActive = Utils.getColorAttrDefaultColor(context,
             android.R.attr.colorAccent)
@@ -523,7 +528,7 @@ open class QSTileViewImpl @JvmOverloads constructor(
         }
         if (!Objects.equals(secondaryLabel.text, state.secondaryLabel)) {
             secondaryLabel.text = state.secondaryLabel
-            secondaryLabel.visibility = if (TextUtils.isEmpty(state.secondaryLabel)) {
+            secondaryLabel.visibility = if (TextUtils.isEmpty(state.secondaryLabel) || isTileVertical) {
                 GONE
             } else {
                 VISIBLE
