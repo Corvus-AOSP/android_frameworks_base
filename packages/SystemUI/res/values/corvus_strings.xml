@@ -214,5 +214,11 @@
 
     <!-- Text to use when the number in a notification info is too large -->
     <string name="status_bar_notification_info_overflow" translatable="false">\u221E</string>
+
+    <!-- Data usage panel -->
+    <string name="total_internet_usage">Total internet usage (Since boot)</string>
+    <string name="cellular_usage">Mobile data usage</string>
+    <string name="wifi_usage">Wifi data usage</string>
+
 </resources>
 

@@ -6010,6 +6010,11 @@ public final class Settings {
          * @hide
          */
         public static final String QS_TILE_LABEL_HIDE = "qs_tile_label_hide";
+
+        /**
+         * @hide
+         */
+        public static final String QS_DATA_USAGE_PANEL = "qs_data_usage_panel";
 	
 	/**
          * These are all public system settings
