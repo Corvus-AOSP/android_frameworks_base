@@ -29,6 +29,11 @@
     android:clipChildren="false"
     android:clipToPadding="false">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/qs_footer_height"
@@ -74,5 +79,15 @@
             </FrameLayout>
 
         </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="20dp" />
+
+        <include layout="@layout/data_usage_panel"
+            android:id="@+id/qs_data_usage"
+            android:visibility="gone" />
+            
+    </LinearLayout>
 
 </com.android.systemui.qs.QSFooterView>
