@@ -740,9 +740,9 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
                 
         if (mShowSBClockBg) {
             mClockView.setBackgroundResource(R.drawable.sb_date_bg);
-            mClockView.setPadding(10,5,10,5);
+            mClockView.setPadding(10,2,10,2);
             mRightClock.setBackgroundResource(R.drawable.sb_date_bg);
-            mRightClock.setPadding(10,5,10,5);
+            mRightClock.setPadding(10,2,10,2);
         } else {
             mClockView.setBackgroundResource(0);
             mClockView.setPadding(0,0,0,0);
