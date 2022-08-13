@@ -113,5 +113,6 @@ public class SystemSettings {
         Settings.System.QS_LAYOUT_COLUMNS,
         Settings.System.QS_TILE_LABEL_HIDE,
         Settings.System.QS_DATA_USAGE_PANEL,
+        Settings.System.QS_PANEL_STYLE,
     };
 }
