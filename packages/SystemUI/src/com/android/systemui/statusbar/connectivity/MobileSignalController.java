@@ -362,7 +362,6 @@ public class MobileSignalController extends SignalController<MobileState, Mobile
                     TunerService.parseIntegerSwitch(newValue, false);
                 if (mProviderModelBehavior != value) {
                     mProviderModelBehavior = value;
-                    restartSystemUI();
                 }
                 break;
             default:
