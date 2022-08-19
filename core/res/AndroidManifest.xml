@@ -708,7 +708,6 @@
     <protected-broadcast android:name="android.app.action.DEVICE_POLICY_CONSTANTS_CHANGED" />
     <protected-broadcast android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED" />
     <protected-broadcast android:name="android.app.action.SHOW_NEW_USER_DISCLAIMER" />
-    <protected-broadcast android:name="xtended.intent.action.GO_TO_SLEEP" />
 
     <!-- App lock -->
     <protected-broadcast android:name="com.android.server.app.AppLockManagerService.APP_LOCK_TIMEOUT" />
