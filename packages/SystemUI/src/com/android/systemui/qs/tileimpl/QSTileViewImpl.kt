@@ -29,7 +29,6 @@ import android.graphics.Color
 import android.os.UserHandle
 import android.service.quicksettings.Tile
 import android.text.TextUtils
-import android.os.UserHandle
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
