@@ -2354,6 +2354,14 @@ public final class PowerManagerService extends SystemService
                 }
             }
 
+            if (mBatteryLevel >= 99) {
+              try {
+                    mBatteryStats.resetStatistics();
+                } catch (RemoteException e) {
+                    Slog.e(TAG, "failed to reset battery statistics");
+                }  
+            }
+
             mBatterySaverStateMachine.setBatteryStatus(mIsPowered, mBatteryLevel, mBatteryLevelLow);
             updateSmartChargingStatus();
         }
