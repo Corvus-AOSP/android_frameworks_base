@@ -1,5 +1,5 @@
 <!--
-     Copyright (C) 2015 The Android Open Source Project
+     Copyright (C) 2022 CorvusOS
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@
         android:layout_gravity="center"
         android:orientation="vertical" >
         <TextView
-            android:id="@+id/volume_row_header"
+            android:id="@+id/brightness_percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -43,11 +43,10 @@
             android:textColor="?android:attr/textColorSecondary"
             android:textAppearance="@style/TextAppearance.Volume.Header" />
         <FrameLayout
-            android:id="@+id/volume_row_slider_frame"
             android:layout_width="match_parent"
             android:layout_height="@dimen/volume_row_slider_height">
             <SeekBar
-                android:id="@+id/volume_row_slider"
+                android:id="@+id/corvus_brightness_slider"
                 android:paddingLeft="0dp"
                 android:paddingRight="0dp"
                 android:paddingStart="0dp"
@@ -58,23 +57,11 @@
                 android:layout_gravity="center"
                 android:thumb="@null"
                 android:splitTrack="false"
-                android:progressDrawable="@drawable/volume_row_seekbar"
+                android:progressDrawable="@drawable/brightness_row_seekbar"
                 android:background="@null"
                 android:layoutDirection="ltr"
                 android:rotation="270" />
-            <include layout="@layout/volume_dnd_icon"/>
         </FrameLayout>
-
-        <com.android.keyguard.AlphaOptimizedImageButton
-            android:visibility="gone"
-            android:id="@+id/volume_row_icon"
-            style="@style/VolumeButtons"
-            android:layout_width="@dimen/volume_dialog_tap_target_size"
-            android:layout_height="@dimen/volume_dialog_tap_target_size"
-            android:background="@drawable/ripple_drawable_20dp"
-            android:layout_marginBottom="@dimen/volume_dialog_row_margin_bottom"
-            android:tint="@color/accent_tint_color_selector"
-            android:soundEffectsEnabled="false" />
     </LinearLayout>
 
 </FrameLayout>

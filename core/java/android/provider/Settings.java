@@ -6007,6 +6007,13 @@ public final class Settings {
         public static final String OMNIJAWS_WEATHER_ICON_PACK = "omnijaws_weather_icon_pack";
 
         /**
+         * Option to have a brightness slider within volume dialog panel
+         * @hide
+         */
+        public static final String CUSTOM_BRIGHTNESS_SLIDER = "custom_brightness_slider";
+
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
