@@ -307,6 +307,12 @@ public class VolumeDialogImpl implements VolumeDialog, Dumpable,
 
     private FrameLayout mRoundedBorderBottom;
 
+    private SeekBar mBrightnessSlider;
+    private View mBrightnessSliderView;
+    private int brightness;
+    private TextView tvBrightnessPercent;
+    private boolean mShowBrightnessSlider;
+
     private class CustomSettingsObserver extends ContentObserver {
         CustomSettingsObserver(Handler handler) {
             super(handler);
@@ -315,6 +321,9 @@ public class VolumeDialogImpl implements VolumeDialog, Dumpable,
         void observe() {
             mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
                     Settings.System.VOLUME_PANEL_ON_LEFT),
+                    false, this, UserHandle.USER_ALL);
+            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.CUSTOM_BRIGHTNESS_SLIDER),
                     false, this, UserHandle.USER_ALL);
         }
 
@@ -327,6 +336,9 @@ public class VolumeDialogImpl implements VolumeDialog, Dumpable,
             final boolean volumePanelOnLeft = Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.VOLUME_PANEL_ON_LEFT, mVolumePanelOnLeft ? 1 : 0) == 1;
 
+            final boolean customBrightnessSlider = Settings.System.getInt(mContext.getContentResolver(),
+                        Settings.System.CUSTOM_BRIGHTNESS_SLIDER, 0) == 1;
+
             if (!mShowActiveStreamOnly) {
                 if (mVolumePanelOnLeft != volumePanelOnLeft) {
                     mVolumePanelOnLeft = volumePanelOnLeft;
@@ -335,6 +347,14 @@ public class VolumeDialogImpl implements VolumeDialog, Dumpable,
                         mConfigChanged = true;
                     });
                 }
+            }
+
+            if (mShowBrightnessSlider != customBrightnessSlider) {
+                mShowBrightnessSlider = customBrightnessSlider;
+                mHandler.post(() -> {
+                    // Trigger panel rebuild on next show
+                    mConfigChanged = true;
+                });
             }
         }
     }
@@ -690,6 +710,10 @@ public class VolumeDialogImpl implements VolumeDialog, Dumpable,
 
         mRoundedBorderBottom = mDialog.findViewById(R.id.rounded_border_bottom);
 
+        mBrightnessSlider = mDialog.findViewById(R.id.corvus_brightness_slider);
+        mBrightnessSliderView = mDialog.findViewById(R.id.brightness_slider_view);
+        tvBrightnessPercent = mDialog.findViewById(R.id.brightness_percent);
+
         if (mVolumePanelOnLeft) {
             if (mRingerAndDrawerContainer != null) {
                 mRingerAndDrawerContainer.setLayoutDirection(LAYOUT_DIRECTION_RTL);
@@ -746,6 +770,41 @@ public class VolumeDialogImpl implements VolumeDialog, Dumpable,
         } else {
             addExistingRows();
         }
+
+        if (mShowBrightnessSlider) {
+            mBrightnessSliderView.setVisibility(VISIBLE);
+            try {
+                brightness = Settings.System.getInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
+                mBrightnessSlider.setMax(255);
+                mBrightnessSlider.setProgress(brightness);
+                float initialPercent = (brightness /(float)255)*100;
+                tvBrightnessPercent.setText((int)initialPercent+"%");
+            } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
+            }
+
+            mBrightnessSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    Settings.System.putInt(mContext.getContentResolver(),
+                            Settings.System.SCREEN_BRIGHTNESS, progress);
+                    float percent = (progress /(float)255)*100;
+                    tvBrightnessPercent.setText((int)percent+"%");
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            });
+       } else {
+            mBrightnessSliderView.setVisibility(GONE);
+       }
 
         updateRowsH(getActiveRow());
         initRingerH();
