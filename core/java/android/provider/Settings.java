@@ -6012,6 +6012,12 @@ public final class Settings {
          */
         public static final String CUSTOM_BRIGHTNESS_SLIDER = "custom_brightness_slider";
 
+        /**
+         * Option to change dashboard icon style
+         * @hide
+         */
+        public static final String DASHBOARD_ICON_STYLES = "dashboard_icon_styles";
+
 
         /**
          * Keys we no longer back up under the current schema, but want to continue to
