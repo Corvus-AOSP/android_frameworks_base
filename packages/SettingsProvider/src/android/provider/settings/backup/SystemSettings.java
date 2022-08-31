@@ -115,5 +115,6 @@ public class SystemSettings {
         Settings.System.QS_DATA_USAGE_PANEL,
         Settings.System.QS_PANEL_STYLE,
         Settings.System.CUSTOM_BRIGHTNESS_SLIDER,
+        Settings.System.DASHBOARD_ICON_STYLES,
     };
 }
