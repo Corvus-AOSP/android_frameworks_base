@@ -65,6 +65,9 @@ class QuickQSPanelControllerTest : SysuiTestCase() {
 
     private var usingCollapsedLandscapeMedia = true
 
+    @Mock
+    private lateinit var quickQsBrightnessController: QuickQSBrightnessController
+
     private lateinit var controller: TestQuickQSPanelController
 
     @Before
@@ -88,7 +91,9 @@ class QuickQSPanelControllerTest : SysuiTestCase() {
                 metricsLogger,
                 uiEventLogger,
                 qsLogger,
-                dumpManager)
+                dumpManager,
+                quickQsBrightnessController
+        )
 
         controller.init()
     }
@@ -143,6 +148,11 @@ class QuickQSPanelControllerTest : SysuiTestCase() {
         captor.allValues.forEach { it.onConfigurationChange(Configuration.EMPTY) }
 
         verify(mediaHost).expansion = MediaHostState.EXPANDED
+    }
+    
+    @Test
+    fun testBrightnessVisibilityRefreshedWhenConfigurationChanged() {
+        verify(quickQsBrightnessController).refreshVisibility(anyBoolean())
     }
 
     class TestQuickQSPanelController(
