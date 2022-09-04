@@ -19,20 +19,21 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-    android:paddingBottom="10dp">
+    android:paddingHorizontal="8dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="150dp"
+            android:paddingHorizontal="8dp"
             android:layout_gravity="center" >
 
             <ProgressBar
                 android:id="@android:id/progress"
-                style="?android:attr/progressBarStyleHorizontal"
+                style="@android:style/Widget.Material.SeekBar"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="150dp"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
                 android:progressDrawable="@drawable/seekbar_drawable" />
 
             <TextView
@@ -44,7 +45,7 @@
                 android:ellipsize="marquee"
                 android:padding="12dp"
                 android:textColor="?android:attr/textColorPrimary"
-                android:textSize="30sp" />
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/total_summary"
