@@ -5957,6 +5957,12 @@ public final class Settings {
         public static final String RETICKER_COLORED = "reticker_colored";
 
         /**
+         * Restyled reTicker
+         * @hide
+         */
+        public static final String NEW_RETICKER = "new_reticker";
+
+        /**
          * Whether StatusBar icons should use app icon
          * @hide
          */
