@@ -5581,13 +5581,6 @@ public final class Settings {
         public static final String SCREENSHOT_SHUTTER_SOUND = "screenshot_shutter_sound";
 
         /**
-         * Whether to hide navbar pill and keyboard space.
-         * Default 0.
-         * @hide
-         */
-        public static final String FULLSCREEN_GESTURES = "fullscreen_gestures";
-
-        /**
          * Whether auto brightness is applied one shot when screen is turned on.
          * Default 0
          * @hide
