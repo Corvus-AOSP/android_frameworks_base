@@ -38,7 +38,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="4dp"
+            android:layout_gravity="center_vertical|start"
+            android:gravity="center_vertical|start"
             android:minHeight="@dimen/qs_header_row_min_height"
             android:orientation="vertical">
 
@@ -99,6 +100,7 @@
         android:minHeight="@dimen/qs_header_row_min_height"
         android:minWidth="48dp"
         android:layout_marginStart="8dp"
+        android:layout_marginBottom="2dp"
         android:layout_gravity="end|center_vertical"
         android:focusable="false"/>
 
@@ -120,8 +122,11 @@
         >
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|end"
+        android:layout_marginBottom="2dp"
+        android:gravity="center_vertical|end"
+        android:minHeight="@dimen/qs_header_row_min_height"
         >
 
         <com.android.systemui.statusbar.policy.NetworkTraffic
