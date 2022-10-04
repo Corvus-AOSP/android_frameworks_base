@@ -298,8 +298,8 @@ public abstract class CorvusSystemUIModule {
 
     @Provides
     @SysUISingleton
-    static CorvusServices provideSyberiaServices(Context context, UiEventLogger uiEventLogger, Lazy<ServiceConfigurationGoogle> lazy, Lazy<ColumbusServiceWrapper> lazyB) {
-        return new SyberiaServices(context, uiEventLogger, lazy, lazyB);
+    static CorvusServices provideCorvusServices(Context context, UiEventLogger uiEventLogger, Lazy<ServiceConfigurationGoogle> lazy, Lazy<ColumbusServiceWrapper> lazyB) {
+        return new CorvusServices(context, uiEventLogger, lazy, lazyB);
     }
 
     // Google
