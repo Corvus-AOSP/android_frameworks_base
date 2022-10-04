@@ -22,11 +22,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 
-import com.google.android.systemui.smartspace.BcSmartspaceDataProvider;
-import com.google.android.systemui.smartspace.KeyguardMediaViewController;
-import com.google.android.systemui.smartspace.KeyguardZenAlarmViewController;
-import com.google.android.systemui.smartspace.SmartSpaceController;
-
 import com.corvus.systemui.smartspace.KeyguardSmartspaceController;
 import com.corvus.systemui.CorvusServices;
 import co.aospa.android.systemui.assist.AssistManagerGoogle;
