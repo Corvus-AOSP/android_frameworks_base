@@ -153,6 +153,8 @@ public final class ClockManager {
         addBuiltinClock(() -> new ClockertinoClockController(res, layoutInflater, colorExtractor));
         addBuiltinClock(() -> new SparkClockController(res, layoutInflater, colorExtractor));
         addBuiltinClock(() -> new SparkCircleClockController(res, layoutInflater, colorExtractor));
+        addBuiltinClock(() -> new AnalogClockController(res, layoutInflater, colorExtractor));
+        addBuiltinClock(() -> new BubbleClockController(res, layoutInflater, colorExtractor));
 
 
         // Store the size of the display for generation of clock preview.
