@@ -678,6 +678,8 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
         onBackPressed();
     };
 
+    private final DeviceStateManager mDeviceStateManager;
+
     /**
      * Public constructor for CentralSurfaces.
      *
@@ -854,6 +856,7 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
         mWallpaperManager = wallpaperManager;
         mJankMonitor = jankMonitor;
         mCameraLauncherLazy = cameraLauncherLazy;
+        mDeviceStateManager = deviceStateManager;
 
         mLockscreenShadeTransitionController = lockscreenShadeTransitionController;
         mStartingSurfaceOptional = startingSurfaceOptional;
@@ -887,8 +890,6 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
         mMessageRouter.subscribeTo(MSG_LAUNCH_TRANSITION_TIMEOUT,
                 id -> onLaunchTransitionTimeout());
 
-        deviceStateManager.registerCallback(mMainExecutor,
-                new FoldStateListener(mContext, this::onFoldedStateChanged));
         wiredChargingRippleController.registerCallbacks();
 
         mLightRevealScrimViewModelLazy = lightRevealScrimViewModelLazy;
@@ -1593,6 +1594,9 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
         mNotificationShelfController = mCentralSurfacesComponent.getNotificationShelfController();
         mAuthRippleController = mCentralSurfacesComponent.getAuthRippleController();
         mAuthRippleController.init();
+
+        mDeviceStateManager.registerCallback(mMainExecutor,
+                new FoldStateListener(mContext, this::onFoldedStateChanged));
 
         mHeadsUpManager.addListener(mCentralSurfacesComponent.getStatusBarHeadsUpChangeListener());
 
