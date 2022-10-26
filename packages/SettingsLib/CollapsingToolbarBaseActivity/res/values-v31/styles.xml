@@ -17,7 +17,7 @@
 <resources>
     <style name="CollapsingToolbarTitle.Collapsed" parent="@android:style/TextAppearance.DeviceDefault.Widget.ActionBar.Title">
         <item name="android:fontFamily">@string/settingslib_config_headlineFontFamily</item>
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">22dp</item>
         <item name="android:textColor">@color/settingslib_text_color_primary_device_default</item>
     </style>
 
