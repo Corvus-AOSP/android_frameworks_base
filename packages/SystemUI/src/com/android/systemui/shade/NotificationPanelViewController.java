@@ -132,6 +132,7 @@ import com.android.keyguard.dagger.KeyguardStatusViewComponent;
 import com.android.keyguard.dagger.KeyguardUserSwitcherComponent;
 import com.android.systemui.DejankUtils;
 import com.android.systemui.Dumpable;
+import com.android.systemui.Dependency;
 import com.android.systemui.R;
 import com.android.systemui.animation.ActivityLaunchAnimator;
 import com.android.systemui.animation.Interpolators;
@@ -308,6 +309,8 @@ public final class NotificationPanelViewController implements Dumpable, TunerSer
             "system:" + Settings.System.RETICKER_STATUS;
     private static final String RETICKER_COLORED =
             "system:" + Settings.System.RETICKER_COLORED;
+    private static final String NEW_RETICKER =
+            "system:" + Settings.System.NEW_RETICKER;
 
     /**
      * Duration to use for the animator when the keyguard status view alignment changes, and a
@@ -732,6 +735,7 @@ public final class NotificationPanelViewController implements Dumpable, TunerSer
     private NotificationStackScrollLayout mNotificationStackScroller;
     private boolean mReTickerStatus;
     private boolean mReTickerColored;
+    private boolean mNewReticker;
 
     private final Runnable mFlingCollapseRunnable = () -> fling(0, false /* expand */,
             mNextCollapseSpeedUpFactor, false /* expandBecauseOfFalsing */);
@@ -943,6 +947,7 @@ public final class NotificationPanelViewController implements Dumpable, TunerSer
         mTunerService = Dependency.get(TunerService.class);
         mTunerService.addTunable(this, RETICKER_STATUS);
         mTunerService.addTunable(this, RETICKER_COLORED);
+        mTunerService.addTunable(this, NEW_RETICKER);
         pulseExpansionHandler.setPulseExpandAbortListener(() -> {
             if (mQs != null) {
                 mQs.animateHeaderSlidingOut();
@@ -1092,6 +1097,10 @@ public final class NotificationPanelViewController implements Dumpable, TunerSer
                 mReTickerColored =
                         TunerService.parseIntegerSwitch(newValue, false);
                 break;
+            case NEW_RETICKER:
+                mNewReticker =
+                        TunerService.parseIntegerSwitch(newValue, false);
+                break;
             default:
                 break;
         }
@@ -1136,9 +1145,10 @@ public final class NotificationPanelViewController implements Dumpable, TunerSer
         addTrackingHeadsUpListener(mNotificationStackScrollLayoutController::setTrackingHeadsUp);
         setKeyguardBottomArea(mView.findViewById(R.id.keyguard_bottom_area));
 
-        mReTickerComeback = mView.findViewById(R.id.ticker_comeback);
-        mReTickerComebackIcon = mView.findViewById(R.id.ticker_comeback_icon);
-        mReTickerContentTV = mView.findViewById(R.id.ticker_content);
+        mReTickerComeback = mView.findViewById(mNewReticker ? R.id.ticker_comeback_new : R.id.ticker_comeback);
+        mReTickerComebackIcon = mView.findViewById(mNewReticker ? R.id.ticker_comeback_icon_new : R.id.ticker_comeback_icon);
+        mReTickerContentTV = mView.findViewById( mNewReticker ? R.id.ticker_content_new : R.id.ticker_content);
+
         mNotificationStackScroller = mView.findViewById(R.id.notification_stack_scroller);
 
         initBottomArea();
@@ -6029,7 +6039,7 @@ public final class NotificationPanelViewController implements Dumpable, TunerSer
         }
         String reTickerContent;
         if (visibility && getExpandedFraction() != 1) {
-            mNotificationStackScroller.setVisibility(GONE);
+            mNotificationStackScroller.setVisibility(View.GONE);
             StatusBarNotification sbn = mHeadsUpManager.getTopEntry().getRow().getEntry().getSbn();
             Notification notification = sbn.getNotification();
             String pkgname = sbn.getPackageName();
@@ -6070,14 +6080,22 @@ public final class NotificationPanelViewController implements Dumpable, TunerSer
             mReTickerContentTV.setText(mergedContentText);
             mReTickerContentTV.setTextAppearance(mView.getContext(), R.style.TextAppearance_Notifications_reTicker);
             mReTickerContentTV.setSelected(true);
-            RetickerAnimations.doBounceAnimationIn(mReTickerComeback);
+            if (mNewReticker) {
+                RetickerAnimations.revealAnimation(mReTickerComeback);
+            } else {
+                RetickerAnimations.doBounceAnimationIn(mReTickerComeback);
+            }
             if (reTickerIntent != null) {
                 mReTickerComeback.setOnClickListener(v -> {
                     try {
                         reTickerIntent.send();
                     } catch (PendingIntent.CanceledException e) {
                     }
-                    RetickerAnimations.doBounceAnimationOut(mReTickerComeback, mNotificationStackScroller);
+                    if(mNewReticker) {
+                        RetickerAnimations.revealAnimationHide(mReTickerComeback, mNotificationStackScroller);
+                    } else {
+                        RetickerAnimations.doBounceAnimationOut(mReTickerComeback, mNotificationStackScroller);
+                    }
                     reTickerViewVisibility();
                 });
             }
@@ -6101,7 +6119,11 @@ public final class NotificationPanelViewController implements Dumpable, TunerSer
     }
 
     public void reTickerDismissal() {
-        RetickerAnimations.doBounceAnimationOut(mReTickerComeback, mNotificationStackScroller);
+        if (mNewReticker) {
+            RetickerAnimations.revealAnimationHide(mReTickerComeback, mNotificationStackScroller);
+        } else {
+            RetickerAnimations.doBounceAnimationOut(mReTickerComeback, mNotificationStackScroller);
+        }
         mReTickerComeback.getViewTreeObserver().removeOnComputeInternalInsetsListener(mInsetsListener);
     }
 
