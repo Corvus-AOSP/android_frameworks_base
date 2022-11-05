@@ -64,6 +64,7 @@
 
     <!-- Title of statusbar tuner -->
     <string name="status_bar_icons">Status bar icons</string>
+    <string name="lockscreen_shortcuts">Lockscreen shortcuts</string>
 
     <!-- Sound QS Tile -->
     <string name="quick_settings_sound_label">Sound</string>
