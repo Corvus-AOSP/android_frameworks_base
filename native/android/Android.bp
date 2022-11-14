@@ -37,6 +37,7 @@ cc_defaults {
         "-Wextra",
         "-Wunused",
         "-Wunreachable-code",
+        "-O3",
     ],
     lto: {
         thin: true,
