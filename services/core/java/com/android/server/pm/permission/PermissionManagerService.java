@@ -2354,7 +2354,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
         final PackageSetting ps = (PackageSetting)
                 mPackageManagerInt.getPackageSetting(newPackage.getPackageName());
         if (grantSignaturePermission(Manifest.permission.SYSTEM_ALERT_WINDOW, newPackage, ps, saw,
-                ps.getPermissionsState())) {
+                ps.getPermissionsState(), true)) {
             return;
         }
         for (int userId : mUserManagerInt.getUserIds()) {
@@ -3615,6 +3615,13 @@ public class PermissionManagerService extends IPermissionManager.Stub {
 
     private boolean grantSignaturePermission(String perm, AndroidPackage pkg,
             PackageSetting pkgSetting, BasePermission bp, PermissionsState origPermissions) {
+        return grantSignaturePermission(perm, pkg, pkgSetting, bp, origPermissions, false);
+    }
+
+
+    private boolean grantSignaturePermission(String perm, AndroidPackage pkg,
+            PackageSetting pkgSetting, BasePermission bp, PermissionsState origPermissions,
+            boolean isApi23Upgrade) {
         boolean oemPermission = bp.isOEM();
         boolean vendorPrivilegedPermission = bp.isVendorPrivileged();
         boolean privilegedPermission = bp.isPrivileged() || bp.isVendorPrivileged();
@@ -3791,7 +3798,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
                 // Any pre-installed system app is allowed to get this permission.
                 allowed = true;
             }
-            if (!allowed && bp.isDevelopment()) {
+            if (!allowed && bp.isDevelopment() && !(bp.isPre23() && isApi23Upgrade)) {
                 // For development permissions, a development permission
                 // is granted only if it was already granted.
                 allowed = origPermissions.hasInstallPermission(perm);
