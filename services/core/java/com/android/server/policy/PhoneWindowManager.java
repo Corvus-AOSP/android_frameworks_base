@@ -4293,6 +4293,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
         if (!fromNavbar && !virtualKey && shouldDisableKey(keyCode)){
             return 0;
+        }
 
         // Pre-basic policy based on interactive and pocket lock state.
         if (mIsDeviceInPocket && (!interactive || mPocketLockShowing)) {
