@@ -3712,6 +3712,9 @@ public final class NotificationPanelViewController implements Dumpable, TunerSer
                 && !mKeyguardBypassController.getBypassEnabled()) {
             alpha *= mClockPositionResult.clockAlpha;
         }
+        if (mQsExpandImmediate && !mQsFullyExpanded) {
+            alpha = 0f;
+        }
         mNotificationStackScrollLayoutController.setAlpha(alpha);
     }
 
