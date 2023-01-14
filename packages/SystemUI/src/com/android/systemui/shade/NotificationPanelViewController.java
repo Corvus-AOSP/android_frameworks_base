@@ -67,6 +67,7 @@ import android.graphics.Rect;
 import android.graphics.Region;
 import android.hardware.biometrics.SensorLocationInternal;
 import android.hardware.fingerprint.FingerprintSensorPropertiesInternal;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
@@ -4833,6 +4834,11 @@ public final class NotificationPanelViewController implements Dumpable, TunerSer
                 /* notifyForDescendants */ false,
                 mSettingsChangeObserver
         );
+        mContentResolver.registerContentObserver(
+                Settings.System.getUriFor(Settings.System.KEYGUARD_QUICK_TOGGLES),
+                /* notifyForDescendants */ false,
+                mSettingsChangeObserver
+        );
     }
 
     /** Updates notification panel-specific flags on {@link SysUiState}. */
@@ -5677,8 +5683,13 @@ public final class NotificationPanelViewController implements Dumpable, TunerSer
         }
 
         @Override
-        public void onChange(boolean selfChange) {
+        public void onChange(boolean selfChange, Uri uri) {
             debugLog("onSettingsChanged");
+
+            if (uri.getLastPathSegment().equals(
+                    Settings.System.KEYGUARD_QUICK_TOGGLES)) {
+                mKeyguardBottomAreaViewModel.updateSettings();
+            }
 
             // Can affect multi-user switcher visibility
             reInflateViews();
