@@ -295,8 +295,6 @@ public class NavigationBarEdgePanel extends View implements NavigationEdgeBackPl
         super(context);
 
         mWindowManager = context.getSystemService(WindowManager.class);
-        mVibratorHelper = vibratorHelper;
-        mBackAnimation = backAnimation;
 
         mDensity = context.getResources().getDisplayMetrics().density;
 

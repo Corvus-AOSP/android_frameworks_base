@@ -106,7 +106,7 @@ final class WirelessChargingLayout extends FrameLayout {
                 TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, batteryPadding,
                         getResources().getDisplayMetrics()));
 
-        if (batteryLevel != UNKNOWN_BATTERY_LEVEL) {
+        if (batteryLevel != WirelessChargingAnimation.UNKNOWN_BATTERY_LEVEL) {
             percentage.setText(NumberFormat.getPercentInstance().format(batteryLevel / 100f));
             percentage.setAlpha(0);
             chargingIcon.setPadding(sidePadding, 0, 0, 0);
