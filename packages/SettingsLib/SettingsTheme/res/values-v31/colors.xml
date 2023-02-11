@@ -34,6 +34,9 @@
     <!-- Material next track off color-->
     <color name="settingslib_track_off_color">@color/settingslib_switch_track_off</color>
 
+    <!-- Material next track off color-->
+    <color name="settingslib_track_off_outline_color">@color/settingslib_thumb_off_color</color>
+
     <!-- Dialog accent color -->
     <color name="settingslib_dialog_accent">@android:color/system_accent1_600</color>
     <!-- Dialog background color -->
