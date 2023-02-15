@@ -5867,7 +5867,7 @@
     <bool name="config_enableQrCodeScannerOnLockScreen">false</bool>
 
     <!-- Default component for QR code scanner -->
-    <string name="config_defaultQrCodeComponent"></string>
+    <string name="config_defaultQrCodeComponent">com.google.android.gms/.mlkit.barcode.ui.PlatformBarcodeScanningActivityProxy</string>
 
     <!-- Whether Low Power Standby is supported and can be enabled. -->
     <bool name="config_lowPowerStandbySupported">false</bool>
