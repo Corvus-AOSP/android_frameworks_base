@@ -39,9 +39,6 @@ cc_defaults {
         "-Wunreachable-code",
         "-O3",
     ],
-    lto: {
-        thin: true,
-    },
 }
 
 cc_library_shared {
