@@ -20,7 +20,7 @@
         <shape android:tint="?android:attr/colorAccent" android:shape="rectangle" android:alpha="0.8">
             <size android:height="?android:attr/listPreferredItemHeightSmall" />
             <solid android:color="#80626161" />
-            <corners android:radius="10dp" />
+            <corners android:radius="20dp" />
         </shape>
     </item>
     <item android:gravity="fill_horizontal|center" android:id="@android:id/progress">
