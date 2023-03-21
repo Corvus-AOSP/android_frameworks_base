@@ -475,6 +475,8 @@ public abstract class QSPanelControllerBase<T extends QSPanel> extends ViewContr
         mView.setShouldMoveMediaOnExpansion(!isOnSplitShadeLockscreen);
     }
 
+    void setBrightnessMirror(BrightnessMirrorController brightnessMirrorController) { }
+
     /** */
     public static final class TileRecord {
         public TileRecord(QSTile tile, com.android.systemui.plugins.qs.QSTileView tileView) {
