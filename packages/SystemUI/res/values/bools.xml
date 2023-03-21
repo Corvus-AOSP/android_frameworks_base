@@ -29,5 +29,5 @@
     <bool name="notification_enable_clipping">true</bool>
 
     <!-- Whether to enable transparent background for notification scrims -->
-    <bool name="notification_scrim_transparent">false</bool>
+    <bool name="notification_scrim_transparent">true</bool>
 </resources>
