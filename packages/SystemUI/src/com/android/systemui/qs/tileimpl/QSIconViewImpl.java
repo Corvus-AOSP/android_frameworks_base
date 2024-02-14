@@ -181,8 +181,8 @@ public class QSIconViewImpl extends QSIconView {
                     .setFinalImageTintList(ColorStateList.valueOf(toColor));
         }
 
-        int setQsUseNewTint = System.getIntForUser(getContext().getContentResolver(),
-                     System.QS_PANEL_BG_USE_NEW_TINT, 1, UserHandle.USER_CURRENT);
+        boolean setQsUseNewTint = System.getIntForUser(getContext().getContentResolver(),
+                     System.QS_PANEL_BG_USE_NEW_TINT, 0, UserHandle.USER_CURRENT) == 1;
 
         if (mAnimationEnabled && ValueAnimator.areAnimatorsEnabled()) {
             final float fromAlpha = Color.alpha(fromColor);
@@ -197,11 +197,7 @@ public class QSIconViewImpl extends QSIconView {
                 int alpha = (int) (fromAlpha + (toAlpha - fromAlpha) * fraction);
                 int channel = (int) (fromChannel + (toChannel - fromChannel) * fraction);
 
-                if (setQsUseNewTint == 1 || 
-                    setQsUseNewTint == 2 || 
-                    setQsUseNewTint == 3 || 
-                    setQsUseNewTint == 4 ||
-                    setQsUseNewTint == 5) {
+                if (setQsUseNewTint) {
                     setTint(iv, toColor);
                 } else {
                     setTint(iv, Color.argb(alpha, channel, channel, channel));

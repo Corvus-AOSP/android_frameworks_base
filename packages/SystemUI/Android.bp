@@ -74,6 +74,8 @@ android_library {
         "faceunlock_framework",
         "jsr330",
         "vendor.lineage.biometrics.fingerprint.inscreen-V1.0-java"
+        "monetcompat",
+        
     ],
     manifest: "AndroidManifest.xml",
 
@@ -150,6 +152,7 @@ android_library {
         "dagger2-2.19",
         "jsr330",
         "airbnb-lottie",
+        "monetcompat",
         "vendor.lineage.biometrics.fingerprint.inscreen-V1.0-java",
     ],
     libs: [
@@ -190,4 +193,9 @@ android_app {
     dxflags: ["--multi-dex"],
     required: ["privapp_whitelist_com.android.systemui"],
 
+}
+
+android_library_import {
+    name: "monetcompat",
+    aars: ["libs/MonetCompat.aar"],
 }

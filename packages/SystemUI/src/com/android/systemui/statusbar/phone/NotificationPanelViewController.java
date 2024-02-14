@@ -503,6 +503,8 @@ public class NotificationPanelViewController extends PanelViewController {
     private boolean mAnimatingQS;
     private int mOldLayoutDirection;
 
+    private ScrimController mScrimController;
+
     private View.AccessibilityDelegate mAccessibilityDelegate = new View.AccessibilityDelegate() {
         @Override
         public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfo info) {
@@ -1849,6 +1851,7 @@ public class NotificationPanelViewController extends PanelViewController {
         mQs.setQsExpansion(qsExpansionFraction, getHeaderTranslation());
         mMediaHierarchyManager.setQsExpansion(qsExpansionFraction);
         mNotificationStackScroller.setQsExpansionFraction(qsExpansionFraction);
+        mScrimController.setQsExpansion(qsExpansionFraction);
     }
 
     private String determineAccessibilityPaneTitle() {
@@ -3357,6 +3360,7 @@ public class NotificationPanelViewController extends PanelViewController {
         mNotificationStackScroller.setGroupManager(groupManager);
         mNotificationStackScroller.setShelf(notificationShelf);
         mNotificationStackScroller.setScrimController(scrimController);
+        this.mScrimController = scrimController;
         updateShowEmptyShadeView();
     }
 
