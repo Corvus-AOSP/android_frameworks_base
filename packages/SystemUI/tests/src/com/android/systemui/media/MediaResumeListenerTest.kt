@@ -37,7 +37,10 @@ import com.android.systemui.tuner.TunerService
 import com.android.systemui.util.concurrency.FakeExecutor
 import com.android.systemui.util.time.FakeSystemClock
 import org.junit.After
+<<<<<<< HEAD
 import com.google.common.truth.Truth.assertThat
+=======
+>>>>>>> 42f3d2db43df (Improve user handling when querying for resumable media)
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -87,6 +90,10 @@ class MediaResumeListenerTest : SysuiTestCase() {
     @Mock private lateinit var pendingIntent: PendingIntent
 
     @Captor lateinit var callbackCaptor: ArgumentCaptor<ResumeMediaBrowser.Callback>
+<<<<<<< HEAD
+=======
+    @Captor lateinit var userIdCaptor: ArgumentCaptor<Int>
+>>>>>>> 42f3d2db43df (Improve user handling when querying for resumable media)
 
     private lateinit var executor: FakeExecutor
     private lateinit var data: MediaData
@@ -106,7 +113,7 @@ class MediaResumeListenerTest : SysuiTestCase() {
         Settings.Secure.putInt(context.contentResolver,
             Settings.Secure.MEDIA_CONTROLS_RESUME, 1)
 
-        whenever(resumeBrowserFactory.create(capture(callbackCaptor), any()))
+        whenever(resumeBrowserFactory.create(capture(callbackCaptor), any(), capture(userIdCaptor)))
                 .thenReturn(resumeBrowser)
 
         // resume components are stored in sharedpreferences
@@ -117,6 +124,7 @@ class MediaResumeListenerTest : SysuiTestCase() {
         whenever(sharedPrefsEditor.putString(any(), any())).thenReturn(sharedPrefsEditor)
         whenever(mockContext.packageManager).thenReturn(context.packageManager)
         whenever(mockContext.contentResolver).thenReturn(context.contentResolver)
+        whenever(mockContext.userId).thenReturn(context.userId)
 
         executor = FakeExecutor(FakeSystemClock())
         resumeListener = MediaResumeListener(mockContext, broadcastDispatcher, executor,

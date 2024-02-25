@@ -33,8 +33,8 @@ import android.annotation.NonNull;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.MonetWannabe;
 import android.graphics.drawable.Drawable;
-import android.graphics.Color;
 import android.metrics.LogMaker;
 import android.os.Handler;
 import android.os.Looper;
@@ -78,7 +78,6 @@ import com.android.systemui.qs.logging.QSLogger;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Base quick-settings tile, extend this to create a new tile.
@@ -528,35 +527,22 @@ public abstract class QSTileImpl<TState extends State> implements QSTile, Lifecy
     public abstract CharSequence getTileLabel();
 
     public static int getColorForState(Context context, int state) {
-
-        int setQsTintStyle = Settings.System.getIntForUser(context.getContentResolver(),
-                Settings.System.QS_PANEL_BG_USE_NEW_TINT, 1, UserHandle.USER_CURRENT);
-
-        Random mRandomColor = new Random();
-        int mRandomTint = Color.rgb((float) (mRandomColor.nextInt(256) / 2f + 0.5), mRandomColor.nextInt(256), mRandomColor.nextInt(256));
-
         switch (state) {
             case Tile.STATE_UNAVAILABLE:
                 return Utils.getDisabled(context,
                         Utils.getColorAttrDefaultColor(context, android.R.attr.textColorSecondary));
             case Tile.STATE_INACTIVE:
-            if (setQsTintStyle == 3) {
-                return Utils.getColorAttrDefaultColor(context, android.R.attr.colorAccent);
-            } else if (setQsTintStyle == 5) {
-                return Utils.getColorAttrDefaultColor(context, android.R.attr.colorForeground);
-            } else {
-                return Utils.getColorAttrDefaultColor(context, android.R.attr.textColorSecondary);
-            }
+		return Utils.getColorAttrDefaultColor(context, android.R.attr.textColorPrimary);
             case Tile.STATE_ACTIVE:
-            if (setQsTintStyle == 1 || setQsTintStyle == 3) {
-                return Utils.getColorAttrDefaultColor(context, android.R.attr.colorAccent);
-            } else if (setQsTintStyle == 2) {
-                return Utils.getColorAttrDefaultColor(context, android.R.attr.colorForeground);
-            } else if (setQsTintStyle == 5) {
-		        return mRandomTint;
-            } else {
-                return Utils.getColorAttrDefaultColor(context, android.R.attr.colorPrimary); 
-            }
+                if (MonetWannabe.isMonetEnabled(context)) {
+                    return Utils.getColorAttrDefaultColor(context, android.R.attr.colorPrimary);
+                } else {
+                    if (useQSAccentTint) {
+                        return Utils.getColorAttrDefaultColor(context, android.R.attr.colorAccent);
+                    } else {
+                        return Utils.getColorAttrDefaultColor(context, android.R.attr.colorPrimary);
+                    }
+                }
             default:
                 Log.e("QSTile", "Invalid state " + state);
                 return 0;

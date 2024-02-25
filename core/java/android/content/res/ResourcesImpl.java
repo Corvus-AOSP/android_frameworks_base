@@ -671,8 +671,8 @@ public class ResourcesImpl {
                 if (id != 0) {
                     try {
                         String resName = getResourceName(id);
-                        if (AccentUtils.isResourceAccent(resName))
-                            value.data = AccentUtils.getNewAccentColor(value.data);
+                        AccentUtils utils = new AccentUtils();
+                        value.data = utils.applyOverride(resName, value.data);
                     } catch (NotFoundException ignored) {
                     } catch (Exception ex) {
                         Log.e(TAG, ex.getMessage());
@@ -1069,8 +1069,8 @@ public class ResourcesImpl {
         if (id != 0) {
             try {
                 String resName = getResourceName(id);
-                if (AccentUtils.isResourceAccent(resName))
-                    value.data = AccentUtils.getNewAccentColor(value.data);
+                AccentUtils utils = new AccentUtils(); 
+                value.data = utils.applyOverride(resName, value.data);
             } catch (NotFoundException ignored) {
             } catch (Exception ex) {
                 Log.e(TAG, ex.getMessage());
@@ -1120,8 +1120,8 @@ public class ResourcesImpl {
         if (id != 0) {
             try {
                 String resName = getResourceName(id);
-                if (AccentUtils.isResourceAccent(resName))
-                    value.data = AccentUtils.getNewAccentColor(value.data);
+                AccentUtils utils = new AccentUtils(); 
+                value.data = utils.applyOverride(resName, value.data);
             } catch (NotFoundException ignored) {
             } catch (Exception ex) {
                 Log.e(TAG, ex.getMessage());

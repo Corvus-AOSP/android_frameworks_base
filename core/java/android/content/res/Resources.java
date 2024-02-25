@@ -1061,9 +1061,9 @@ public class Resources {
                     && value.type <= TypedValue.TYPE_LAST_INT) {
                 if (id != 0) {
                     try {
+                        AccentUtils utils = new AccentUtils();
                         String resName = getResourceName(id);
-                        if (AccentUtils.isResourceAccent(resName))
-                            value.data = AccentUtils.getNewAccentColor(value.data);
+                        value.data = utils.applyOverride(resName, value.data);
                     } catch (NotFoundException ignored) {
                     } catch (Exception ex) {
                         Log.e(TAG, ex.getMessage());
